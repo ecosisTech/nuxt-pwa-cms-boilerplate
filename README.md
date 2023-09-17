@@ -1,84 +1,63 @@
-<p style="text-align: center">
-  <img style="width: 900px" src="Nuxtwind Daisy Banner.jpg"/>
-</p>
+# Nuxt 3 Minimal Starter
 
-<h1 align="center">Nuxtwind Daisy 🟢💨🌼</h1>
-<p style="text-align: center">
-Nuxtwind Daisy is a starter template for Nuxt.js 3 + Tailwind CSS + Daisy UI with additional installed setup for custom font, icons, animation, and more.
-</p>
+Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-- [Showcase](#showcase)
-- [Getting Started Guide](#getting-started-guide)
+## Setup
 
-# Showcase
-
-Brag your modified version from this template. 💪
-
-- [jofftiquez.dev](https://jofftiquez.dev) 
-
-# Getting Started Guide
-
-## Installation
-
-Nope. No installation needed.
-
-## Fork
-
-Fork this repository to your own GitHub account.
-
-<img width="800" src="fork.png">
-
-Make it yours. Rename it. Change the description. Hit Create fork.
-
-<img width="800" src="make-it-yours.png">
-
-## Make changes
-
-I will assume that you already know the basic of nuxt.js. If not, you can check out their [documentation](https://nuxt.com/docs/getting-started/introduction).
-
-Now that it's yours, you can make changes to it. Be creative you can start by removing the contents in the `pages/index.vue`. Feel free to utilize the `GenericPanel.vue` component as it adds a nice balance to the layout.
-
-## Preview
-
-You can preview your build by running the `nuxt start` command.
+Make sure to install the dependencies:
 
 ```bash
-# Preview your build
-$ nuxt start
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
 ```
 
-## Build
+## Development Server
 
-You can choose to build it using the defaul strategy which is SSR, but you also have the option to generate static files so you can just upload your work in any static hosting service. The sample site of this repo is hosted in Vercel.
-
+Start the development server on `http://localhost:3000`:
 
 ```bash
-# Build for production using SSR
-$ nuxt build
+# npm
+npm run dev
+
+# pnpm
+pnpm run dev
+
+# yarn
+yarn dev
 ```
+
+## Production
+
+Build the application for production:
 
 ```bash
-# Build for production and generate static files
-$ nuxt generate
+# npm
+npm run build
+
+# pnpm
+pnpm run build
+
+# yarn
+yarn build
 ```
 
-## Deploy
+Locally preview production build:
 
-You can deploy your work in any static hosting service.
+```bash
+# npm
+npm run preview
 
-Here's a list of static hosting services that you can use:
+# pnpm
+pnpm run preview
 
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
-- [Firebase](https://firebase.google.com/)
-- [Surge](https://surge.sh/)
-- [Render](https://render.com/)
-- [GitHub Pages](https://pages.github.com/)
-- [GitLab Pages](https://docs.gitlab.com/ee/user/project/pages/)
-- [AWS Amplify](https://aws.amazon.com/amplify/)
-- [Cloudflare Pages](https://pages.cloudflare.com/)
-- [Begin](https://begin.com/)
-- [Fast.io](https://fast.io/)
-- [Fly](https://fly.io/)
-- [Deta](https://www.deta.sh/)
-- [Aerobatic](https://www.aerobatic.com/)
+# yarn
+yarn preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
