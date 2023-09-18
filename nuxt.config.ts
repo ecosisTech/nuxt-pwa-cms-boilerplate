@@ -6,6 +6,12 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode'
+    '@pinia/nuxt',
+    {
+      autoImports: [
+        ['defineStore', 'definePiniaStore'],
+      ],
+    },
   ],
   pwa: {
     /* your pwa options */
