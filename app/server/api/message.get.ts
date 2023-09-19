@@ -4,11 +4,11 @@ const database = useDatabase()
 
 export default defineEventHandler(async (event) => {
   try {
-    const data = await database.all()
-    console.log(data);
-
-    return data
+    return await database.all()
   } catch (error) {
-    setResponseStatus(error, 500)
+    throw createError({
+      statusCode: 500,
+      statusMessage: error.message,
+    })
   }
 })
