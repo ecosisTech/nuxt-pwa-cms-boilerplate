@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  srcDir: './src',
+  srcDir: './app',
   modules: [
     '@vite-pwa/nuxt',
     '@nuxtjs/tailwindcss',
