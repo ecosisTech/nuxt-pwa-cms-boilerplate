@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
+    'nuxt-lucide-icons'
   ],
   autoImports: [
     ['defineStore', 'definePiniaStore'],
