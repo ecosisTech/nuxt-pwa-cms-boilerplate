@@ -1,20 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import {
-  LogIn
-} from 'lucide-vue-next';
 import { useUserStore } from '../stores/user';
-import { useWalletStore } from '../stores/wallet';
 import { useNotificationStore } from '../stores/notifications';
 
 const router = useRouter()
 const userStore = useUserStore()
-const walletStore = useWalletStore()
 const notificationStore = useNotificationStore()
-
-import { auth0 } from '../utils/auth';
-const { loginWithRedirect } = auth0
 
 const email = ref('')
 const password = ref('')
@@ -30,7 +20,6 @@ const login = async () => {
   try {
     if (validEmail(email.value)) {
       await userStore.login(email.value, password.value)
-      await walletStore.fetchWallets(email.value)
       router.push('/')
     } else {
       notificationStore.addNotification({
@@ -65,7 +54,24 @@ const register = async () => {
   }
 }
 
-
+// const resetPassword = async () => {
+//   try {
+//     if (validEmail(email.value)) {
+//       await userStore.register(email.value, password.value)
+//       router.push('/')
+//     } else {
+//       notificationStore.addNotification({
+//         type: 'error',
+//         msg: 'Not a valid e-mail-address!'
+//       })
+//     }
+//   } catch (error) {
+//     notificationStore.addNotification({
+//       type: 'error',
+//       msg: error
+//     })
+//   }
+// }
 </script>
 
 <template>
@@ -78,7 +84,7 @@ const register = async () => {
         <h1 class="text-5xl font-bold">ecosis</h1>
         <p class="py-6">Welcome</p>
         <div class="divider"></div>
-        <!-- <div class="" v-if="!registration">
+        <div class="" v-if="!registration">
           <button class="w-full rounded pb-4" @click="registration = true">
             <h1>Login</h1>
             <p class="underline">Register</p>
@@ -105,11 +111,8 @@ const register = async () => {
             @keydown.enter="register()"
           />
           <button class="btn btn-primary" @click="register()"><LogIn/>Signup</button>
-        </div> -->
+        </div>
         <div class="flex flex-col">
-          <div class="">
-            <button class="btn btn-success" @click="loginWithRedirect()"><LogIn/>Signin</button>
-          </div>
           <div
           class="mt-10 text-center intro-x xl:mt-24 xl:text-left"
           >

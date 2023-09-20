@@ -8,7 +8,6 @@ import {
 } from 'lucide-vue-next';
 import { useNotificationStore } from '../stores/notifications';
 import ThemeSelect from '../components/ThemeSelect.vue';
-import { sendFeeback } from '../session';
 
 const notificationStore = useNotificationStore()
 
@@ -21,7 +20,6 @@ const sendingFeedback = () => {
       msg: ' Please write something into the Textfield :)'
     })
   };
-  sendFeeback(feedback.value);
 }
 </script>
 
