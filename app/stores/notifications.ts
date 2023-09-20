@@ -1,7 +1,4 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-
-export const useNotificationStore = defineStore('notifications', () => {
+export const useNotificationStore = definePiniaStore('notifications', () => {
   const notifications = ref<any[]>([]);
 
   function addNotification(notification) {

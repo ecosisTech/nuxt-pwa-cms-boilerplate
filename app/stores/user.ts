@@ -1,17 +1,11 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-import { signup, signin } from '../session';
-import { auth0 } from '../utils/auth';
-
 // import { useNotificationStore } from './notifications';
 
 // const notificationStore = useNotificationStore();
 
-export const useUserStore = defineStore('user', () => {
+export const useUserStore = definePiniaStore('user', () => {
 
-  // const isAuthenticated = ref(false);
-  // const user = ref('');
-  const { isAuthenticated, user } = auth0;
+  const isAuthenticated = ref(false);
+  const user = ref('');
 
   // const userMail = localStorage.getItem('user_mail')
   //
@@ -22,10 +16,16 @@ export const useUserStore = defineStore('user', () => {
 
   async function register(email: string, password: string) {
     try {
-      await signup(email, password)
+      await useFetch('/api/signup', {
+        method: 'POST',
+        body: {
+          email,
+          password
+        }
+      })
       // localStorage.setItem('user_mail', mail)
-      // user.value = email
-      // isAuthenticated.value = true
+      user.value = email
+      isAuthenticated.value = true
     } catch (error) {
       if (error instanceof Error) {
         console.log(error);
@@ -45,10 +45,16 @@ export const useUserStore = defineStore('user', () => {
 
   async function login(email: string, password?: string) {
     try {
-      // await signin(email, password)
+      await useFetch('/api/signin', {
+        method: 'POST',
+        body: {
+          email,
+          password
+        }
+      })
       // localStorage.setItem('user_mail', mail)
-      // user.value = email
-      // isAuthenticated.value = true
+      user.value = email
+      isAuthenticated.value = true
     } catch (error) {
       if (error instanceof Error) {
         console.log(error);
@@ -67,16 +73,33 @@ export const useUserStore = defineStore('user', () => {
   };
 
   async function updatePassword(newPassword: string, oldPassword: string) {
-    // try {
-    //
-    // } catch (error) {
-    //
-    // }
+    try {
+      await useFetch('/api/password', {
+        method: 'POST',
+        body: {
+          email
+        }
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+        // notificationStore.addNotification({
+        //   type: 'error',
+        //   msg: error.message
+        // });
+      } else {
+        console.log(error);
+        // notificationStore.addNotification({
+        //   type: 'error',
+        //   msg: error
+        // });
+      };
+    }
   };
 
   function logout(wallet) {
     // localStorage.removeItem('user_mail')
-    // isAuthenticated.value = false;
+    isAuthenticated.value = false;
   };
 
   return { isAuthenticated, login, register, logout, user };

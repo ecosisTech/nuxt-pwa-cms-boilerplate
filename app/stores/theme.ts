@@ -1,7 +1,4 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-
-export const useThemeStore = defineStore('theme', () => {
+export const useThemeStore = definePiniaStore('theme', () => {
   const themes = [
     "light",
     "dark",
@@ -34,12 +31,12 @@ export const useThemeStore = defineStore('theme', () => {
     "winter",
   ]
 
-  const storage = localStorage.getItem('theme')
+  // const storage = localStorage.getItem('theme')
 
   const theme = ref(storage)
   // const doubleCount = computed(() => count.value * 2)
   function setTheme(param) {
-    localStorage.setItem('theme', param)
+    // localStorage.setItem('theme', param)
     theme.value = param
   }
 
