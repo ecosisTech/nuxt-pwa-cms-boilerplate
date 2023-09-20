@@ -8,9 +8,12 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-lucide-icons'
   ],
-  autoImports: [
-    ['defineStore', 'definePiniaStore'],
-  ],
+  pinia: {
+    autoImports: [
+      'defineStore', // import { defineStore } from 'pinia'
+      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+    ],
+  },
   pwa: {
     /* your pwa options */
   }
