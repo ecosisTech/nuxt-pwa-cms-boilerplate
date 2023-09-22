@@ -1,5 +1,9 @@
-export const useThemeStore = definePiniaStore('theme', () => {
+export const useThemeStore = defineStore('theme', () => {
+
+  const colorMode = useColorMode();
+
   const themes = [
+    "system",
     "light",
     "dark",
     "cupcake",
@@ -30,15 +34,27 @@ export const useThemeStore = definePiniaStore('theme', () => {
     "coffee",
     "winter",
   ]
+  //
+  // const theme = ref('dark')
+  //
+  // if (process.client && localStorage.getItem('theme')) {
+  //   theme.value = localStorage.getItem('theme')
+  // }
 
-  // const storage = localStorage.getItem('theme')
-
-  const theme = ref(storage)
-  // const doubleCount = computed(() => count.value * 2)
   function setTheme(param) {
     // localStorage.setItem('theme', param)
-    theme.value = param
+    colorMode.preference = param
   }
 
-  return { theme, themes, setTheme }
+  function toggleMode() {
+    if (colorMode.preference === 'system') {
+      colorMode.preference = 'dark'
+    } else if (colorMode.preference === 'dark') {
+      colorMode.preference = 'light'
+    } else if (colorMode.preference === 'light') {
+      colorMode.preference = 'dark'
+    }
+  }
+
+  return { themes, setTheme, toggleMode, colorMode }
 })
