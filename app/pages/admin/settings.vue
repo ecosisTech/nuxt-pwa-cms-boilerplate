@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
-import {
-  Settings,
-  Sticker,
-  Unplug
-} from 'lucide-vue-next';
-import { useNotificationStore } from '../stores/notifications';
-import ThemeSelect from '../components/ThemeSelect.vue';
+// import {
+//   Settings,
+//   Sticker,
+//   Unplug
+// } from 'lucide-vue-next';
+import { useNotificationStore } from '../../stores/notifications';
+import ThemeSelect from '../../components/ThemeSelect.vue';
 
 const notificationStore = useNotificationStore()
 

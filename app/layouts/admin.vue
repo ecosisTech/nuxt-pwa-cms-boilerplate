@@ -1,34 +1,24 @@
-<template>
-  <div>
-    <slot />
-  </div>
-</template>
 <script setup lang="ts">
-import { RouterLink, RouterView, useRouter } from 'vue-router';
-import { ref, onBeforeMount } from 'vue';
-import {
-  LayoutDashboard,
-  PlusSquare,
-  Wallet,
-  Settings,
-  LogOut
-} from 'lucide-vue-next';
-import { useThemeStore } from './stores/theme';
-import { useNotificationStore } from './stores/notifications';
-import { useUserStore } from './stores/user';
-
-import { useAuth0 } from '@auth0/auth0-vue';
-const { loginWithRedirect, user, isAuthenticated, logout } = useAuth0();
+// import {
+//   LayoutDashboard,
+//   PlusSquare,
+//   Wallet,
+//   Settings,
+//   LogOut
+// } from 'lucide-vue-next';
+import { useThemeStore } from '../stores/theme';
+import { useNotificationStore } from '../stores/notifications';
+import { useUserStore } from '../stores/user';
 
 const router = useRouter()
 const themeStore = useThemeStore()
 const notificationStore = useNotificationStore()
 const userStore = useUserStore()
 
-// const logout = () => {
-//   userStore.logout()
-//   router.push('/login')
-// }
+const logout = () => {
+  userStore.logout()
+  router.push('/login')
+}
 
 const getNotifcationType = (notificationType) => {
   if (notificationType === 'standard') {
@@ -46,19 +36,18 @@ const getNotifcationType = (notificationType) => {
 }
 
 onBeforeMount(() => {
-  if (!isAuthenticated.value) {
+  if (!userStore.isAuthenticated) {
     return router.push('/login')
   }
 })
 </script>
 
 <template>
-  <div class="min-h-screen w-full bg-base-300" :data-theme="themeStore.theme">
+  <div class="min-h-screen w-full bg-base-300">
     <div class="drawer">
       <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col">
         <!-- Navbar -->
-        <!-- <div class="w-full navbar backdrop-blur-sm bg-base-100/50 shadow fixed z-40" v-if="userStore.authenticated"> -->
         <div class="w-full navbar backdrop-blur-sm bg-base-100/50 shadow fixed z-40" v-if="userStore.isAuthenticated">
           <div class="flex-none lg:hidden">
             <label for="my-drawer-3" class="btn btn-square btn-ghost">
@@ -66,13 +55,16 @@ onBeforeMount(() => {
             </label>
           </div>
           <div class="flex-1 px-2 mx-2">
-            <img class="w-12 mr-4" src="@/assets/logo.svg">
+            <img class="w-12 mr-4" src="/favicon.ico">
+          </div>
+          <div class="">
+            <input type="checkbox" class="toggle" @click="themeStore.toggleMode()" />
           </div>
           <div class="flex-none hidden lg:blocak">
             <ul class="menu menu-vertical lg:menu-horizontal bg-base-100 rounded-box">
-              <li><RouterLink to="/"><LayoutDashboard/>Hub</RouterLink></li>
-              <li><RouterLink to="/deployer"><PlusSquare/>Deploy</RouterLink></li>
-              <li><RouterLink to="/wallet"><Wallet/>Wallet</RouterLink></li>
+              <li><RouterLink to="/"><LayoutDashboard/>Blog</RouterLink></li>
+              <li><RouterLink to="/deployer"><PlusSquare/>Shop</RouterLink></li>
+              <li><RouterLink to="/wallet"><Wallet/>User</RouterLink></li>
               <li><RouterLink to="/settings"><Settings/>Settings</RouterLink></li>
               <!-- <li class="tooltip tooltip-bottom" data-tip="Logout"><button @click="logout()"><LogOut/></button></li> -->
               <li class="tooltip tooltip-bottom" data-tip="Logout"><button @click="logout()"><LogOut/></button></li>
@@ -80,7 +72,7 @@ onBeforeMount(() => {
           </div>
         </div>
         <!-- Page content here -->
-        <section class="flex justify-center overflow md:mt-12 z-0">
+        <section class="flex justify-center overflow md:mt-16 z-0">
           <slot/>
         </section>
       </div>
