@@ -1,36 +1,31 @@
 <script setup lang="ts">
-const { data } = await useFetch('/api/hello')
-
-const input = ref('')
-const savedData = ref(await $fetch( '/api/message', {
-  method: 'GET'
-}))
-
-const submit = async () => {
-  try {
-    await $fetch( '/api/message', {
-      method: 'POST',
-      body: {
-        data: input.value
-      }
-    })
-    savedData.value = await $fetch( '/api/message', {
-      method: 'GET'
-    })
-  } catch (error) {
-    alert(error.message)
-  }
-}
 </script>
 
 <template>
   <div>
-    <pre>{{ data }}</pre>
-    <pre>{{ savedData }}</pre>
-    <input placeholder="Type here" class="input input-bordered w-full max-w-xs" v-model="input"/>
-    <div class="">
-      <button class="btn" @click="submit()">Button</button>
-    </div>
-    <NuxtWelcome />
+    <section>
+      <div class="hero min-h-screen" style="background-image: url(https://daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.jpg);">
+        <div class="hero-overlay bg-opacity-60"></div>
+        <div class="hero-content text-center text-neutral-content">
+          <div class="max-w-md">
+            <h1 class="mb-5 text-5xl font-bold">Hello there</h1>
+            <p class="mb-5">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+            <button class="btn btn-primary">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      About
+    </section>
+    <section>
+      Features
+    </section>
+    <section>
+      Products
+    </section>
+    <section>
+      Blog
+    </section>
   </div>
 </template>
