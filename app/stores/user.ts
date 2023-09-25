@@ -3,8 +3,7 @@
 // const notificationStore = useNotificationStore();
 
 export const useUserStore = definePiniaStore('user', () => {
-
-  const isAuthenticated = ref(false);
+  const isAuthenticated = ref(true);
   const user = ref('');
 
   // const userMail = localStorage.getItem('user_mail')
