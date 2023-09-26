@@ -11,9 +11,8 @@ const product = computed(() => {
     return product.slug === route.params.slug
   })
 })
-console.log(product);
 
-const image = useAssets(`/assets/images/products/${product.value.image}`)
+const image = useAssets(`/uploads/shop/products/${product.value.image}`)
 
 async function addToCart(product) {
   await cartStore.addToCart({
@@ -32,8 +31,8 @@ async function addToCart(product) {
         <div>
           <img
               class="rounded-3xl border border-indigo-200 hover:animate-pulse"
-              :src="image"
-              :alt="`${product.name}'s image`"
+              :src="`/uploads/shop/products/${product.image}`"
+              :alt="`${product.name}`"
           >
         </div>
       </div>
