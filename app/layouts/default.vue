@@ -102,6 +102,7 @@ const acceptCookies = () => {
                   <span class="badge">New</span>
                 </a>
               </li> -->
+              <li><a @click="router.push('/admin')">Admin</a></li>
               <li><a @click="router.push('/admin/settings')">Settings</a></li>
               <li><a>Logout</a></li>
             </ul>
