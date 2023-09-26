@@ -28,7 +28,7 @@ const acceptCookies = () => {
         </div>
       </div>
     </div>
-    <div class="navbar bg-base-100 fixed shadow">
+    <div class="navbar bg-base-100 fixed shadow z-50">
       <div class="flex-1 hidden md:block">
         <a class="btn btn-ghost normal-case text-xl" @click="router.push('/')"><img class="w-12 mr-4" src="/favicon.ico"></a>
       </div>
@@ -82,7 +82,7 @@ const acceptCookies = () => {
             <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
               <div class="card-body">
                 <span class="font-bold text-lg">{{ cartStore.items.length }} Items</span>
-                <span class="text-info">Subtotal: {{ cartStore.calcSubtotal() }}€</span>
+                <span class="text-info">Total: {{ cartStore.calcTotal() }}€</span>
                 <div class="card-actions">
                   <button class="btn btn-primary btn-block" @click="router.push('/shop/cart')">View cart</button>
                 </div>
