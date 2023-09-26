@@ -5,16 +5,18 @@ export const useProductsStore = definePiniaStore('products', () => {
         "name": "Hey Sunglasses!",
         "price": 10.99,
         "image": "product-placeholder.png",
-        "slug": "sunglasses.png",
-        "stripePriceId": "price_xxxxxxxxxxxxxxxxxxxx1"
+        "slug": "sunglasses",
+        "stripePriceId": "price_xxxxxxxxxxxxxxxxxxxx1",
+        "quatity": 10
       },
       {
         "id": 2,
         "name": "Fruity Shoes",
         "price": 99.01,
         "image": "product-placeholder.png",
-        "slug": "shoes.png",
-        "stripePriceId": "price_xxxxxxxxxxxxxxxxxxxx2"
+        "slug": "shoes",
+        "stripePriceId": "price_xxxxxxxxxxxxxxxxxxxx2",
+        "quatity": 10
       }
     ]
 
