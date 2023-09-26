@@ -2,20 +2,20 @@ export const useCartStore = definePiniaStore('cart', () => {
     const items = []
 
     const addToCart = (itemPayload) => {
-      const existingItem = this.items.find(item => {
+      const existingItem = items.find(item => {
         return item.productId === itemPayload.id
       })
 
       if (existingItem) {
-        let existingItemIndex = this.items.findIndex(
+        let existingItemIndex = items.findIndex(
           item => item.productId === existingItem.productId
         )
 
         existingItem.quantity = existingItem.quantity + 1
         existingItem.subTotal = itemPayload.price * existingItem.quantity
-        this.items[existingItemIndex] = existingItem
+        items[existingItemIndex] = existingItem
       } else {
-        this.items.push({
+        items.push({
           productId: itemPayload.id,
           productName: itemPayload.name,
           price: itemPayload.price,
@@ -27,7 +27,17 @@ export const useCartStore = definePiniaStore('cart', () => {
       }
     }
 
+    const calcSubtotal = () => {
+      const subtotal = 0
+      for (let item of items) {
+        subtotal + item.price
+      }
+      return subtotal
+    }
+
     return {
-      items
+      items,
+      addToCart,
+      calcSubtotal
     }
 })
