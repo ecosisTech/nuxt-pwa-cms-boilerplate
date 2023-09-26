@@ -83,7 +83,7 @@ const router = useRouter()
 
        </table>
      </div>
-     <div class="w-full flex flex-wrap justify-center">
+     <div class="w-full flex flex-wrap justify-center" v-if="cartStore.items.length">
        <NuxtLink class="btn btn-primary m-2" to="/shop/checkout">Checkout</NuxtLink>
        <div class="m-2">
          <h2>Total: <b>{{ cartStore.calcTotal() }}</b></h2>
