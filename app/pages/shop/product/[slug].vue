@@ -12,15 +12,13 @@ const product = computed(() => {
   })
 })
 
-const image = useAssets(`/uploads/shop/products/${product.value.image}`)
-
 async function addToCart(product) {
   await cartStore.addToCart({
-    id: product.value.id,
-    name: product.value.name,
-    price: product.value.price,
+    id: product.id,
+    name: product.name,
+    price: product.price,
     currency: 'EUR',
-    stripePriceId: product.value.stripePriceId,
+    stripePriceId: product.stripePriceId,
   })
 }
 </script>
