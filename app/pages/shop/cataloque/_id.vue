@@ -1,7 +1,7 @@
 <script setup lang="">
-definePageMeta({
-  layout: 'shop',
-});
+import { useCartStore } from '../../stores/cart'
+
+const cartStore = useCartStore()
 </script>
 
  <template>
