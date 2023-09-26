@@ -5,7 +5,11 @@ definePageMeta({
 </script>
 
 <template>
-  <section>
-    test
-  </section>
+  <div class="container mx-auto">
+    <div class="flex flex-wrap">
+      <div class="flex justify-center items center">
+        Shop
+      </div>
+    </div>
+  </div>
 </template>
