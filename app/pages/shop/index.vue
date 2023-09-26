@@ -10,12 +10,14 @@ const products = computed(() => {
 </script>
 
 <template>
-  <div class="pt-8 container mx-auto">
-    <div>
-      <h1 class="text-blue-400 text-2xl">Welcome to My Shop</h1>
-      <p class="mt-4"><strong>Please don't touch</strong>, all breakages must be paid!</p>
+  <div class="pt-8">
+    <div class="w-full flex justify-end h-64 p-12 bg-[url(/uploads/shop/products/banner-placeholder.webp)]">
+      <div class="flex flex-col text-right">
+        <h1 class="text-blue-400 text-2xl">Welcome!</h1>
+        <p class="mt-4"><strong>New Hot Products</strong>, explore and shop!</p>
+      </div>
     </div>
-    <div class="flex justify-around mt-20" v-if="products">
+    <div class="container mx-auto flex justify-around mt-20" v-if="products">
       <div v-for="product in products" :key="product.id">
       <ShopProductsPreview :product="product"/>
     </div>
