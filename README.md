@@ -1,4 +1,16 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 CMS PWA
+
+It's a fullstack CMS built with 
+- Nuxt 3
+- Tailwindcss
+- DaisyUI
+- LevelDB
+
+Functionalities:
+- Content Management
+- Shop Management
+- Blog Management
+
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
