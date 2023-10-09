@@ -3,8 +3,9 @@
 // const notificationStore = useNotificationStore();
 
 export const useUserStore = definePiniaStore('user', () => {
-  const isAuthenticated = ref(true);
-  const user = ref('');
+  const isAuthenticated = ref(true)
+  const isAdmin = ref(true)
+  const user = ref('')
 
   // const userMail = localStorage.getItem('user_mail')
   //
@@ -33,14 +34,14 @@ export const useUserStore = definePiniaStore('user', () => {
         //   msg: error.message
         // });
       } else {
-        console.log(error);
+        console.log(error)
         // notificationStore.addNotification({
         //   type: 'error',
         //   msg: error
         // });
-      };
-    };
-  };
+      }
+    }
+  }
 
   async function login(email: string, password?: string) {
     try {
@@ -56,20 +57,25 @@ export const useUserStore = definePiniaStore('user', () => {
       isAuthenticated.value = true
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error);
+        console.log(error)
         // notificationStore.addNotification({
         //   type: 'error',
         //   msg: error.message
-        // });
+        // })
       } else {
-        console.log(error);
+        console.log(error)
         // notificationStore.addNotification({
         //   type: 'error',
         //   msg: error
         // });
-      };
-    };
-  };
+      }
+    }
+  }
+
+  function logout(wallet) {
+    // localStorage.removeItem('user_mail')
+    isAuthenticated.value = false
+  }
 
   async function updatePassword(newPassword: string, oldPassword: string) {
     try {
@@ -85,21 +91,16 @@ export const useUserStore = definePiniaStore('user', () => {
         // notificationStore.addNotification({
         //   type: 'error',
         //   msg: error.message
-        // });
+        // })
       } else {
         console.log(error);
         // notificationStore.addNotification({
         //   type: 'error',
         //   msg: error
-        // });
-      };
+        // })
+      }
     }
-  };
+  }
 
-  function logout(wallet) {
-    // localStorage.removeItem('user_mail')
-    isAuthenticated.value = false;
-  };
-
-  return { isAuthenticated, login, register, logout, user };
-});
+  return { isAuthenticated, isAdmin, user, register, login, logout, updatePassword }
+})
