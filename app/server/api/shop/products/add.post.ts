@@ -1,5 +1,5 @@
-import { useShopDatabase } from '../../lib/database'
-import { generateID } from '../utils/generateID'
+import { useShopDatabase } from '../../../../lib/database'
+import { generateID } from '../../../../utils/generateID'
 
 const shopDatabase = useShopDatabase()
 

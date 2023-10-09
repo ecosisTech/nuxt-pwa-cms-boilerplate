@@ -1,4 +1,4 @@
-import { useShopDatabase } from '../../lib/database'
+import { useShopDatabase } from '../../../../lib/database'
 
 const shopDatabase = useShopDatabase()
 
