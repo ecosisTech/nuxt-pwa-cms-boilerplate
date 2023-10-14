@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { useThemeStore } from '../stores/theme'
 import { useCartStore } from '../stores/cart'
+import { useProductsStore } from '../stores/products'
 
 const router = useRouter()
 
 const themeStore = useThemeStore()
 const cartStore = useCartStore()
+const productsStore = useProductsStore()
 
 const cookie = useCookie('cookie')
 
 const acceptCookies = () => {
   cookie.value = true
 }
+
+onBeforeMount(async () => {
+  await productsStore.fetchProducts()
+  await productsStore.fetchGroups()
+})
 </script>
 
 <template>
@@ -30,7 +37,7 @@ const acceptCookies = () => {
     </div>
     <div class="navbar bg-base-100 fixed shadow z-50">
       <div class="flex-1 hidden md:block">
-        <a class="btn btn-ghost normal-case text-xl" @click="router.push('/')"><img class="w-12 mr-4" src="/favicon.ico"></a>
+        <a class="btn btn-ghost normal-case text-xl" @click="router.push('/shop')"><img class="w-12 mr-4" src="/favicon.ico"></a>
       </div>
       <div class="navbar-start">
         <div class="dropdown">
@@ -40,15 +47,14 @@ const acceptCookies = () => {
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li tabindex="0">
               <details>
-                <summary>Shop</summary>
+                <summary>Warengruppen</summary>
                 <ul class="p-2">
-                  <li><a>Home</a></li>
-                  <li><a>Products</a></li>
-                  <li><a>Cataloques</a></li>
+                  <li><a @click="router.push(`/shop/`)">Alle</a></li>
+                  <li><a @click="router.push(`/shop/group/${group.id}`)" v-for="group in productsStore.groups">{{ group.name }} ({{ group.products.length }})</a></li>
                 </ul>
               </details>
             </li>
-            <li><a>Blog</a></li>
+            <!-- <li><a>Blog</a></li> -->
           </ul>
         </div>
       </div>
@@ -56,15 +62,14 @@ const acceptCookies = () => {
         <ul class="menu menu-horizontal px-1">
           <li tabindex="0">
             <details>
-              <summary>Shop</summary>
+              <summary>Warengruppen</summary>
               <ul class="p-2">
-                <li><a @click="router.push('/shop/')">Home</a></li>
-                <li><a>Products</a></li>
-                <li><a>Cataloques</a></li>
+                <li><a @click="router.push(`/shop/`)">Alle</a></li>
+                <li><a @click="router.push(`/shop/group/${group.id}`)" v-for="group in productsStore.groups">{{ group.name }}</a></li>
               </ul>
             </details>
           </li>
-          <li><a>Blog</a></li>
+          <!-- <li><a>Blog</a></li> -->
         </ul>
       </div>
       <div class="navbar-end">
@@ -103,7 +108,7 @@ const acceptCookies = () => {
                 </a>
               </li> -->
               <li><a @click="router.push('/admin')">Admin</a></li>
-              <li><a @click="router.push('/admin/settings')">Settings</a></li>
+              <li><a @click="">Settings</a></li>
               <li><a>Logout</a></li>
             </ul>
           </div>

@@ -1,4 +1,9 @@
 <script setup lang="ts">
+const router = useRouter()
+
+onBeforeMount(() => {
+  router.push('/shop')
+})
 </script>
 
 <template>

@@ -6,7 +6,7 @@ const props = defineProps({
   }
 })
 
-const image = useAssets(`/uploads/shop/products/product-placeholder.png`)
+const image = useAssets(`/uploads/shop/products/${ (props.product) ? props.product.image : 'product-placeholder.png'}`)
 
 </script>
 <template>
@@ -15,7 +15,7 @@ const image = useAssets(`/uploads/shop/products/product-placeholder.png`)
       <nuxt-link :to="`/shop/product/${product['product-id']}`">
         <div>
           <img class="rounded-t-lg h-80 w-96 object-cover hover:animate-pulse"
-          :src="'/uploads/shop/products/product-placeholder.png'"
+          :src="image"
           :alt="`${product.name}'s image`"
           >
         </div>

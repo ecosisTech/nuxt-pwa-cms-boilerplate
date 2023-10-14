@@ -45,16 +45,17 @@ export const useUserStore = definePiniaStore('user', () => {
 
   async function login(email: string, password?: string) {
     try {
-      await useFetch('/api/signin', {
-        method: 'POST',
-        body: {
-          email,
-          password
-        }
-      })
+      // await useFetch('/api/signin', {
+      //   method: 'POST',
+      //   body: {
+      //     email,
+      //     password
+      //   }
+      // })
       // localStorage.setItem('user_mail', mail)
       user.value = email
       isAuthenticated.value = true
+      isAdmin.value = true
     } catch (error) {
       if (error instanceof Error) {
         console.log(error)
@@ -75,6 +76,7 @@ export const useUserStore = definePiniaStore('user', () => {
   function logout(wallet) {
     // localStorage.removeItem('user_mail')
     isAuthenticated.value = false
+    isAdmin.value = false
   }
 
   async function updatePassword(newPassword: string, oldPassword: string) {

@@ -3,6 +3,13 @@ import { useCartStore } from '../../stores/cart'
 
 const cartStore = useCartStore()
 
+const total = ref(0)
+total.value = cartStore.calcTotal()
+
+watch(cartStore.items, () => {
+  total.value = cartStore.calcTotal()
+}, { deep: true })
+
 const router = useRouter()
 </script>
 
@@ -17,11 +24,11 @@ const router = useRouter()
          <!-- head -->
          <thead>
            <tr>
-             <th>
+             <!-- <th>
                <label>
                  <input type="checkbox" class="checkbox" />
                </label>
-             </th>
+             </th> -->
              <th>Product</th>
              <th>Price</th>
              <th>Many</th>
@@ -32,11 +39,11 @@ const router = useRouter()
            <!-- row 1 -->
            <tr class="hover:bg-base-300" v-for="item in cartStore.items">
            <!-- <tr class="hover:bg-base-300" v-for="item in cartStore.items" @click="router.push(`shop/product/${item.slug}`)"> -->
-             <th>
+             <!-- <th>
                <label>
                  <input type="checkbox" class="checkbox" />
                </label>
-             </th>
+             </th> -->
              <td>
                <div class="flex items-center space-x-3">
                  <div class="avatar">
@@ -54,14 +61,14 @@ const router = useRouter()
              <td>
                <div class="flex items-center space-x-3">
                  <div>
-                   <div class="text-sm opacity-50">{{ item.price }}</div>
+                   <div class="text-sm opacity-50">{{ item.price.toFixed(2) }} €</div>
                  </div>
                </div>
              </td>
              <td>
                <div class="flex items-center space-x-3">
                  <div>
-                   <input type="number" class="text-sm input input-bordered w-24" v-model="item.quantity"/>
+                   <input type="number" class="text-sm input input-bordered w-24" v-model="item.quantity" min="1" :max="item.quantity"/>
                  </div>
                </div>
              </td>
@@ -86,7 +93,7 @@ const router = useRouter()
      <div class="w-full flex flex-wrap justify-center" v-if="cartStore.items.length">
        <NuxtLink class="btn btn-primary m-2" to="/shop/checkout">Checkout</NuxtLink>
        <div class="m-2">
-         <h2>Total: <b>{{ cartStore.calcTotal() }}</b></h2>
+         <h2>Total: <b>{{ total }} €</b></h2>
        </div>
      </div>
    </div>
