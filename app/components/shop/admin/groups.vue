@@ -4,6 +4,14 @@ import { useProductsStore } from '../../../stores/products'
 const router = useRouter()
 
 const productsStore = useProductsStore()
+
+const getLatestID = () => {
+  let LATEST_ID = 0
+  productsStore.groups.forEach(group => {
+      LATEST_ID = LATEST_ID + 1
+  })
+  return LATEST_ID
+}
 </script>
 <template>
   <div class="overflow-x-auto bg-base-100 rounded m-8 pb-8">
@@ -99,11 +107,50 @@ const productsStore = useProductsStore()
           <th>Slug</th>
           <th>Banner</th>
           <th>Products</th>
+          <th>Subgroups</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <!-- row 1 -->
+        <!-- Group Adding Editor -->
+        <tr class="hover:bg-base-200">
+          <th>
+            <!-- <label>
+              <input type="checkbox" class="checkbox" />
+            </label> -->
+          </th>
+          <th>
+            <input type="text" class="input input-bordered input-sm w-full max-w-xs" placeholder="Name" />
+          </th>
+          <th>
+            <p class="input input-sm w-full max-w-xs -ml-3">{{ getLatestID() }}</p>
+          </th>
+          <th>
+            <input type="text" class="input input-bordered input-sm w-full max-w-xs" placeholder="Slogan" />
+          </th>
+          <th>
+            <input type="text" class="input input-bordered input-sm w-full max-w-xs" placeholder="Slug" />
+          </th>
+          <th>
+            <input type="file" class="file-input file-input-bordered file-input-sm w-full max-w-xs" />
+          </th>
+          <th>
+            <select class="select select-bordered select-sm w-full max-w-xs" multiple>
+              <option disabled selected>Product</option>
+              <option v-for="product in productsStore.products">{{ product.name }}</option>
+            </select>
+          </th>
+          <th>
+            <select class="select select-bordered select-sm w-full max-w-xs" multiple>
+              <option disabled selected>Product</option>
+              <option v-for="product in productsStore.products">{{ product.name }}</option>
+            </select>
+          </th>
+          <th>
+            <button class="btn btn-ghost btn-xs" @click="">Save</button>
+          </th>
+        </tr>
+        <!-- Group List -->
         <tr v-for="group in productsStore.groups" class="hover:bg-base-200">
           <th>
             <label>
@@ -116,8 +163,9 @@ const productsStore = useProductsStore()
           <th>{{ group['id'] }}</th>
           <th>{{ group['banner'] }}</th>
           <th>{{ group['products'].length }}</th>
+          <th>{{ group['products'].length }}</th>
           <th>
-            <button class="btn btn-ghost btn-xs" @click="">details</button>
+            <button class="btn btn-ghost btn-xs" @click="">Edit</button>
           </th>
         </tr>
       </tbody>
@@ -135,6 +183,7 @@ const productsStore = useProductsStore()
           <th>Slug</th>
           <th>Banner</th>
           <th>Products</th>
+          <th>Subgroups</th>
           <th></th>
         </tr>
       </tfoot>
