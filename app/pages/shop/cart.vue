@@ -14,32 +14,38 @@ const router = useRouter()
 </script>
 
  <template>
-   <div class="container mx-auto m-8">
-     <div class="w-full flex flex-col justify-center items-center" v-if="!cartStore.items.length">
-       You have no items in your cart!
-       <NuxtLink class="btn btn-primary mt-4" to="/shop">Go shopping</NuxtLink>
+   <div class="container mx-auto pt-24">
+     <div class="w-full flex flex-col justify-center items-center mt-12" v-if="!cartStore.items.length">
+       <div class="w-full flex flex-col justify-center items-center ">
+         You have no items in your cart!
+         <NuxtLink class="btn btn-primary mt-4" to="/shop">Go shopping</NuxtLink>
+       </div>
      </div>
-     <div class="overflow-x-auto bg-base-100 rounded" v-else>
-       <table class="table">
-         <!-- head -->
-         <thead>
-           <tr>
-             <!-- <th>
+     <div class="mt-16" v-else>
+       <div class="w-full text-center">
+         <h1 class="text-xl pb-4">Warenkorb</h1>
+       </div>
+       <div class="overflow-x-auto bg-base-300 rounded">
+         <table class="table">
+           <!-- head -->
+           <thead>
+             <tr>
+               <!-- <th>
                <label>
-                 <input type="checkbox" class="checkbox" />
-               </label>
-             </th> -->
-             <th>Product</th>
-             <th>Price</th>
-             <th>Many</th>
-             <th></th>
-           </tr>
-         </thead>
-         <tbody>
-           <!-- row 1 -->
-           <tr class="hover:bg-base-300" v-for="item in cartStore.items">
+               <input type="checkbox" class="checkbox" />
+             </label>
+           </th> -->
+           <th>Product</th>
+           <th>Price</th>
+           <th>Many</th>
+           <th></th>
+         </tr>
+       </thead>
+       <tbody>
+         <!-- row 1 -->
+         <tr class="hover:bg-base-200" v-for="item in cartStore.items">
            <!-- <tr class="hover:bg-base-300" v-for="item in cartStore.items" @click="router.push(`shop/product/${item.slug}`)"> -->
-             <!-- <th>
+               <!-- <th>
                <label>
                  <input type="checkbox" class="checkbox" />
                </label>
@@ -48,14 +54,14 @@ const router = useRouter()
                <div class="flex items-center space-x-3">
                  <div class="avatar">
                    <div class="mask mask-squircle w-12 h-12">
-                     <img :src="`/uploads/shop/products/${item.image}`" />
+                     <img :src="(item.images) ? `/uploads/shop/products/${product.images[0]}` : '/uploads/shop/products/product-placeholder.png'"/>
                    </div>
                  </div>
-                   <div class="flex items-center space-x-3">
-                     <div>
-                       <div class="font-bold">{{ item.name }}</div>
-                     </div>
+                 <div class="flex items-center space-x-3">
+                   <div>
+                     <div class="font-bold">{{ item.name }}</div>
                    </div>
+                 </div>
                </div>
              </td>
              <td>
@@ -73,7 +79,7 @@ const router = useRouter()
                </div>
              </td>
              <th>
-               <button class="btn btn-ghost btn-xs" @click="cartStore.removeFromCart(item)">Remove</button>
+               <button class="btn btn-ghost btn-xs" @click="cartStore.removeFromCart(item)">Entfernen</button>
              </th>
            </tr>
          </tbody>
@@ -89,6 +95,7 @@ const router = useRouter()
          </tfoot>
 
        </table>
+      </div>
      </div>
      <div class="w-full flex flex-wrap justify-center" v-if="cartStore.items.length">
        <NuxtLink class="btn btn-primary m-2" to="/shop/checkout">Checkout</NuxtLink>

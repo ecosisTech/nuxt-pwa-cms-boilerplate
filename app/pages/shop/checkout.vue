@@ -5,8 +5,8 @@ const cartStore = useCartStore()
 </script>
 
  <template>
-   <div class="container mx-auto pt-8">
-     <div class="">
+   <div class="container mx-auto pt-24">
+     <div class="mt-12">
        <h1 class="font-bold text-3xl">Customer Informations</h1>
        <form class="flex flex-wrap py-8">
 

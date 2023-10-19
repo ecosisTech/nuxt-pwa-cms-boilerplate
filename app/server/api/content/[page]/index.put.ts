@@ -4,9 +4,10 @@ const database = useContentDatabase()
 
 export default defineEventHandler(async (event) => {
   try {
-    const body = await readBody(event)
-    const config = database.get('config')
-    await database.put('config', body.data)
+    const { data } = await readBody(event)
+    const params = await getParams(event)
+    const config = database.get(params)
+    await database.put(params, data)
     return true
   } catch (error) {
     throw createError({

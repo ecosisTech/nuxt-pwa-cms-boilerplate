@@ -6,30 +6,21 @@ const props = defineProps({
   }
 })
 
-const image = useAssets(`/uploads/shop/products/${ (props.product) ? props.product.image : 'product-placeholder.png'}`)
-
+// const image = useAssets(`/uploads/shop/products/product-placeholder.png`)
 </script>
 <template>
   <div>
-    <div class="max-w-sm bg-base-300 rounded-lg border border-indigo-200 shadow-md m-2">
-      <nuxt-link :to="`/shop/product/${product['product-id']}`">
-        <div>
-          <img class="rounded-t-lg h-80 w-96 object-cover hover:animate-pulse"
-          :src="image"
-          :alt="`${product.name}'s image`"
-          >
+    <NuxtLink class="card w-96  h-32 bg-base-100 shadow-xl image-full m-2" :to="`/shop/product/${product['product-id']}`">
+      <figure><img class="object-cover" :src="(product.images) ? `/uploads/shop/products/${product.images[0]}` : '/uploads/shop/products/product-placeholder.png'" /></figure>
+      <div class="card-body">
+        <h2 class="card-title">{{ product.name }}</h2>
+        <!-- <p>If a dog chews shoes whose shoes does he choose?</p> -->
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary">
+            {{ product['selling-price'].toFixed(2) }}€
+          </button>
         </div>
-        <div class="p-5">
-          <div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight">
-              {{ product.name }}
-            </h5>
-          </div>
-          <p class="mb-3 font-medium">
-            {{ product['selling-price'] }}€
-          </p>
-        </div>
-      </nuxt-link>
-    </div>
+      </div>
+    </NuxtLink>
   </div>
 </template>

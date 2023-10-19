@@ -5,20 +5,33 @@ const router = useRouter()
 
 const productsStore = useProductsStore()
 
-const subgroups = ref([])
+const getLatestID = () => {
+  let LATEST_ID = 0
+  productsStore.groups.forEach(group => {
+      LATEST_ID = LATEST_ID + 1
+  })
+  return LATEST_ID
+}
 </script>
 <template>
   <div class="overflow-x-auto bg-base-100 rounded m-8 pb-8">
     <div class="flex flex-col justify-center items-center">
       <div class="">
-        <button class="btn" onclick="add_subgroup.showModal()">Add</button>
-        <dialog id="add_subgroup" class="modal">
+        <button class="btn" onclick="add_group.showModal()">Add</button>
+        <dialog id="add_group" class="modal">
           <div class="modal-box">
-            <h3 class="font-bold text-lg pb-4">Add a Subgroup</h3>
+            <h3 class="font-bold text-lg pb-4">Add a Group</h3>
 
             <div class="form-control w-full max-w-xs">
               <label class="label">
                 <span class="label-text">Group Name</span>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+            </div>
+
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Group ID</span>
               </label>
               <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
             </div>
@@ -39,6 +52,13 @@ const subgroups = ref([])
 
             <div class="form-control w-full max-w-xs">
               <label class="label">
+                <span class="label-text">Parent</span>
+              </label>
+              <input type="select" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+            </div>
+
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
                 <span class="label-text">Banner Image</span>
               </label>
               <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
@@ -48,10 +68,10 @@ const subgroups = ref([])
               <label class="label">
                 <span class="label-text">Products</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+              <input type="select" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
             </div>
 
-            <button class="btn btn-success mt-2" @click="importJSON()">Add</button>
+            <button class="btn btn-success mt-2" @click="">Add</button>
           </div>
           <form method="dialog" class="modal-backdrop">
             <button>close</button>
@@ -85,29 +105,68 @@ const subgroups = ref([])
           <th>ID</th>
           <th>Slogan</th>
           <th>Slug</th>
-          <th>Parent</th>
           <th>Banner</th>
           <th>Products</th>
+          <th>Subgroups</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <!-- row 1 -->
-        <tr v-for="group in subgroups" class="hover:bg-base-200">
+        <!-- Group Adding Editor -->
+        <tr class="hover:bg-base-200">
+          <th>
+            <!-- <label>
+              <input type="checkbox" class="checkbox" />
+            </label> -->
+          </th>
+          <th>
+            <input type="text" class="input input-bordered input-sm w-full max-w-xs" placeholder="Name" />
+          </th>
+          <th>
+            <p class="input input-sm w-full max-w-xs -ml-3">{{ getLatestID() }}</p>
+          </th>
+          <th>
+            <input type="text" class="input input-bordered input-sm w-full max-w-xs" placeholder="Slogan" />
+          </th>
+          <th>
+            <input type="text" class="input input-bordered input-sm w-full max-w-xs" placeholder="Slug" />
+          </th>
+          <th>
+            <input type="file" class="file-input file-input-bordered file-input-sm w-full max-w-xs" />
+          </th>
+          <th>
+            <select class="select select-bordered select-sm w-full max-w-xs" multiple>
+              <option disabled selected>Product</option>
+              <option v-for="product in productsStore.products">{{ product.name }}</option>
+            </select>
+          </th>
+          <th>
+            <select class="select select-bordered select-sm w-full max-w-xs" multiple>
+              <option disabled selected>Product</option>
+              <option v-for="product in productsStore.products">{{ product.name }}</option>
+            </select>
+          </th>
+          <th>
+            <button class="btn btn-ghost btn-xs" @click="">Save</button>
+          </th>
+        </tr>
+
+        <!-- Group List -->
+        <tr v-for="group in productsStore.subgroups" class="hover:bg-base-200">
           <th>
             <label>
               <input type="checkbox" class="checkbox" />
             </label>
           </th>
           <th>{{ group['name'] }}</th>
-          <th>{{ group['subgroup-id'] }}</th>
+          <th>{{ group['id'] }}</th>
           <th>{{ group['slogan'] }}</th>
-          <th>{{ group['slug'] }}</th>
-          <th>{{ group['parent'] }}</th>
+          <th>{{ group['id'] }}</th>
           <th>{{ group['banner'] }}</th>
-          <th>{{ group['products'] }}</th>
+          <th>{{ group['products'].length }}</th>
+          <th>{{ group['products'].length }}</th>
           <th>
-            <button class="btn btn-ghost btn-xs" @click="editGroup(group)">details</button>
+            <button class="btn btn-ghost btn-xs" @click="">Edit</button>
           </th>
         </tr>
       </tbody>
@@ -122,10 +181,10 @@ const subgroups = ref([])
           <th>Name</th>
           <th>ID</th>
           <th>Slogan</th>
-          <th>Parent</th>
           <th>Slug</th>
           <th>Banner</th>
           <th>Products</th>
+          <th>Subgroups</th>
           <th></th>
         </tr>
       </tfoot>

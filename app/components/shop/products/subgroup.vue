@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
-  group: {
+  subgroup: {
     type: Object,
     required: true
   }
@@ -11,20 +11,21 @@ const props = defineProps({
 <template>
   <div>
     <div class="bg-base-100 rounded-lg border border-base-200 shadow-md m-2">
-      <nuxt-link :to="`/shop/${group.slug}`">
+      <nuxt-link>
+      <!-- <nuxt-link :to="`/shop/${subgroup.parent}/${subgroup.slug}`"> -->
         <div>
           <img class="rounded-t-lg h-80 w-full object-cover"
-          :src="(group.banner) ? `/uploads/shop/groups/${group.banner}` : '/uploads/shop/groups/group-placeholder.png'"
+          :src="(subgroup.banner) ? `/uploads/shop/groups/${subgroup.parent}/${subgroup.banner}` : '/uploads/shop/groups/group-placeholder.png'"
           >
         </div>
         <div class="p-5">
           <div>
             <h5 class="mb-2 text-2xl font-bold tracking-tight">
-              {{ group.name }}
+              {{ subgroup.name }}
             </h5>
           </div>
           <!-- <p class="mb-3 font-medium">
-            <span>Produkte:</span> {{ group.subgroups.length }}
+            <span>Produkte:</span> {{ subgroup.length }}
           </p> -->
         </div>
       </nuxt-link>

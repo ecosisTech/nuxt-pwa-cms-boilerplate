@@ -24,21 +24,22 @@ async function addToCart(product) {
 }
 </script>
 <template>
-  <div class="container mx-auto">
-    <div class="flex flex-wrap mt-16 p-4">
-      <div class="w-full md:w-1/4 m-8">
-        <img
-          class="rounded-3xl border border-indigo-200 hover:animate-pulse h-full w-full"
-          :src="`/uploads/shop/products/${product.image || 'product-placeholder.png'}`"
-          :alt="`${product.name}`"
-        >
+  <div class="container mx-auto flex justify-center items-center min-h-screen">
+    <div class="flex flex-wrap p-24 h-full">
+      <div class="w-full md:w-1/4 m-8 h-full flex flex-col justify-center items-center">
+        <div class="">
+          <img
+            class="rounded-3xl border border-indigo-200 h-full w-full"
+            :src="(product.images) ? `/uploads/shop/products/${product.images[0]}` : '/uploads/shop/products/product-placeholder.png'"
+            >
+        </div>
       </div>
-      <div class="w-full md:w-2/4 m-8 flex flex-col items-start justify-center">
+      <div class="w-full md:w-2/4 lg:m-8 flex flex-col items-start justify-center max-h-screen overflow-y-auto">
         <div>
-          <h2 class="text-5xl text-primary ">{{ product.name }}</h2>
+          <h2 class="text-5xl">{{ product.name }}</h2>
           <div class=" flex">
             <!-- <h3>Brand</h3> -->
-            <h3 class="text-4xl font-bold ">{{ product.brand }}</h3>
+            <h3 class="text-4xl font-bold text-primary">{{ product.brand }}</h3>
           </div>
           <div class="flex flex-col p-2">
             <div class="flex flex-col">
@@ -55,7 +56,7 @@ async function addToCart(product) {
         <div class="my-8 flex flex-col items-start justify-center">
           <span class="text-gray-500 italic text-left">MvSt incl: {{ product.tax }}</span>
           <button
-              class="px-6 py-4 bg-indigo-600 hover:bg-indigo-700 text-indigo-200 rounded-lg"
+              class="px-6 py-4 btn-success rounded-xl"
               @click="addToCart(product)"
           >
             Add to Cart {{ product['selling-price'].toFixed(2) }}€

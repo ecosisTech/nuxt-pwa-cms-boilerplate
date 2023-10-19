@@ -150,6 +150,7 @@ const getLatestID = () => {
             <button class="btn btn-ghost btn-xs" @click="">Save</button>
           </th>
         </tr>
+
         <!-- Group List -->
         <tr v-for="group in productsStore.groups" class="hover:bg-base-200">
           <th>
