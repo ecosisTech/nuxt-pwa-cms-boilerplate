@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-lucide-icons',
   ],
+  plugins: [
+    { src: '~/plugins/markdown.ts', mode: 'client' }
+  ],
   colorMode: {
     preference: 'system', // default theme
     dataValue: 'theme', // activate data-theme in <html> tag
