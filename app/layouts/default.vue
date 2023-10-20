@@ -27,7 +27,7 @@ onBeforeMount(async () => {
       <div class="card w-96 bg-neutral text-neutral-content">
         <div class="card-body items-center text-center">
           <h2 class="card-title">Cookies!</h2>
-          <p>By using this application, you are accepting the cookies.</p>
+          <p>Für die Benutzerfreundlichkeit nutzen wir Cookies</p>
           <div class="card-actions justify-end">
             <button class="btn btn-primary" @click="acceptCookies()">Ok</button>
             <!-- <button class="btn btn-ghost">Deny</button> -->
@@ -91,9 +91,11 @@ onBeforeMount(async () => {
                 </li> -->
                 <!-- <li><a @click="router.push('/admin')">Admin</a></li> -->
                 <li><a @click="">Settings</a></li>
-                <li class="inline flex">
-                  Dark/Light
-                  <input type="checkbox" class="toggle" @click="themeStore.toggleMode()" />
+                <li class="form-control">
+                  <label class="label cursor-pointer">
+                    <span class="label-text">Dark/Light</span>
+                    <input type="checkbox" class="toggle" @click="themeStore.toggleMode()" />
+                  </label>
                 </li>
                 <li><a>Logout</a></li>
               </ul>
