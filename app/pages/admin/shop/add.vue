@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProductsStore } from '../../stores/products'
+import { useProductsStore } from '../../../stores/products'
 
 const props = defineProps({
   product: {
