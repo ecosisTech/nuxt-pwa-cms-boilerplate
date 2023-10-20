@@ -1,4 +1,4 @@
-import { useContentDatabase } from '../../../lib/database'
+import { useContentDatabase } from '../../../../lib/database'
 
 const database = useContentDatabase()
 
