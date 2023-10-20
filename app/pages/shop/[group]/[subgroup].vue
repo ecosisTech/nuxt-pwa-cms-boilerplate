@@ -40,18 +40,17 @@ const allProducts = computed(() => {
 
 <template>
   <div class="" v-if="subgroup">
-
     <!-- Header -->
     <section>
-      <div class="w-full flex justify-end p-12 bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/groups/${route.params.group}/${subgroup.banner})` }">
+      <div class="w-full flex flex-col justify-end pt-12 bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/groups/${route.params.group}/${subgroup.banner})` }">
         <div class="flex flex-col justify-start items-center text-center w-full mt-24">
-          <h1 class="text-3xl">{{ subgroup.name }}</h1>
+          <h1 class="text-3xl text-white">{{ subgroup.name }}</h1>
         </div>
-      </div>
-      <div class="custom-shape-divider-bottom-1697729642">
-        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-          <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-200"></path>
-        </svg>
+        <div class="custom-shape-divider-bottom-1697729642">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-200"></path>
+          </svg>
+        </div>
       </div>
     </section>
 
@@ -84,7 +83,7 @@ const allProducts = computed(() => {
 
 <style scoped>
 .custom-shape-divider-bottom-1697729642 {
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
