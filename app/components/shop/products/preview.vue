@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 <template>
   <div>
-    <div class="max-w-sm bg-base-100 rounded-lg border border-base-200 shadow-md m-2">
+    <div class="w-64 bg-base-100 rounded-lg border border-base-200 shadow-md m-2">
       <nuxt-link :to="`/shop/product/${product['product-id']}`">
         <div>
           <img class="rounded-t-lg h-80 w-full object-cover"

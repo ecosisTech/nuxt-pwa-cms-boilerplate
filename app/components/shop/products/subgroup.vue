@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <div>
     <div class="bg-base-100 rounded-lg border border-base-200 shadow-md m-2">
-      <nuxt-link>
+      <nuxt-link :to="`/shop/${subgroup.parent}/${subgroup.slug}`">
       <!-- <nuxt-link :to="`/shop/${subgroup.parent}/${subgroup.slug}`"> -->
         <div>
           <img class="rounded-t-lg h-80 w-full object-cover"

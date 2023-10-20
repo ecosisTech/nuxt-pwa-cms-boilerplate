@@ -15,45 +15,67 @@ const featuredProducts = computed(() => {
       return p
     }
   })
-  // return productsStore.products
 })
 
 const groups = computed(() => {
   return productsStore.groups
 })
 
-// const bannerImage = computed(() => {
-//   // return
-// })
+const carouselRef = ref(null);
+const currentItem = ref(0);
+
+const slideLeft = () => {
+  if (currentItem.value > 0) {
+    currentItem.value--
+  }
+}
+
+const slideRight = () => {
+  if (currentItem.value < featuredProducts.length - 1) {
+    currentItem.value++
+  }
+}
 </script>
 
 <template>
   <div class="">
-    <div class="w-full flex justify-end h-screen p-12 bg-[url(/uploads/shop/banner.webp)] bg-cover bg-fixed bg-center bg-no-repeat">
-      <div class="flex flex-col justify-start items-center text-center w-full mt-24">
-        <img class="mt-24" src="/logo.png">
-        <NuxtLink class="btn rounded-xl mt-8" :to="{ path: '/shop', hash: '#shop' }">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-          Los geht's!
-        </NuxtLink>
+    <!-- Header -->
+    <section>
+      <div class="w-full flex justify-end h-screen p-12 bg-[url(/uploads/shop/banner.webp)] bg-cover bg-fixed bg-center bg-no-repeat">
+        <div class="flex flex-col justify-start items-center text-center w-full mt-32">
+          <img class="mt-36" src="/logo.png">
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg> -->
+          <!-- <NuxtLink class="btn rounded-xl mt-8" :to="{ path: '/shop', hash: '#shop' }">
+            Los geht's!
+          </NuxtLink> -->
+        </div>
       </div>
-    </div>
-    <div class="custom-shape-divider-bottom-1697729642">
-      <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-200"></path>
-      </svg>
-    </div>
-    <div class="flex flex-col items-center justify-around pt-16" v-if="groups" id="shop">
+      <div class="custom-shape-divider-bottom-1697729642" id="shop">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-200"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Featured -->
+    <section class="flex flex-col items-center justify-around pt-16 pb-8 w-screen" v-if="featuredProducts.length > 0">
       <div class="">
         <h2 class="text-2xl pb-4">Top Produkte</h2>
       </div>
-      <div class="flex flex-wrap justify-around">
-        <div v-for="product in featuredProducts" :key="product['product-id']" class="flex-1">
+      <div class="carousel w-full flex justify-center" ref="carouselRef">
+        <div v-for="product in featuredProducts" :key="product['product-id']" class="carousel-item">
           <ShopProductsFeatured :product="product"/>
         </div>
       </div>
-    </div>
-    <div class="bg-base-300 flex flex-col items-center justify-around pt-24 pb-12" v-if="groups" id="shop">
+
+      <div class="flex justify-between pt-2">
+        <a href="#prev" class="btn btn-circle" @click="slideLeft()">❮</a>
+        <a href="#next" class="btn btn-circle" @click="slideRight()">❯</a>
+      </div>
+    </section>
+
+    <!-- Groups -->
+    <section class="bg-base-300 flex flex-col items-center justify-around pt-24 pb-12" v-if="groups.length > 0">
       <div class="">
         <h2 class="text-2xl pb-4">Warengruppen</h2>
       </div>
@@ -62,8 +84,10 @@ const groups = computed(() => {
           <ShopProductsGroup :group="group"/>
         </div>
       </div>
-    </div>
-    <div class="container mx-auto flex flex-col items-center justify-around pt-24" v-if="allProducts">
+    </section>
+
+    <!-- Products -->
+    <section class="container mx-auto flex flex-col items-center justify-around pt-24" v-if="allProducts.length > 0">
       <div class="">
         <h2 class="text-2xl pb-4">Products</h2>
       </div>
@@ -72,14 +96,12 @@ const groups = computed(() => {
           <ShopProductsPreview :product="product"/>
         </div>
       </div>
-    </div>
+    </section>
+
   </div>
 </template>
 
 <style scoped>
-/* html {
-  scroll-behavior: smooth;
-} */
 .custom-shape-divider-bottom-1697729642 {
     position: absolute;
     bottom: 0;
