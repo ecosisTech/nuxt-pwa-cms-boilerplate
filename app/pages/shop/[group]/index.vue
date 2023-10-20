@@ -64,9 +64,9 @@ const allProducts = computed(() => {
     </section>
 
     <!-- Featured -->
-    <section class="flex flex-col items-center justify-around pt-16 pb-8 w-screen" v-if="featuredProducts.length > 0">
+    <section class="flex flex-col items-center justify-around py-8 w-screen" v-if="featuredProducts.length > 0">
       <div class="">
-        <h2 class="text-2xl pb-4">Top Produkte</h2>
+        <h2 class="text-3xl pb-4">Top Produkte</h2>
       </div>
       <div class="carousel w-full flex justify-center" ref="carouselRef">
         <div v-for="product in featuredProducts" :key="product['product-id']" class="carousel-item">
@@ -81,9 +81,9 @@ const allProducts = computed(() => {
     </section>
 
     <!-- Groups -->
-    <section class="bg-base-300 flex flex-col items-center justify-around pt-24 pb-12" v-if="group.subgroups.length > 0" id="shop">
+    <section class="bg-base-300 flex flex-col items-center justify-around py-12" v-if="group.subgroups.length > 0" id="shop">
       <div class="">
-        <h2 class="text-2xl pb-4">Unterkategorien</h2>
+        <h2 class="text-3xl pb-4">Unterkategorien</h2>
       </div>
       <div class="flex flex-wrap justify-around">
         <div v-for="subgroup in group.subgroups" :key="subgroup.id" class="flex-1">
@@ -93,11 +93,11 @@ const allProducts = computed(() => {
     </section>
 
     <!-- Products -->
-    <section class="container mx-auto flex flex-col items-center justify-around pt-24" v-if="allProducts.length > 0">
+    <section class="container mx-auto flex flex-col items-center justify-around pt-16" v-if="allProducts.length > 0">
       <div class="">
-        <h2 class="text-2xl pb-4">Produkte</h2>
+        <h2 class="text-3xl pb-4">Produkte</h2>
       </div>
-      <div class="flex flex-wrap justify-around">
+      <div class="flex flex-wrap justify-center">
         <div v-for="product in allProducts" :key="product['product-id']">
           <ShopProductsPreview :product="product"/>
         </div>

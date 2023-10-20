@@ -10,10 +10,10 @@ const props = defineProps({
 </script>
 <template>
   <div :id="product['product-id']">
-    <NuxtLink class="card h-64 w-64 bg-base-100 shadow-xl image-full m-2" :to="`/shop/product/${product['product-id']}`">
-      <!-- <figure class="">
-      </figure> -->
-      <img class="h-64 w-64 rounded-2xl" :src="(product.images) ? `/uploads/shop/products/${product.images[0]}` : '/uploads/shop/products/product-placeholder.png'" />
+    <NuxtLink class="card bg-base-100 h-64 w-64 shadow-xl image-full m-2" :to="`/shop/product/${product['product-id']}`">
+      <figure class="">
+        <img class="h-64 w-64 rounded-2xl" :src="(product.images) ? `/uploads/shop/products/${product.images[0]}` : '/uploads/shop/products/product-placeholder.png'" />
+      </figure>
       <div class="card-body flex-col justify-between">
         <h2 class="card-title">{{ product.name }}</h2>
         <div class="card-actions justify-end">

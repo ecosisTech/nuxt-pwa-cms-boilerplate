@@ -55,23 +55,28 @@ const allProducts = computed(() => {
     </section>
 
     <!-- Featured -->
-    <section class="flex flex-col items-center justify-around pt-16" v-if="featuredProducts.length > 0">
+    <section class="flex flex-col items-center justify-around py-8 w-screen" v-if="featuredProducts.length > 0">
       <div class="">
-        <h2 class="text-2xl pb-4">Top Produkte</h2>
+        <h2 class="text-3xl pb-4">Top Produkte</h2>
       </div>
-      <div class="flex flex-wrap justify-around">
-        <div v-for="product in featuredProducts" :key="product['product-id']" class="flex-1">
+      <div class="carousel w-full flex justify-center" ref="carouselRef">
+        <div v-for="product in featuredProducts" :key="product['product-id']" class="carousel-item">
           <ShopProductsFeatured :product="product"/>
         </div>
+      </div>
+
+      <div class="flex justify-between pt-2">
+        <a href="#prev" class="btn btn-circle" @click="slideLeft()">❮</a>
+        <a href="#next" class="btn btn-circle" @click="slideRight()">❯</a>
       </div>
     </section>
 
     <!-- Products -->
-    <section class="container mx-auto flex flex-col items-center justify-around pt-24" v-if="allProducts.length > 0">
+    <section class="container mx-auto flex flex-col items-center justify-around pt-16" v-if="allProducts.length > 0">
       <div class="">
-        <h2 class="text-2xl pb-4">Produkte</h2>
+        <h2 class="text-3xl pb-4">Produkte</h2>
       </div>
-      <div class="flex flex-wrap justify-around">
+      <div class="flex flex-wrap justify-center">
         <div v-for="product in allProducts" :key="product['product-id']">
           <ShopProductsPreview :product="product"/>
         </div>
