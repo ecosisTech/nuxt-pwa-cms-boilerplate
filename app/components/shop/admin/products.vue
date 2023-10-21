@@ -16,35 +16,35 @@ const selected = ref([])
 
     <!-- Add Product Modal -->
     <div class="w-full flex justify-center">
-      <button class="btn" onclick="add_group.showModal()">+ Hinzufügen</button>
-      <dialog id="add_group" class="modal">
-        <div class="modal-box">
-          <h3 class="font-bold text-lg pb-4">Add a Group</h3>
+      <NuxtLink class="btn" to="/admin/shop/new">+ Hinzufügen</NuxtLink>
+      <!-- <dialog id="add_group" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl">
+          <h3 class="font-bold text-lg pb-4">Produkt hinzufügen</h3>
 
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Group Name</span>
+              <span class="label-text">Produkt Name</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
           </div>
 
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Group ID</span>
+              <span class="label-text">Produkt ID</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
           </div>
 
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Group Slogan</span>
+              <span class="label-text">Produkt Slogan</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
           </div>
 
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Group Slug</span>
+              <span class="label-text">Produkt Slug</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
           </div>
@@ -75,7 +75,7 @@ const selected = ref([])
         <form method="dialog" class="modal-backdrop">
           <button>close</button>
         </form>
-      </dialog>
+      </dialog> -->
     </div>
 
     <!-- <div class="flex flex-col justify-center items-center py-8">
@@ -107,6 +107,7 @@ const selected = ref([])
             </label>
           </th>
           <th>Name</th>
+          <th>ID</th>
           <th>Brand</th>
           <th>Property Name</th>
           <th>Property Value</th>
@@ -130,6 +131,7 @@ const selected = ref([])
             </label>
           </th>
           <th>{{ item['name'] }}</th>
+          <th>{{ item['product-id'] }}</th>
           <th>{{ item['brand'] }}</th>
           <th>{{ item['property-name'] }}</th>
           <th>{{ item['property-value'] }}</th>
@@ -151,6 +153,7 @@ const selected = ref([])
         <tr>
           <th></th>
           <th>Name</th>
+          <th>ID</th>
           <th>Brand</th>
           <th>Property Name</th>
           <th>Property Value</th>

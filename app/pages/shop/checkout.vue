@@ -4,6 +4,7 @@ import { useCartStore } from '../../stores/cart'
 const cartStore = useCartStore()
 
 const billlingIsDelivery = ref(false)
+const createAccount = ref(false)
 
 const deliveryAddress = ref({
   firstname: '',
@@ -31,6 +32,12 @@ const billingAddress = ref({
    <div class="container mx-auto flex pt-24 justify-center items-center p-4">
      <div class="flex flex-col justify-center items-center mt-12">
        <h1 class="font-bold text-3xl text-center">Customer Informations</h1>
+       <div class="">
+         <p>Falls du schon ein Account hast, dann melde dich an! Ansonsten erstelle ein Account, um zukünftig alle Daten automatisch ausgefüllt zu haben.</p>
+         <div class="w-full flex justify-center pt-8 pl-2">
+           <a class="btn btn-secondary mx-2" target="_blank">Einloggen</a>
+         </div>
+       </div>
        <form class="flex flex-wrap justify-center py-8">
 
          <!-- Container -->
@@ -182,8 +189,16 @@ const billingAddress = ref({
          </div>
 
          <!-- TODO -->
-         <div class="w-full flex justify-center pt-8 pl-2">
-           <a class="btn btn-primary" href="https://demo-pay.vivapayments.com/crownedlion" target="_blank">Zahle {{ cartStore.calcTotal() }}€ mit Viva</a>
+         <div class="w-full flex flex-col justify-center items-center pt-8 pl-2">
+           <div class="">
+             <div class="form-control w-full">
+               <label class="label cursor-pointer">
+                 <input type="checkbox" class="checkbox" v-model="createAccount"/>
+                 <span class="label-text">Account erstellen</span>
+               </label>
+             </div>
+             <a class="btn btn-primary" href="https://demo-pay.vivapayments.com/crownedlion" target="_blank">Zahle {{ cartStore.calcTotal() }}€ mit Viva</a>
+           </div>
          </div>
        </form>
      </div>
