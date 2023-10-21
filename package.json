@@ -21,6 +21,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "bcrypt": "^5.1.1",
+    "chart.js": "^4.4.0",
     "highlight.js": "^11.9.0",
     "level-ts": "^2.1.0",
     "markdown-it": "^13.0.2",
@@ -30,6 +31,7 @@
     "markdown-it-footnote": "^3.0.3",
     "markdown-it-ins": "^3.0.1",
     "markdown-it-sub": "^1.0.0",
-    "markdown-it-sup": "^1.0.0"
+    "markdown-it-sup": "^1.0.0",
+    "vue-chartjs": "^5.2.0"
   }
 }

@@ -15,7 +15,7 @@ const router = useRouter()
             <h2 class="card-title">Landingpage</h2>
             <p>Verwalte den Content deiner <br><b>Landingpage</b>!</p>
             <div class="card-actions justify-end">
-              <button class="btn" disabled>Coming soon</button>
+              <NuxtLink class="btn" disabled>Coming soon</NuxtLink>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@ const router = useRouter()
             <h2 class="card-title">Blog</h2>
             <p>Verwalte den Content deines <br><b>Blogs</b>!</p>
             <div class="card-actions justify-end">
-              <button class="btn" disabled>Coming soon</button>
+              <NuxtLink class="btn" disabled>Coming soon</NuxtLink>
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@ const router = useRouter()
             <h2 class="card-title">Shop</h2>
             <p>Verwalte den Content deines <br><b>Online Shops</b>!</p>
             <div class="card-actions justify-end">
-              <button class="btn" @click="router.push('/admin/shop')">Enter</button>
+              <NuxtLink class="btn" to="/admin/shop">Enter</NuxtLink>
             </div>
           </div>
         </div>
