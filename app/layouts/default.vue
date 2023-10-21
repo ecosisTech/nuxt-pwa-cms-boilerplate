@@ -109,6 +109,7 @@ onBeforeMount(async () => {
         <slot/>
       </div>
     </section>
+    <Footer/>
   </div>
 </template>
 
