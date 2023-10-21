@@ -195,29 +195,57 @@ const edit = ref(props.product || {
         </div>
       </div>
 
-      <!-- Property Meta -->
       <div class="w-full md:w-1/3 bg-base-300 rounded p-4 flex flex-col p-4">
-        <h3>Property</h3>
-        <div class="form-control w-full max-w-xs">
-          <label class="label">
-            <span class="label-text">Propperty Name</span>
-          </label>
-          <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['property-name']"/>
-        </div>
+        <!-- Product Details -->
         <div class="">
+          <h3>Beschreibung</h3>
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Propperty Value</span>
+              <span class="label-text">Propperty Name</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['property-value']"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['property-name']"/>
+          </div>
+          <div class="">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Propperty Value</span>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['property-value']"/>
+            </div>
+          </div>
+          <div class="">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Properties</span>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['properties']"/>
+            </div>
           </div>
         </div>
+        <!-- Property Meta -->
         <div class="">
+          <h3>Property</h3>
           <div class="form-control w-full max-w-xs">
             <label class="label">
-              <span class="label-text">Properties</span>
+              <span class="label-text">Propperty Name</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['properties']"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['property-name']"/>
+          </div>
+          <div class="">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Propperty Value</span>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['property-value']"/>
+            </div>
+          </div>
+          <div class="">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Properties</span>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['properties']"/>
+            </div>
           </div>
         </div>
       </div>

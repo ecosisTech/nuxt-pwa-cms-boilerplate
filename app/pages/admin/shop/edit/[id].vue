@@ -8,13 +8,10 @@ const route = useRoute()
 const product = computed(() => {
   return productsStore.products.find(p => p['product-id'].toString() === route.params.id)
 })
-definePageMeta({
-  layout: 'admin',
-});
 </script>
 
  <template>
-   <div class="">
+   <div class="pt-36">
      <ShopProductsEditor :product="product"/>
    </div>
  </template>

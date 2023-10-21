@@ -2,6 +2,29 @@
 import { useCartStore } from '../../stores/cart'
 
 const cartStore = useCartStore()
+
+const billlingIsDelivery = ref(false)
+
+const deliveryAddress = ref({
+  firstname: '',
+  lastname: '',
+  email: '',
+  street: '',
+  place: '',
+  zipcode: '',
+  state: ''
+})
+
+const billingAddress = ref({
+  firstname: '',
+  lastname: '',
+  email: '',
+  street: '',
+  place: '',
+  zipcode: '',
+  state: ''
+})
+
 </script>
 
  <template>
@@ -151,16 +174,16 @@ const cartStore = useCartStore()
              <!-- Addresses equals -->
              <div class="form-control w-36">
                <label class="label cursor-pointer">
-                 <input type="checkbox" class="checkbox" />
+                 <input type="checkbox" class="checkbox" v-model="billlingIsDelivery"/>
                  <span class="label-text">ist Lieferadresse</span>
                </label>
              </div>
            </div>
          </div>
 
-
+         <!-- TODO -->
          <div class="w-full flex justify-center pt-8 pl-2">
-           <a class="btn btn-primary" href="https://demo-pay.vivapayments.com/crownedlion" target="_blank">Pay {{ cartStore.calcTotal() }}€ with Viva</a>
+           <a class="btn btn-primary" href="https://demo-pay.vivapayments.com/crownedlion" target="_blank">Zahle {{ cartStore.calcTotal() }}€ mit Viva</a>
          </div>
        </form>
      </div>

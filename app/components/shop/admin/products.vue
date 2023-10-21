@@ -12,8 +12,73 @@ const importJSON = async () => {
 const selected = ref([])
 </script>
 <template>
-  <div class="overflow-x-auto bg-base-100 rounded m-8 pb-8">
-    <div class="flex flex-col justify-center items-center py-8">
+  <div class="overflow-x-auto bg-base-100 rounded px-4 pb-8">
+
+    <!-- Add Product Modal -->
+    <div class="w-full flex justify-center">
+      <button class="btn" onclick="add_group.showModal()">+ Hinzufügen</button>
+      <dialog id="add_group" class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg pb-4">Add a Group</h3>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Group Name</span>
+            </label>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+          </div>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Group ID</span>
+            </label>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+          </div>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Group Slogan</span>
+            </label>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+          </div>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Group Slug</span>
+            </label>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+          </div>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Parent</span>
+            </label>
+            <input type="select" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+          </div>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Banner Image</span>
+            </label>
+            <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
+          </div>
+
+          <div class="form-control w-full max-w-xs">
+            <label class="label">
+              <span class="label-text">Products</span>
+            </label>
+            <input type="select" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+          </div>
+
+          <button class="btn btn-success mt-2" @click="">Add</button>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+    </div>
+
+    <!-- <div class="flex flex-col justify-center items-center py-8">
       <h2>Import Data</h2>
       <p>Enter Data in JSON Format to import products</p>
       <div class="">
@@ -29,8 +94,10 @@ const selected = ref([])
           </form>
         </dialog>
       </div>
-    </div>
-    <table class="table table-xs table-pin-rows table-pin-cols h-3/4">
+    </div> -->
+
+    <!-- Table Data -->
+    <table class="table table-xs table-pin-rows table-pin-col">
       <!-- head -->
       <thead>
         <tr>

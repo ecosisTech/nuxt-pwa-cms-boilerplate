@@ -1,65 +1,79 @@
 <script setup lang="ts">
-import { useProductsStore } from '../../../stores/products'
+  import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    type ChartOptions,
+    type ChartData,
+  } from "chart.js";
+  import { Line } from "vue-chartjs";
+  import colors from "#tailwind-config/theme/colors";
 
-const router = useRouter()
+  ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const productsStore = useProductsStore()
+  const mode = useColorMode();
 
-const sales = ref([])
+  const options = computed<ChartOptions<"line">>(() => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          intersect: false,
+        },
+      },
+      scales: {
+        y: {
+          grid: {
+            color: mode.value === "dark" ? colors.slate[900] : colors.slate[200],
+          },
+          ticks: {
+            color: colors.slate[500],
+          },
+        },
+        x: {
+          grid: {
+            color: mode.value === "dark" ? colors.slate[800] : colors.slate[200],
+          },
+          ticks: {
+            color: colors.slate[500],
+          },
+        },
+      },
+    };
+  });
+
+  console.log(colors);
+
+
+  const data = ref<ChartData<"line">>({
+    labels: ["März", "April", "Mai", "Juni", "Juli", "August", "Oktober"],
+    datasets: [
+      {
+        label: "Sales over time",
+        backgroundColor: colors.background,
+        tension: 0.4,
+        borderColor: colors.green[500],
+        borderWidth: 2,
+        pointBackgroundColor: colors.green[500],
+        data: [40, 39, 10, 40, 39, 80, 40],
+      },
+    ],
+  });
 </script>
-<template>
-  <div class="overflow-x-auto bg-base-100 rounded m-8 pb-8">
-    <table class="table table-xs table-pin-rows table-pin-cols h-3/4">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th>
-            <label>
-              <input type="checkbox" class="checkbox" />
-            </label>
-          </th>
-          <th>Full Name</th>
-          <th>E-Mail</th>
-          <th>Products</th>
-          <th>Address</th>
-          <th>Paid</th>
-          <th>Shipped</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- row 1 -->
-        <tr v-for="item in sales" class="hover:bg-base-200">
-          <th>
-            <label>
-              <input type="checkbox" class="checkbox" />
-            </label>
-          </th>
-          <th>{{ item['name'] }}</th>
-          <th>{{ item['brand'] }}</th>
-          <th>{{ item['property-name'] }}</th>
-          <th>{{ item['property-value'] }}</th>
-          <th>{{ item['color'] }}</th>
-          <th>{{ item['properties'] }}</th>
-          <th>
-            <button class="btn btn-ghost btn-xs" @click="router.push(`/admin/shop/edit/${item['product-id']}`)">details</button>
-          </th>
-        </tr>
-      </tbody>
-      <!-- foot -->
-      <tfoot>
-        <tr>
-          <th></th>
-          <th>Full Name</th>
-          <th>E-Mail</th>
-          <th>Products</th>
-          <th>Address</th>
-          <th>Paid</th>
-          <th>Shipped</th>
-          <th></th>
-        </tr>
-      </tfoot>
 
-    </table>
+<template>
+  <div class="mt-5 p-2">
+    <div class="mt-5 h-[300px] rounded-lg border border-base-200 bg-background md:p-3">
+      <Line :data="data" :options="options" />
+    </div>
   </div>
 </template>
