@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   plugins: [
     { src: '~/plugins/markdown.ts', mode: 'client' }
   ],
+  tailwindcss: { exposeConfig: true },
   colorMode: {
     preference: 'system', // default theme
     dataValue: 'theme', // activate data-theme in <html> tag
