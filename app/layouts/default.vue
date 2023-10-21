@@ -136,12 +136,10 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
-    <section>
-      <div class="bg-base-200 min-h-screen">
-        <slot/>
-      </div>
+    <section class="bg-base-200 min-h-screen">
+      <slot/>
+      <Footer/>
     </section>
-    <Footer/>
   </div>
 </template>
 

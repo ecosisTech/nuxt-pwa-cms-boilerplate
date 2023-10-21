@@ -34,13 +34,13 @@ const edit = ref(props.product || {
 </script>
 <template>
   <div class="container mx-auto">
-    <form class="flex flex-wrap bg-base-300 rounded rounded-xl">
+    <form class="flex flex-wrap bg-base-100 rounded rounded-xl">
 
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full" :src="`/uploads/shop/products/${(product.images[0]) ? product.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
-          <button class="btn m-2 w-full" onclick="my_modal_1.showModal()">Neues Produkt Bild</button>
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/products/${(product.images[0]) ? product.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
+          <button class="btn w-full" onclick="my_modal_1.showModal()">Neues Produkt Bild</button>
           <dialog id="my_modal_1" class="modal">
             <div class="modal-box">
               <div class="form-control w-full max-w-xs">
@@ -79,7 +79,7 @@ const edit = ref(props.product || {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="image in product.images">
+                <tr class="hover:bg-base-200" v-for="image in product.images">
                   <!-- <th>
                     <label>
                       <input type="checkbox" class="checkbox" />
@@ -120,7 +120,7 @@ const edit = ref(props.product || {
       </div>
 
       <!-- Product infos -->
-      <div class="w-full md:w-1/3 bg-base-300 rounded p-4">
+      <div class="w-full md:w-1/3 p-4">
         <h2 class="font-bold">Meta Daten</h2>
         <!-- Product ID -->
         <div class="">
@@ -146,7 +146,7 @@ const edit = ref(props.product || {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Quantity</span>
+              <span class="label-text">Menge</span>
             </label>
             <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['quantity']"/>
           </div>
@@ -241,7 +241,7 @@ const edit = ref(props.product || {
         </div>
       </div>
 
-      <div class="w-full md:w-1/3 bg-base-300 rounded p-4 flex flex-col p-4">
+      <div class="w-full md:w-1/3 p-4 flex flex-col p-4">
         <!-- Product Details -->
         <div class="">
           <h3 class="font-bold">Produkt Daten</h3>
@@ -289,36 +289,36 @@ const edit = ref(props.product || {
         </div>
       </div>
 
-      <div class="w-full p-8 bg-base-300">
-        <!-- Featured -->
-        <div class="">
-          <div class="form-control w-16">
-            <div class="form-control">
-              <label class="label cursor-pointer">
-                <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['featured']"/>
-                <span class="label-text pl-2">Featured</span>
-              </label>
-            </div>
+    </form>
+    <div class="w-full p-4 rounded-t rounded-xl">
+      <!-- Featured -->
+      <div class="">
+        <div class="form-control w-16">
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['featured']"/>
+              <span class="label-text pl-2">Featured</span>
+            </label>
           </div>
         </div>
-        <button class="btn btn-success mr-2" @click="productsStore.updateProduct(edit)">Save</button>
-        <button class="btn btn-error mr-2" onclick="my_modal_5.showModal()">Remove</button>
-        <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
-          <div class="modal-box">
-            <h3 class="font-bold text-lg">Attention!</h3>
-            <p class="py-4">Removing this product deletes it permanentally!</p>
-            <div class="modal-action">
-              <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
-                <button class="btn btn-error" @click="productsStore.removeProduct(edit)">Remove</button>
-                <button class="btn">Cancel</button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-        <button class="btn" @click="router.push(`/shop/product/${edit['product-id']}`)">View</button>
       </div>
-    </form>
+      <button class="btn btn-success mr-2" @click="productsStore.updateProduct(edit)">Save</button>
+      <button class="btn btn-error mr-2" onclick="my_modal_5.showModal()">Remove</button>
+      <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg">Attention!</h3>
+          <p class="py-4">Removing this product deletes it permanentally!</p>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-error" @click="productsStore.removeProduct(edit)">Remove</button>
+              <button class="btn">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <button class="btn" @click="router.push(`/shop/product/${edit['product-id']}`)">View</button>
+    </div>
 
   </div>
 </template>
