@@ -32,7 +32,7 @@ export default NuxtAuthHandler({
               // that is false/null if the credentials are invalid.
               // NOTE: THE BELOW LOGIC IS NOT SAFE OR PROPER FOR AUTHENTICATION!
 
-              const user = { id: '1', name: 'Chris', username: 'chris@eco.net', password: 'demo', image: 'https://avatars.githubusercontent.com/u/25911230?v=4' }
+              const user = { id: '1', name: 'Chris', username: 'demo@ecosis.tech', password: 'demo', image: 'https://avatars.githubusercontent.com/u/25911230?v=4' }
 
 
 
