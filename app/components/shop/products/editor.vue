@@ -33,15 +33,15 @@ const edit = ref(props.product || {
 })
 </script>
 <template>
-  <div class="container mx-auto">
-    <form class="flex flex-wrap bg-base-100 rounded rounded-xl">
+  <div class="container mx-auto" v-if="product">
+    <form class="flex flex-wrap bg-base-100 rounded rounded-xl shadow">
 
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
           <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/products/${(product.images[0]) ? product.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
-          <button class="btn w-full" onclick="my_modal_1.showModal()">Neues Produkt Bild</button>
-          <dialog id="my_modal_1" class="modal">
+          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Produkt Bild</button>
+          <dialog id="img_upload" class="modal">
             <div class="modal-box">
               <div class="form-control w-full max-w-xs">
                 <label class="label">
