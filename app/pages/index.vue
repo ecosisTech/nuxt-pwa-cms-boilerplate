@@ -4,6 +4,9 @@ const router = useRouter()
 onBeforeMount(() => {
   router.push('/shop')
 })
+definePageMeta({
+  auth: false,
+})
 </script>
 
 <template>

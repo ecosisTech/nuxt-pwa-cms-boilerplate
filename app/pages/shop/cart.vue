@@ -11,6 +11,10 @@ watch(cartStore.items, () => {
 }, { deep: true })
 
 const router = useRouter()
+definePageMeta({
+  auth: false,
+})
+
 </script>
 
  <template>

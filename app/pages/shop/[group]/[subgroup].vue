@@ -36,6 +36,9 @@ const allProducts = computed(() => {
   })
 })
 
+definePageMeta({
+  auth: false,
+})
 </script>
 
 <template>

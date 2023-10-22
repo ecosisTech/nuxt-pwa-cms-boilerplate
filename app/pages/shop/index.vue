@@ -35,6 +35,10 @@ const slideRight = () => {
     currentItem.value++
   }
 }
+definePageMeta({
+  auth: false,
+})
+
 </script>
 
 <template>

@@ -8,6 +8,8 @@ import { useProductsStore } from '../stores/products'
 const route = useRoute()
 const router = useRouter()
 
+const { status } = useAuth()
+
 const themeStore = useThemeStore()
 const userStore = useUserStore()
 const clientsStore = useClientsStore()
@@ -180,7 +182,7 @@ onBeforeMount(async () => {
             </div>
 
             <!-- Account -->
-            <NuxtLink class="btn btn-ghost btn-circle" to="/login" v-if="!userStore.isAuthenticated">
+            <NuxtLink class="btn btn-ghost btn-circle" to="/login" v-if="status === 'unauthenticated'">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
             </NuxtLink>
             <div class="dropdown dropdown-end btn btn-ghost btn-circle" v-else>

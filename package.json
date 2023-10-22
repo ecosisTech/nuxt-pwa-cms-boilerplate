@@ -13,6 +13,7 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@sidebase/nuxt-auth": "^0.6.0-rc.0",
     "@vite-pwa/nuxt": "^0.1.1",
     "daisyui": "^3.7.5",
     "nuxt": "^3.7.3",
@@ -32,6 +33,7 @@
     "markdown-it-ins": "^3.0.1",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
+    "next-auth": "4.18.8",
     "vue-chartjs": "^5.2.0"
   }
 }

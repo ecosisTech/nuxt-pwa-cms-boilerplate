@@ -45,6 +45,9 @@ const allProducts = computed(() => {
 // const bannerImage = computed(() => {
 //   // return
 // })
+definePageMeta({
+  auth: false,
+})
 </script>
 
 <template>

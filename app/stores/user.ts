@@ -2,8 +2,13 @@
 
 // const notificationStore = useNotificationStore();
 
+const { status, data, signOut, signIn } = useAuth()
+
+  console.log(status.value);
+
+
 export const useUserStore = definePiniaStore('user', () => {
-  const isAuthenticated = ref(true)
+  const isAuthenticated = ref(false)
   const isAdmin = ref(true)
   const user = ref('')
 
@@ -45,14 +50,8 @@ export const useUserStore = definePiniaStore('user', () => {
 
   async function login(email: string, password?: string) {
     try {
-      // await useFetch('/api/signin', {
-      //   method: 'POST',
-      //   body: {
-      //     email,
-      //     password
-      //   }
-      // })
-      // localStorage.setItem('user_mail', mail)
+      const { error } = await signIn('credentials', { username: email.avlue, password: password.avlue })
+
       user.value = email
       isAuthenticated.value = true
       isAdmin.value = true
@@ -73,10 +72,11 @@ export const useUserStore = definePiniaStore('user', () => {
     }
   }
 
-  function logout(wallet) {
-    // localStorage.removeItem('user_mail')
+  async function logout(wallet) {
+    await signOut()
     isAuthenticated.value = false
     isAdmin.value = false
+    router.push('/')
   }
 
   async function updatePassword(newPassword: string, oldPassword: string) {

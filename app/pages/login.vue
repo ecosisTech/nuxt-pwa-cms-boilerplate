@@ -8,6 +8,8 @@ const userStore = useUserStore()
 const themeStore = useThemeStore()
 // const notificationStore = useNotificationStore()
 
+const { signIn } = useAuth()
+
 const email = ref('')
 const password = ref('')
 const password2 = ref('')
@@ -22,8 +24,12 @@ const validEmail = (email) => {
 const login = async () => {
   try {
     if (validEmail(email.value)) {
+      // const { error } = await signIn('credentials', { username: email.value, password: password.value })
       await userStore.login(email.value, password.value)
-      router.push('/admin')
+      // router.push('/admin')
+      // if (error) {
+      //   alert(error)
+      // }
     } else {
       // notificationStore.addNotification({
       //   type: 'error',
@@ -31,6 +37,7 @@ const login = async () => {
       // })
     }
   } catch (error) {
+    alert(error)
     // notificationStore.addNotification({
     //   type: 'error',
     //   msg: error
@@ -82,6 +89,14 @@ const register = async () => {
 //     })
 //   }
 // }
+
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/admin',
+  },
+})
+
 </script>
 
 <template>
@@ -103,11 +118,11 @@ const register = async () => {
               <p class="underline">Register</p>
             </button>
             <input type="email" placeholder="E-Mail" class="input input-bordered w-full my-4"
-            v-model="email"
+              v-model="email"
             />
             <input type="email" placeholder="Password" class="input input-bordered w-full my-4"
-            v-model="password"
-            @keydown.enter="login()"
+              v-model="password"
+              @keydown.enter="login()"
             />
             <button class="btn btn-primary" @click="login()">Login</button>
           </div>
@@ -119,15 +134,15 @@ const register = async () => {
               <p class="underline">Login</p>
             </button>
             <input type="email" placeholder="E-Mail" class="input input-bordered w-full my-4"
-            v-model="email"
+              v-model="email"
             />
             <input type="email" placeholder="Password" class="input input-bordered w-full my-4"
-            v-model="password"
-            @keydown.enter="register()"
+              v-model="password"
+              @keydown.enter="register()"
             />
             <input type="email" placeholder="Repeat password" class="input input-bordered w-full my-4"
-            v-model="password2"
-            @keydown.enter="register()"
+              v-model="password2"
+              @keydown.enter="register()"
             />
             <button class="btn btn-primary" @click="register()">Signup</button>
           </div>

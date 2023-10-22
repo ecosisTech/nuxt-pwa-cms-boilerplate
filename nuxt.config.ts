@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   ssr: false,
   modules: [
     '@vite-pwa/nuxt',
+    '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
@@ -12,6 +13,15 @@ export default defineNuxtConfig({
   plugins: [
     { src: '~/plugins/markdown.ts', mode: 'client' }
   ],
+  auth: {
+    globalAppMiddleware: true,
+    enableSessionRefreshPeriodically: 5000,
+    enableSessionRefreshOnWindowFocus: true,
+    globalMiddlewareOptions: {
+      allow404WithoutAuth: true, // Defines if the 404 page will be accessible while unauthenticated
+      addDefaultCallbackUrl: '/' // Where authenticated user will be redirected to by default
+    }
+  },
   tailwindcss: { exposeConfig: true },
   colorMode: {
     preference: 'system', // default theme

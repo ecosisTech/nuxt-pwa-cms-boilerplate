@@ -41,6 +41,10 @@ onMounted(() => {
     selectedImage.value = product.value.images[0]
   }
 })
+definePageMeta({
+  auth: false,
+})
+
 </script>
 <template>
   <div class="">

@@ -25,6 +25,9 @@ const billingAddress = ref({
   zipcode: '',
   state: ''
 })
+definePageMeta({
+  auth: false,
+})
 
 </script>
 
