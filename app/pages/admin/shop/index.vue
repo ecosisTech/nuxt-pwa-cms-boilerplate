@@ -34,130 +34,163 @@ const selectTab = (tab) => {
     </div>
     <div class="flex flex-col justify-center items-center">
 
-    <section class="grid gap-5 md:grid-cols-2">
-      <!-- Revenue -->
-      <div class="rounded-lg border border-error card bg-base-100 p-6">
-        <div class="flex items-center justify-between">
-          <p class="text-sm font-medium">Umsatz Oktober</p>
-          <span class="shrink-0">
-            <Icon name="heroicons:banknotes" class="h-4 w-4 text-muted-foreground" />
-          </span>
-        </div>
+      <div class="flex">
+        <section class="flex">
 
-        <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(revenueMonth) }}€</p>
-        <p class="text-xs text-muted-foreground"><span class="text-error font-bold">{{ formatRealNumber(revenueIncrement) }}% </span> weniger als letzen Monat</p>
-      </div>
-      <!-- Sales -->
-      <div class="rounded-lg border border-success card bg-base-100 p-6">
-        <div class="flex items-center justify-between">
-          <p class="text-sm font-medium">Profit Oktober</p>
-          <span class="shrink-0">
-            <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
-          </span>
-        </div>
+          <!-- Revenue -->
+          <div class="flex flex-col my-4 justify-between px-2">
+            <div class="rounded-lg border border-error card bg-base-100 p-4">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium">Umsatz Oktober</p>
+                <span class="shrink-0">
+                  <Icon name="heroicons:banknotes" class="h-4 w-4 text-muted-foreground" />
+                </span>
+              </div>
 
-        <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(profit) }}€</p>
-        <p class="text-xs text-muted-foreground"><span class="text-success font-bold">{{ formatRealNumber(margin) }}%</span> Marge</p>
-      </div>
-    </section>
+              <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(revenueMonth) }}€</p>
+              <p class="text-xs text-muted-foreground"><span class="text-error font-bold">{{ formatRealNumber(revenueIncrement) }}% </span> weniger als letzen Monat</p>
+            </div>
 
-    <!-- Sales List -->
-    <div class="border border-base-300 bg-base-100 rounded rounded-xl my-4 w-full p-8">
-      <div class="">
-        <h1 class="text-xl font-medium">Sales</h1>
-        <p>Umsatz 2023: <b>{{ formatRealNumber(revenueYear) }}€</b></p>
-      </div>
-      <div class="">
-        <ShopAdminSales/>
-      </div>
-    </div>
+            <!-- Sales -->
+            <div class="rounded-lg border border-success card bg-base-100 p-4">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium">Profit Oktober</p>
+                <span class="shrink-0">
+                  <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                </span>
+              </div>
 
-    <section>
-      <ShopAdminCustomersNew class="w-max-screen md:w-[800px]"/>
-    </section>
+              <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(profit) }}€</p>
+              <p class="text-xs text-muted-foreground"><span class="text-success font-bold">{{ formatRealNumber(margin) }}%</span> Marge</p>
+            </div>
 
-    <section class="max-w-screen">
-      <div class="w-full flex justify-center">
-        <div class="tabs">
-          <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'user' }" @click="selectTab('user')">Nutzer</a>
-          <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'clients' }" @click="selectTab('clients')">Kunden</a>
-          <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'orders' }" @click="selectTab('orders')">Bestellungen</a>
-          <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'products' }" @click="selectTab('products')">Produkte</a>
-          <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'groups' }" @click="selectTab('groups')">Warengruppen</a>
-          <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'subgroups' }" @click="selectTab('subgroups')">Unterkategorien</a>
-        </div>
-      </div>
+            <!-- Product -->
+            <div class="rounded-lg border border-base-300 card bg-base-100 p-4">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium">Produkte</p>
+                <span class="shrink-0">
+                  <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                </span>
+              </div>
 
-      <!-- User List -->
-      <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'user'">
-        <div class="p-8">
-          <h1 class="text-xl font-medium">Nutzer</h1>
-          <p>Total: <b>{{ clientsStore.clients.length }}</b></p>
-        </div>
-        <div class="">
-          <ShopAdminCustomers/>
-        </div>
-      </div>
+              <p class="mt-1.5 text-xl font-extrabold">{{ productsStore.products.length }}</p>
+              <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">2</span> Verkauft</p>
+            </div>
 
-      <!-- Client List -->
-      <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'clients'">
-        <div class="p-8">
-          <h1 class="text-xl font-medium">Kunden</h1>
-          <p>Total: <b>{{ clientsStore.clients.length }}</b></p>
-        </div>
-        <div class="">
-          <ShopAdminCustomers/>
-        </div>
+            <!-- Clients -->
+            <div class="rounded-lg border border-base-300 card bg-base-100 p-4">
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium">Kunden</p>
+                <span class="shrink-0">
+                  <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                </span>
+              </div>
+
+              <p class="mt-1.5 text-xl font-extrabold">{{ clientsStore.clients.length }}</p>
+              <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">14</span> Registriert</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sales List -->
+        <section class="border border-base-300 bg-base-100 rounded rounded-xl my-4 w-full p-8">
+          <div class="">
+            <h1 class="text-xl font-medium">Sales</h1>
+            <p>Umsatz 2023: <b>{{ formatRealNumber(revenueYear) }}€</b></p>
+          </div>
+          <div class="">
+            <ShopAdminSales/>
+          </div>
+        </section>
       </div>
 
-      <!-- Order List -->
-      <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'orders'">
-        <div class="p-8">
-          <h1 class="text-xl font-medium">Bestellungen</h1>
-          <p>Total: <b>{{ ordersStore.orders.length }}</b></p>
-        </div>
-        <div class="">
-          <ShopAdminOrders/>
-        </div>
-      </div>
 
-      <!-- Product List -->
-      <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'products'">
-        <div class="p-8">
-          <h1 class="text-xl font-medium">Produkte</h1>
-          <p>Total: <b>{{ productsStore.products.length }}</b></p>
-        </div>
-        <div class="">
-          <ShopAdminProducts/>
-        </div>
-      </div>
+      <section>
+        <ShopAdminCustomersNew class="w-max-screen md:w-[800px]"/>
+      </section>
 
-      <!-- Group List -->
-      <div class="border border-base-300 bg-base-100 rounded mb-4 w-full" v-if="selectedTab === 'groups'">
-        <div class="p-8">
-          <h1 class="text-xl font-medium">Warengruppen</h1>
-          <p>Total Groups: <b>2{{ productsStore.products.length }}</b></p>
+      <section class="max-w-screen">
+        <div class="w-full flex justify-center">
+          <div class="tabs">
+            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'user' }" @click="selectTab('user')">Nutzer</a>
+            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'clients' }" @click="selectTab('clients')">Kunden</a>
+            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'orders' }" @click="selectTab('orders')">Bestellungen</a>
+            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'products' }" @click="selectTab('products')">Produkte</a>
+            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'groups' }" @click="selectTab('groups')">Warengruppen</a>
+            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'subgroups' }" @click="selectTab('subgroups')">Unterkategorien</a>
+          </div>
         </div>
-        <div class="">
-          <ShopAdminProducts/>
 
-          <!-- <ShopAdminGroups/> -->
+        <!-- User List -->
+        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'user'">
+          <div class="p-8">
+            <h1 class="text-xl font-medium">Nutzer</h1>
+            <p>Total: <b>{{ clientsStore.clients.length }}</b></p>
+          </div>
+          <div class="">
+            <ShopAdminCustomers/>
+          </div>
         </div>
-      </div>
 
-      <!-- Subgroup List -->
-      <div class="border border-base-300 bg-base-100 rounded mb-4 w-full" v-if="selectedTab === 'subgroups'">
-        <div class="p-8">
-          <h1 class="text-xl font-medium">Unterkategorien</h1>
-          <p>Total Subgroups: <b>0</b></p>
+        <!-- Client List -->
+        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'clients'">
+          <div class="p-8">
+            <h1 class="text-xl font-medium">Kunden</h1>
+            <p>Total: <b>{{ clientsStore.clients.length }}</b></p>
+          </div>
+          <div class="">
+            <ShopAdminCustomers/>
+          </div>
         </div>
-        <div class="">
-          <ShopAdminProducts/>
 
-          <!-- <ShopAdminSubgroups/> -->
+        <!-- Order List -->
+        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'orders'">
+          <div class="p-8">
+            <h1 class="text-xl font-medium">Bestellungen</h1>
+            <p>Total: <b>{{ ordersStore.orders.length }}</b></p>
+          </div>
+          <div class="">
+            <ShopAdminOrders/>
+          </div>
         </div>
-      </div>
-    </section>
+
+        <!-- Product List -->
+        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'products'">
+          <div class="p-8">
+            <h1 class="text-xl font-medium">Produkte</h1>
+            <p>Total: <b>{{ productsStore.products.length }}</b></p>
+          </div>
+          <div class="">
+            <ShopAdminProducts/>
+          </div>
+        </div>
+
+        <!-- Group List -->
+        <div class="border border-base-300 bg-base-100 rounded mb-4 w-full" v-if="selectedTab === 'groups'">
+          <div class="p-8">
+            <h1 class="text-xl font-medium">Warengruppen</h1>
+            <p>Total Groups: <b>2{{ productsStore.products.length }}</b></p>
+          </div>
+          <div class="">
+            <ShopAdminProducts/>
+
+            <!-- <ShopAdminGroups/> -->
+          </div>
+        </div>
+
+        <!-- Subgroup List -->
+        <div class="border border-base-300 bg-base-100 rounded mb-4 w-full" v-if="selectedTab === 'subgroups'">
+          <div class="p-8">
+            <h1 class="text-xl font-medium">Unterkategorien</h1>
+            <p>Total Subgroups: <b>0</b></p>
+          </div>
+          <div class="">
+            <ShopAdminProducts/>
+
+            <!-- <ShopAdminSubgroups/> -->
+          </div>
+        </div>
+      </section>
 
     </div>
   </div>
