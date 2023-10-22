@@ -240,7 +240,7 @@ onBeforeMount(async () => {
                         <button>+ Hinzufügen</button>
                       </li>
                       <li v-for="group in productsStore.groups">
-                        <details class="bg-base-200 rounded rounded-xl mt-2">
+                        <details class="bg-base-200 rounded rounded-xl m-2">
                           <summary>
                             {{ group.name }}
                           </summary>
@@ -248,9 +248,9 @@ onBeforeMount(async () => {
                             <li>
                               <button>+ Hinzufügen</button>
                             </li>
-                            <li>
+                            <li v-for="subgroup in group.subgroups">
                               <a>
-                                Raucherzubehör
+                                {{ subgroup.name }}
                               </a>
                             </li>
                           </ul>
