@@ -65,6 +65,51 @@ onBeforeMount(async () => {
         <!-- Navbar Start -->
         <div class="navbar-start">
           <!-- Menu -->
+          <!-- <ul class="menu xl:menu-horizontal lg:min-w-max bg-base-200 rounded-box">
+            <li>
+              <a>Solutions</a>
+              <ul>
+                <li><a>Design</a></li>
+                <li><a>Development</a></li>
+                <li><a>Hosting</a></li>
+                <li><a>Domain register</a></li>
+              </ul>
+            </li>
+            <li>
+              <a>Enterprise</a>
+              <ul>
+                <li><a>CRM software</a></li>
+                <li><a>Marketing management</a></li>
+                <li><a>Security</a></li>
+                <li><a>Consulting</a></li>
+              </ul>
+            </li>
+            <li>
+              <a>Products</a>
+              <ul>
+                <li><a>UI Kit</a></li>
+                <li><a>Wordpress themes</a></li>
+                <li><a>Wordpress plugins</a></li>
+                <li>
+                  <a>Open source</a>
+                  <ul>
+                    <li><a>Auth management system</a></li>
+                    <li><a>VScode theme</a></li>
+                    <li><a>Color picker app</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a>Company</a>
+              <ul>
+                <li><a>About us</a></li>
+                <li><a>Contact us</a></li>
+                <li><a>Privacy policy</a></li>
+                <li><a>Press kit</a></li>
+              </ul>
+            </li>
+          </ul> -->
           <div class="dropdown">
             <label tabindex="0" class="btn btn-ghost btn-circle">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
@@ -148,9 +193,107 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
-    <section class="bg-base-200 min-h-screen flex flex-col justify-between">
-      <slot/>
-      <Footer/>
+    <section class="flex bg-base-300 min-h-screen">
+      <!-- Admin Menu -->
+      <div class="hidden bg-base-300 md:block absolute md:static min-h-screen" v-if="userStore.isAdmin">
+        <ul class="menu w-64 ">
+          <!-- <li>
+            <a>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+              Hub
+            </a>
+          </li> -->
+          <li>
+            <details open>
+              <summary>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                Shop
+              </summary>
+              <ul>
+                <li>
+                  <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                    Übersicht
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Bestellungen
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Produkte
+                  </a>
+                </li>
+                <li>
+                  <details open>
+                    <summary>
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24 " stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                      Kategorien
+                    </summary>
+                    <ul>
+                      <li>
+                        <button>+ Hinzufügen</button>
+                      </li>
+                      <li v-for="group in productsStore.groups">
+                        <details class="bg-base-200 rounded rounded-xl mt-2">
+                          <summary>
+                            {{ group.name }}
+                          </summary>
+                          <ul>
+                            <li>
+                              <button>+ Hinzufügen</button>
+                            </li>
+                            <li>
+                              <a>
+                                Raucherzubehör
+                              </a>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+                <li>
+                  <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Kunden
+                  </a>
+                </li>
+                <!-- <li>
+                  <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Coupons
+                  </a>
+                </li> -->
+              </ul>
+            </details>
+          </li>
+          <li>
+            <a>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              User
+            </a>
+          </li>
+          <div class="divider"></div>
+          <li>
+            <a>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Content -->
+      <div class="bg-base-200 min-h-screen w-full flex flex-col justify-between shadow shadow-l">
+        <slot/>
+        <Footer/>
+      </div>
     </section>
   </div>
 </template>
