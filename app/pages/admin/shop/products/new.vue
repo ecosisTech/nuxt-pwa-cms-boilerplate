@@ -1,5 +1,5 @@
 <script setup lang="">
-import { useProductsStore } from '../../../stores/products'
+import { useProductsStore } from '../../../../stores/products'
 
 const productsStore = useProductsStore()
 
@@ -12,6 +12,6 @@ const product = computed(() => {
 
  <template>
    <div class="pt-24">
-     <ShopProductsEditor :product="undefined"/>
+     <ShopAdminProductsEditor :product="undefined"/>
    </div>
  </template>

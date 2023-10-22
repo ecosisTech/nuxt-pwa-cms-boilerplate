@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProductsStore } from '../../../stores/products'
+import { useProductsStore } from '../../../../stores/products'
 
 const router = useRouter()
 
@@ -33,7 +33,7 @@ const edit = ref(props.product || {
 })
 </script>
 <template>
-  <div class="container mx-auto" v-if="product">
+  <div class="container mx-auto">
     <form class="flex flex-wrap bg-base-100 rounded rounded-xl shadow">
 
       <!-- Image -->

@@ -203,7 +203,7 @@ onBeforeMount(async () => {
     </div>
     <section class="flex bg-base-300 min-h-screen">
       <!-- Admin Menu -->
-      <div class="hidden bg-base-300 md:block absolute md:static min-h-screen" v-if="userStore.isAdmin && route.path.startsWith('/admin/')">
+      <div class="hidden bg-base-300 md:block absolute md:static min-h-screen justify-center items-center" v-if="userStore.isAdmin && route.path.startsWith('/admin/')">
         <ul class="menu w-auto w-max-1/4">
           <!-- <li>
             <a>
@@ -219,22 +219,22 @@ onBeforeMount(async () => {
               </summary>
               <ul>
                 <li>
-                  <a>
+                  <NuxtLink>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                     Übersicht
-                  </a>
+                  </NuxtLink>
                 </li>
                 <li>
-                  <a>
+                  <NuxtLink to="/admin/shop/orders">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
                     Bestellungen
-                  </a>
+                  </NuxtLink>
                 </li>
                 <li>
-                  <a>
+                  <NuxtLink to="/admin/shop/products">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
                     Produkte
-                  </a>
+                  </NuxtLink>
                 </li>
                 <li>
                   <details open>

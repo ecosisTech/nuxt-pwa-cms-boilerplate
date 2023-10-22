@@ -8,7 +8,7 @@ const { status, data, signOut, signIn } = useAuth()
 
 
 export const useUserStore = definePiniaStore('user', () => {
-  const isAuthenticated = ref(false)
+  const isAuthenticated = ref(true)
   const isAdmin = ref(true)
   const user = ref('')
 

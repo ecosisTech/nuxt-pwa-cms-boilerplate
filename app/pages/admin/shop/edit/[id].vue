@@ -11,7 +11,7 @@ const product = computed(() => {
 </script>
 
  <template>
-   <div class="pt-24">
-     <ShopProductsEditor :product="product"/>
+   <div class="pt-24" v-if="product">
+     <ShopAdminProductsEditor :product="product"/>
    </div>
  </template>

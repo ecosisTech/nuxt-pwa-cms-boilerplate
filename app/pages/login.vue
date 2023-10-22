@@ -24,8 +24,8 @@ const validEmail = (email) => {
 const login = async () => {
   try {
     if (validEmail(email.value)) {
-      // const { error } = await signIn('credentials', { username: email.value, password: password.value })
-      await userStore.login(email.value, password.value)
+      const { error } = await signIn('credentials', { username: email.value, password: password.value })
+      // await userStore.login(email.value, password.value)
       // router.push('/admin')
       // if (error) {
       //   alert(error)
