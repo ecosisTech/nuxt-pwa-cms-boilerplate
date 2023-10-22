@@ -5,6 +5,7 @@ import { useClientsStore } from '../stores/clients'
 import { useCartStore } from '../stores/cart'
 import { useProductsStore } from '../stores/products'
 
+const route = useRoute()
 const router = useRouter()
 
 const themeStore = useThemeStore()
@@ -195,7 +196,7 @@ onBeforeMount(async () => {
     </div>
     <section class="flex bg-base-300 min-h-screen">
       <!-- Admin Menu -->
-      <div class="hidden bg-base-300 md:block absolute md:static min-h-screen" v-if="userStore.isAdmin">
+      <div class="hidden bg-base-300 md:block absolute md:static min-h-screen" v-if="userStore.isAdmin && route.path.startsWith('/admin/')">
         <ul class="menu w-64 ">
           <!-- <li>
             <a>
