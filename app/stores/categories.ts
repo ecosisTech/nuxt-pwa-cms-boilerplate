@@ -48,6 +48,15 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
     }
 
     // TODO
+    const fetchCategories = async () => {
+      try {
+        const { data } = await useFetch('/api/shop/categories/subcategories')
+        return categories.value = data.value
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
+
     const addSubcategories = async (categoryId, subcategory) => {
       try {
         await useFetch(`/api/shop/categories/${categoryId}/subcategories`, {
@@ -112,6 +121,7 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
       addCategories,
       updateCategories,
       removeCategories,
+      fetchCategories,
       addSubcategories,
       updateSubcategories,
       removeSubcategories
