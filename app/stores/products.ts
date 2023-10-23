@@ -3,7 +3,7 @@ export const useProductsStore = definePiniaStore('products', () => {
 
     const fetchProducts = async () => {
       try {
-        const { data } = await useFetch('/api/shop/products/fetch')
+        const { data } = await useFetch('/api/shop/products')
         return products.value = data.value
       } catch (error) {
         throw new Error(error)
@@ -12,11 +12,11 @@ export const useProductsStore = definePiniaStore('products', () => {
 
     const addProduct = async (product) => {
       try {
-        products.value.push(product)
-        return products.value = await useFetch('/api/shop/products/import', {
+        await useFetch('/api/shop/products/', {
           method: 'POST',
-          body: data
+          body: product
         })
+        products.value.push(product)
       } catch (error) {
         throw new Error(error)
       }
@@ -24,13 +24,12 @@ export const useProductsStore = definePiniaStore('products', () => {
 
     const updateProduct = async (product) => {
       try {
-        await useFetch('/api/shop/products/update', {
-          method: 'POST',
+        await useFetch(`/api/shop/products/${product.id}`, {
+          method: 'PUT',
           body: product
         })
-        const newProductList = products.value.filter(p => p !== product)
-        newProductList.push(product)
-        return products.value = newProductList
+        const newOrderList = products.value.filter(p => p !== product)
+        newOrderList.push(product)
       } catch (error) {
         throw new Error(error)
       }
@@ -38,13 +37,10 @@ export const useProductsStore = definePiniaStore('products', () => {
 
     const removeProduct = async (product) => {
       try {
-        products.value = products.value.filter(p => p !== product)
-        console.log(product);
-
-        await useFetch('/api/shop/products/remove', {
-          method: 'POST',
-          body: product
+        await useFetch(`/api/shop/products/${product.id}`, {
+          method: 'DELETE'
         })
+        products.value = products.value.filter(p => p !== product)
       } catch (error) {
         throw new Error(error)
       }
@@ -52,10 +48,13 @@ export const useProductsStore = definePiniaStore('products', () => {
 
     const importJSON = async (data) => {
       try {
-        return products.value = await useFetch('/api/shop/products/import', {
+        await useFetch('/api/shop/products/import', {
           method: 'POST',
           body: data
         })
+        for (let product of data) {
+          products.value.push(product)
+        }
       } catch (error) {
         throw new Error(error)
       }

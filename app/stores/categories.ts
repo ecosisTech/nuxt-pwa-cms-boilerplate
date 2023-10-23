@@ -3,9 +3,8 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     const fetchCategories = async () => {
       try {
-        // const { data } = await useFetch('/api/shop/categories/fetch')
-        // return categories.value = data.value
-        return categories.value = demoCategories
+        const { data } = await useFetch('/api/shop/categories/fetch')
+        return categories.value = data.value
       } catch (error) {
         throw new Error(error)
       }
@@ -13,7 +12,7 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     const addCategories = async (category) => {
       try {
-        await useFetch('/api/shop/categories/import', {
+        await useFetch('/api/shop/categories/', {
           method: 'POST',
           body: category
         })
@@ -25,11 +24,11 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     const updateCategories = async (category) => {
       try {
-        await useFetch('/api/shop/categories/update', {
+        await useFetch(`/api/shop/categories/${category.id}`, {
           method: 'PUT',
           body: category
         })
-        const newCategoriesList = categories.value.filter(c =>cp !== category)
+        const newCategoriesList = categories.value.filter(c => c !== category)
         newCategoriesList.push(category)
         return categories.value = newCategoriesList
       } catch (error) {
@@ -39,24 +38,30 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     const removeCategories = async (category) => {
       try {
-        categories.value = categories.value.filter(c => c !== category)
-
-        await useFetch('/api/shop/categories', {
-          method: 'DELETE',
-          body: category
+        await useFetch(`/api/shop/categories/${category.id}`, {
+          method: 'DELETE'
         })
+        categories.value = categories.value.filter(c => c !== category)
       } catch (error) {
         throw new Error(error)
       }
     }
 
+    // TODO
     const addSubcategories = async (categoryId, subcategory) => {
       try {
-        await useFetch('/api/shop/categories/import', {
+        await useFetch(`/api/shop/categories/${categoryId}/subcategories`, {
           method: 'POST',
-          body: category
+          body: subcategory
         })
-        categories.value.push(subcategory)
+
+        const category = categories.value.find(c => c.id === categoryId)
+        category.subcategories.push(subcategory)
+
+        const editNewCategoriesList = categories.value.filter(c => c.id !== categoryId)
+        newCategoriesList.value.push(category)
+
+        categories.value = newCategoriesList
       } catch (error) {
         throw new Error(error)
       }
@@ -64,13 +69,20 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     const updateSubcategories = async (categoryId, subcategory) => {
       try {
-        await useFetch('/api/shop/categories/', {
+        await useFetch(`/api/shop/categories/${categoryId}/${subcategory.id}`, {
           method: 'PUT',
           body: subcategory
         })
-        const newSubcategoriesList = categories.value.filter(c => cp !== subcategory)
-        newSubcategoriesList.push(subcategory)
-        return categories.value = newSubcategoriesList
+
+        for (let category of categories.value) {
+          if (category.id === categoryId) {
+            const editNewSubcategoriesList = category.subcategories.filter(sc => sc.id !== subcategory.id)
+
+            category.subcategories = editNewSubcategoriesList
+
+            category.subcategories.push(category)
+          }
+        }
       } catch (error) {
         throw new Error(error)
       }
@@ -78,12 +90,17 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     const removeSubcategories = async (categoryId, subcategory) => {
       try {
-        categories.value = categories.value.filter(c => c !== subcategory)
-
-        await useFetch('/api/shop/categories', {
-          method: 'DELETE',
-          body: subcategory
+        await useFetch(`/api/shop/categories/${categoryId}/${subcategory.id}`, {
+          method: 'DELETE'
         })
+
+        for (let category of categories.value) {
+          if (category.id === categoryId) {
+            const editNewSubcategoriesList = category.subcategories.filter(sc => sc.id !== subcategory.id)
+
+            category.subcategories = editNewSubcategoriesList
+          }
+        }
       } catch (error) {
         throw new Error(error)
       }

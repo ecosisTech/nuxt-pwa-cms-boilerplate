@@ -24,7 +24,7 @@ export const useOrdersStore = definePiniaStore('orders', () => {
 
     const updateOrder = async (order) => {
       try {
-        await useFetch('/api/shop/orders/', {
+        await useFetch(`/api/shop/orders/${order.id}`, {
           method: 'PUT',
           body: order
         })
@@ -38,13 +38,10 @@ export const useOrdersStore = definePiniaStore('orders', () => {
 
     const removeOrder = async (order) => {
       try {
-        orders.value = orders.value.filter(o => o !== order)
-        console.log(order);
-
-        await useFetch('/api/shop/orders', {
-          method: 'DELETE',
-          body: order
+        await useFetch(`/api/shop/orders/${order.id}`, {
+          method: 'DELETE'
         })
+        orders.value = orders.value.filter(o => o !== order)
       } catch (error) {
         throw new Error(error)
       }

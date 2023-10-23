@@ -5,9 +5,6 @@ export const useClientsStore = definePiniaStore('clients', () => {
       try {
         const { data } = await useFetch('/api/shop/clients/')
         return clients.value = data.value
-        // const { data } = await useFetch('/api/shop/clients/fetch')
-        return clients.value = data.value
-        // return clients.value = demoClient
       } catch (error) {
         throw new Error(error)
       }
@@ -15,7 +12,7 @@ export const useClientsStore = definePiniaStore('clients', () => {
 
     const addClient = async (client) => {
       try {
-        return clients.value = await useFetch('/api/shop/clients/import', {
+        return clients.value = await useFetch('/api/shop/clients/', {
           method: 'POST',
           body: client
         })
@@ -27,7 +24,7 @@ export const useClientsStore = definePiniaStore('clients', () => {
 
     const updateClient = async (client) => {
       try {
-        await useFetch('/api/shop/clients/update', {
+        await useFetch(`/api/shop/clients/${client.id}`, {
           method: 'PUT',
           body: client
         })
@@ -41,12 +38,10 @@ export const useClientsStore = definePiniaStore('clients', () => {
 
     const removeClient = async (client) => {
       try {
-        clients.value = clients.value.filter(c => c !== client)
-
-        await useFetch('/api/shop/clients', {
-          method: 'DELETE',
-          body: client
+        await useFetch(`/api/shop/clients/${client.id}`, {
+          method: 'DELETE'
         })
+        clients.value = clients.value.filter(c => c !== client)
       } catch (error) {
         throw new Error(error)
       }
