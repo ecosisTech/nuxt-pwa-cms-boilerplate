@@ -1,4 +1,6 @@
 import Level from 'level-ts'
+import { v4 as uuid } from 'uuid';
+// import { writeFile, mkdir, stat } from 'fs/promises';
 
 export class DatabaseManager {
   private userDatabase: Level.default
@@ -119,41 +121,50 @@ export class DatabaseManager {
   }
 
   // Database Functions
-  async createDatabase(databaseName: string) {
+  async createDatabase(slug: string) {
     try {
-      return await this.database.put(databaseName, 'created')
+      const db = await new Level.default(`./.db/${slug}`)
+      await this.database.put(slug, {
+        id: uuid(),
+        created: new Date(),
+        updated: new Date(),
+        name: slug,
+        path: slug,
+        slug: slug,
+      })
+      return db
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async accessDatabase(databaseName: string) {
+  async accessDatabase(slug: string) {
     try {
-      return await new Level.default(`./.db/${databaseName}`)
+      return await new Level.default(`./.db/${slug}`)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async deleteDatabase(databaseName: string) {
+  async deleteDatabase(slug: string) {
     try {
-      await this.closeDatabase(databaseName)
-      return await this.database.del(databaseName)
+      await this.closeDatabase(slug)
+      return await this.database.del(slug)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async closeDatabase(databaseName: string) {
+  async closeDatabase(slug: string) {
     try {
-      await this.accessDatabase(databaseName).close()
+      await this.accessDatabase(slug).close()
     } catch (error) {
       throw new Error(error)
     }
   }
 
   // Database Management Functions
-  async closeDatabases() {
+  async closeAllDatabases() {
     await this.userDatabase.close()
     await this.settingsDatabase.close()
     await this.database.close()
