@@ -1,9 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { Client } from '../../../lib/interfaces/client.interface'; // Replace with the actual path to your interface file
+import { Order } from '../../../lib/interfaces/order.interface'; // Replace with the actual path to your interface file
 
 export default defineEventHandler(async (event) => {
   try {
-    const clientsDatabase = event.context.clientsDatabase;
+    const ordersDatabase = event.context.ordersDatabase;
     const userRole = event.context.userRole; // Assuming you've set the user's role in a previous middleware
 
     if (userRole !== 'admin') {
@@ -13,16 +13,16 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    // Get the client data from the request body
-    const { clientData: Client } = useBody();
+    // Get the order data from the request body
+    const { orderData: Order } = useBody();
 
-    // Generate a unique ID for the client (you can use your own method)
-    const clientId = uuid(); // Implement a method to generate unique IDs
+    // Generate a unique ID for the order (you can use your own method)
+    const orderId = uuid(); // Implement a method to generate unique IDs
 
-    // Add the client to the database
-    await clientsDatabase.put(clientId, clientData);
+    // Add the order to the database
+    await ordersDatabase.put(orderId, orderData);
 
-    return { message: 'Client created successfully' };
+    return { message: 'Order created successfully' };
   } catch (error) {
     throw createError({
       statusCode: 400,

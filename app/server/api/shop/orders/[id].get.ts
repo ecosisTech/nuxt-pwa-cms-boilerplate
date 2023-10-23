@@ -1,23 +1,23 @@
-import { Client } from '../../../lib/interfaces/client.interface' // Replace with the actual path to your interface file
+import { Order } from '../../../lib/interfaces/order.interface' // Replace with the actual path to your interface file
 
 export default defineEventHandler(async (event) => {
   try {
-    const clientsDatabase = event.context.clientsDatabase
-    const clientId = getRouterParam(event, 'id')
+    const ordersDatabase = event.context.ordersDatabase
+    const orderId = getRouterParam(event, 'id')
 
-    // Check if the client with the given ID exists
-    const clientExists = await clientsDatabase.exists(clientId)
-    if (!clientExists) {
+    // Check if the order with the given ID exists
+    const orderExists = await ordersDatabase.exists(orderId)
+    if (!orderExists) {
       throw createError({
         statusCode: 404, // Not Found
-        statusMessage: 'Client not found',
+        statusMessage: 'Order not found',
       })
     }
 
-    // Check if the client with the given ID exists
-    const client: Client = await clientsDatabase.get(clientId)
+    // Check if the order with the given ID exists
+    const order: Order = await ordersDatabase.get(orderId)
 
-    return { client }
+    return { order }
   } catch (error) {
     throw createError({
       statusCode: 400,

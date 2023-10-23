@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   try {
-    const clientsDatabase = event.context.clientsDatabase;
+    const ordersDatabase = event.context.ordersDatabase;
     const userRole = event.context.userRole; // Assuming you've set the user's role in a previous middleware
 
     if (userRole !== 'admin') {
@@ -10,21 +10,21 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const clientId = getRouterParam(event, 'id');
+    const orderId = getRouterParam(event, 'id');
 
     // Check if the product with the given ID exists
-    const clientExists = await clientsDatabase.exists(clientId);
-    if (!clientExists) {
+    const orderExists = await ordersDatabase.exists(orderId);
+    if (!orderExists) {
       throw createError({
         statusCode: 404, // Not Found
-        statusMessage: 'Client not found',
+        statusMessage: 'Order not found',
       });
     }
 
     // Delete the product from the database
-    await clientsDatabase.del(clientId);
+    await ordersDatabase.del(orderId);
 
-    return { message: 'Client deleted successfully' };
+    return { message: 'Order deleted successfully' };
   } catch (error) {
     throw createError({
       statusCode: 400,

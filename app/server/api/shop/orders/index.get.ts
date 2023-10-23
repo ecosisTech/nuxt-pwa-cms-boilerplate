@@ -2,9 +2,9 @@ import { v4 as uuid } from 'uuid';
 
 export default defineEventHandler(async (event) => {
   try {
-    const clientsDatabase = event.context.clientsDatabase
+    const ordersDatabase = event.context.ordersDatabase
 
-    return await clientsDatabase.all()
+    return await ordersDatabase.all()
   } catch (error) {
     throw createError({
       statusCode: 400,

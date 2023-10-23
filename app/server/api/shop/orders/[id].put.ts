@@ -1,9 +1,9 @@
-// Import the Client interface
-import { Client } from '../../../lib/interfaces/client.interface' // Replace with the actual path to your interface file
+// Import the Order interface
+import { Order } from '../../../lib/interfaces/order.interface' // Replace with the actual path to your interface file
 
 export default defineEventHandler(async (event) => {
   try {
-    const clientsDatabase = event.context.clientsDatabase;
+    const ordersDatabase = event.context.ordersDatabase;
     const userRole = event.context.userRole; // Assuming you've set the user's role in a previous middleware
 
     if (userRole !== 'admin') {
@@ -13,22 +13,22 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const clientId = getRouterParam(event, 'id');
-    const { clientData: Client } = useBody();
+    const orderId = getRouterParam(event, 'id');
+    const { orderData: Order } = useBody();
 
     // Check if the product with the given ID exists
-    const clientExists = await clientsDatabase.exists(clientId);
-    if (!clientExists) {
+    const orderExists = await ordersDatabase.exists(orderId);
+    if (!orderExists) {
       throw createError({
         statusCode: 404, // Not Found
-        statusMessage: 'Client not found',
+        statusMessage: 'Order not found',
       });
     }
 
     // Update the product in the database
-    await clientsDatabase.put(clientId, clientData);
+    await ordersDatabase.put(orderId, orderData);
 
-    return { message: 'Client updated successfully' };
+    return { message: 'Order updated successfully' };
   } catch (error) {
     throw createError({
       statusCode: 400,
