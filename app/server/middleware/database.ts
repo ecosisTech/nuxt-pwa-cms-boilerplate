@@ -5,6 +5,7 @@ export default defineEventHandler((event) => {
   // App Database instance
   const databaseManager = useDatabaseManager();
   event.context.databaseManager = databaseManager;
+  event.context.filesDatabase = databaseManager.accessDatabase('files') // TODO Make it Native in the Manager?
 
   // Shop Database instance
   event.context.productsDatabase = databaseManager.accessDatabase('products')
