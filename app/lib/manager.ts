@@ -12,45 +12,45 @@ export class DatabaseManager {
   }
 
   // Database Functions
-  async add(userID: string, userData: object) {
+  async put(id: string, data: object) {
     try {
-      return await this.userDatabase.put(userID, userData)
+      return await this.database.put(id, data)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async update(userID: string, userData: object) {
+  async exists(id: string) {
     try {
-      return await this.userDatabase.put(userID, userData)
+      return await this.database.exists(id, data)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async get(userID: string) {
+  async get(id: string) {
     try {
-      const userExists = this.userDatabase.exists(userID)
+      const userExists = this.database.get(id)
       if (!userExists) {
         throw new Error('Document does not exist!')
       }
     } catch (error) {
       throw new Error(error)
     }
-    return await this.userDatabase.get(userID)
+    return await this.database.get(id)
   }
 
-  async getAll(userID: string) {
+  async all(id: string) {
     try {
-      return await this.userDatabase.all()
+      return await this.database.all()
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async delete(userID: string) {
+  async del(id: string) {
     try {
-      return await this.userDatabase.del(userID)
+      return await this.database.del(userID)
     } catch (error) {
       throw new Error(error)
     }
