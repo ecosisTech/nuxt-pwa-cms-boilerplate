@@ -9,6 +9,7 @@ export default defineEventHandler((event) => {
 
   // Shop Database instance
   event.context.productsDatabase = databaseManager.accessDatabase('products')
+  event.context.ordersDatabase = databaseManager.accessDatabase('orders')
   event.context.categoriesDatabase = databaseManager.accessDatabase('categories')
   event.context.subcategoriesDatabase = databaseManager.accessDatabase('subcategories')
   event.context.clientsDatabase = databaseManager.accessDatabase('clients')
