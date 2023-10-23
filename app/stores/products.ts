@@ -120,6 +120,7 @@ const demoProducts = [
   {
     "group-id": 1,
     "group-name": "Coffeeshop TLC",
+    "group-slug": "coffeeshop",
     "subgroup-id": 3,
     "subgroup-slug": "tabak-tabakersatz",
     "subgroup-name": "Tabak & Tabakersatz",
@@ -147,6 +148,7 @@ const demoProducts = [
   {
     "group-id": 1,
     "group-name": "Coffeeshop TLC",
+    "group-slug": "coffeeshop",
     "subgroup-id": 3,
     "subgroup-slug": "tabak-tabakersatz",
     "subgroup-name": "Tabak & Tabakersatz",
@@ -174,6 +176,7 @@ const demoProducts = [
   {
     "group-id": 1,
     "group-name": "Coffeeshop TLC",
+    "group-slug": "coffeeshop",
     "subgroup-id": 3,
     "subgroup-slug": "tabak-tabakersatz",
     "subgroup-name": "Tabak & Tabakersatz",
@@ -201,6 +204,7 @@ const demoProducts = [
   {
     "group-id": 1,
     "group-name": "Coffeeshop TLC",
+    "group-slug": "coffeeshop",
     "subgroup-id": 4,
     "subgroup-slug": "papes-tips",
     "subgroup-name": "Papes & Tips",
@@ -229,6 +233,7 @@ const demoProducts = [
   {
     "group-id": 1,
     "group-name": "Coffeeshop TLC",
+    "group-slug": "coffeeshop",
     "subgroup-id": 4,
     "subgroup-slug": "papes-tips",
     "subgroup-name": "Papes & Tips",
@@ -257,6 +262,7 @@ const demoProducts = [
   {
     "group-id": 2,
     "group-name": "Raucherzubehör",
+    "group-slug": "raucherzubehoer",
     "subgroup-id": 5,
     "subgroup-slug": "feuerzeuge",
     "subgroup-name": "Feuerzeuge",
@@ -284,6 +290,7 @@ const demoProducts = [
   {
     "group-id": 2,
     "group-name": "Raucherzubehör",
+    "group-slug": "raucherzubehoer",
     "subgroup-id": 5,
     "subgroup-slug": "feuerzeuge",
     "subgroup-name": "Feuerzeuge",
@@ -311,6 +318,7 @@ const demoProducts = [
   {
     "group-id": 2,
     "group-name": "Raucherzubehör",
+    "group-slug": "raucherzubehoer",
     "subgroup-id": 6,
     "subgroup-slug": "aschenbecher",
     "subgroup-name": "Aschenbecher",
@@ -339,6 +347,7 @@ const demoProducts = [
   {
     "group-id": 2,
     "group-name": "Raucherzubehör",
+    "group-slug": "raucherzubehoer",
     "subgroup-id": 6,
     "subgroup-slug": "aschenbecher",
     "subgroup-name": "Aschenbecher",
