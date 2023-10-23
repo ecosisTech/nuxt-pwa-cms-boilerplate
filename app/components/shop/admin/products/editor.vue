@@ -31,10 +31,39 @@ const edit = ref(props.product || {
   "quantity": 1,
   "featured": false
 })
+
+const selectedFiles = ref([])
+const uploadProgressInfos = ref([])
+const newFilesInfos = ref([])
+
+const selectFiles = (e) => {
+  console.log(e.target.files);
+
+  selectedFiles.value = e.target.files
+  console.log(selectedFiles.value);
+
+}
+
+const uploadNewFiles = async () => {
+  try {
+    for (let file of selectedFiles.value) {
+      const formData = new FormData()
+      formData.append(file.name, file)
+      await useFetch(`/api/files/upload`, {
+      // await useFetch(`/api/files/upload?path=${product['group-slug']}`, {        
+        method: 'post',
+        body: formData,
+      })
+    }
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 </script>
 <template>
   <div class="container mx-auto">
-    <form class="flex flex-wrap bg-base-100 rounded rounded-xl shadow">
+    <div class="flex flex-wrap bg-base-100 rounded rounded-xl shadow">
 
       <!-- Image -->
       <div class="w-full md:w-1/3">
@@ -48,7 +77,7 @@ const edit = ref(props.product || {
                   <span class="label-text">Pick an image file</span>
                   <span class="label-text-alt">Upload</span>
                 </label>
-                <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
+                <input class="file-input file-input-bordered w-full max-w-xs" type="file" name="file" multiple @change="selectFiles"/>
                 <label class="label">
                   <span class="label-text-alt">Resolution: 600x600px</span>
                 </label>
@@ -56,7 +85,7 @@ const edit = ref(props.product || {
               <div class="modal-action">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-success">Upload</button>
+                  <button class="btn btn-success" @click="uploadNewFiles()">Upload</button>
                   <button class="btn">Cancel</button>
                 </form>
               </div>
@@ -289,7 +318,7 @@ const edit = ref(props.product || {
         </div>
       </div>
 
-    </form>
+    </div>
     <div class="w-full p-4 rounded-t rounded-xl">
       <!-- Featured -->
       <div class="">
