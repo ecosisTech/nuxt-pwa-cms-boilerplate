@@ -1,53 +1,10 @@
 export const useProductsStore = definePiniaStore('products', () => {
-    const groups = ref([])
-    const subgroups = ref([])
     const products = ref([])
-
-    const fetchGroups = async () => {
-      try {
-        // for (let product of products.value) {
-        //   const groupExists = groups.value.find(g => g.id === product['group-id'])
-        //   if (groupExists) {
-        //     groupExists.products.push(product['product-id'])
-        //   } else {
-        //     groups.value.push({
-        //       id: product['group-id'],
-        //       name: product['group-name'],
-        //       products: [ product['product-id'] ]
-        //     })
-        //   }
-        // }
-        return groups.value = demoGroups
-      } catch (error) {
-        throw new Error(error)
-      }
-    }
-
-    // const fetchSubgroups = async () => {
-    //   try {
-    //     for (let product of products.value) {
-    //       const groupExists = subgroups.value.find(g => g.id === product['group-id'])
-    //       if (groupExists) {
-    //         groupExists.products.push(product['product-id'])
-    //       } else {
-    //         subgroups.value.push({
-    //           id: product['group-id'],
-    //           name: product['group-name'],
-    //           products: [ product['product-id'] ]
-    //         })
-    //       }
-    //     }
-    //     return groups.value
-    //   } catch (error) {
-    //     throw new Error(error)
-    //   }
-    // }
 
     const fetchProducts = async () => {
       try {
-        // const { data } = await useFetch('/api/shop/products/fetch')
-        // return products.value = data.value
-        return products.value = demoProducts
+        const { data } = await useFetch('/api/shop/products/fetch')
+        return products.value = data.value
       } catch (error) {
         throw new Error(error)
       }
@@ -105,10 +62,8 @@ export const useProductsStore = definePiniaStore('products', () => {
     }
 
     return {
-      groups,
       products,
       fetchProducts,
-      fetchGroups,
       addProduct,
       updateProduct,
       removeProduct,
