@@ -6,18 +6,20 @@ const route = useRoute()
 const productsStore = useProductsStore()
 
 const allProducts = computed(() => {
-  return productsStore.products
+  // return productsStore.products
+  return []
 })
 
 const featuredProducts = computed(() => {
-  return productsStore.products.filter(p => {
-    if (p.featured === true) {
-      return p
-    }
-  })
+  return []
+  // return productsStore.products.filter(p => {
+  //   if (p.featured === true) {
+  //     return p
+  //   }
+  // })
 })
 
-const groups = computed(() => {
+const groups = computed(async () => {
   return productsStore.groups
 })
 

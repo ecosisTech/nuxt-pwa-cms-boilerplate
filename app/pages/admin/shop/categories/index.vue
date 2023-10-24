@@ -4,8 +4,8 @@
 <template>
   <div class="container mx-auto mt-24">
     <div class="">
-      <h1 class="font-bold text-2xl pb-4">Produkte</h1>
+      <h1 class="font-bold text-2xl pb-4">Kategorien</h1>
     </div>
-    <ShopAdminProducts/>
+    <ShopAdminCategories/>
   </div>
 </template>

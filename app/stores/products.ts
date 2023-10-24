@@ -1,9 +1,11 @@
 export const useProductsStore = definePiniaStore('products', () => {
+    const initialized = ref(false)
     const products = ref([])
 
     const fetchProducts = async () => {
       try {
         const { data } = await useFetch('/api/shop/products')
+        initialized.value = true
         return products.value = data.value
       } catch (error) {
         throw new Error(error)
@@ -62,6 +64,7 @@ export const useProductsStore = definePiniaStore('products', () => {
 
     return {
       products,
+      initialized,
       fetchProducts,
       addProduct,
       updateProduct,

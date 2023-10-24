@@ -1,23 +1,8 @@
 <script setup lang="ts">
-import { useProductsStore } from '../../../stores/products'
-import { useClientsStore } from '../../../stores/clients'
-import { useOrdersStore } from '../../../stores/orders'
-
-const clientsStore = useClientsStore()
-const ordersStore = useOrdersStore()
-
 const router = useRouter()
 
-const productsStore = useProductsStore()
-
-const revenueYear = ref(89348.74)
-const revenueMonth = ref(12231.89)
-const revenueIncrement = computed(() => {
-  return 0.2 * 100
-})
-const profit = ref(6245.35)
 const margin = computed(() => {
-  return (profit.value / revenueMonth.value) * 100
+  return (shopOverviewData.value.monthlyProfit / shopOverviewData.value.monthlyRevenue) * 100
 })
 
 const selectedTab = ref('orders')
@@ -25,6 +10,24 @@ const selectedTab = ref('orders')
 const selectTab = (tab) => {
   return selectedTab.value = tab
 }
+
+const currentDate = new Date();
+
+const shopOverviewData = ref({
+  monthlyRevenue: 0,
+  monthlyProfit: 0,
+  monthlyPerformance: 0,
+  currentMonth: currentDate.getMonth(),
+  yearlyRevenue: 0,
+  yearlyProfit: 0,
+  yearlyPerformance: 0, // No data for last year, assuming 0
+  currentYear: currentDate.getFullYear(),
+  totalAmountClients: 0,
+  totalAmountRegisteredUser: 0,
+  ammountOrderd: 0,
+  shippedOrders: 0,
+  totalAmountProducts: 0,
+})
 </script>
 
 <template>
@@ -32,71 +35,115 @@ const selectTab = (tab) => {
     <div class="w-full text-center mt-4">
       <h1 class="text-xl pb-4 font-bold">Dashboard</h1>
     </div>
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex flex-col items-center px-2">
+      <div class="flex flex-wrap w-full justify-center">
 
-      <div class="flex">
-        <section class="flex">
+        <section class="flex w-full md:w-1/3">
+          <div class="flex flex-wrap justify-center items-center w-full my-4 px-2">
 
-          <!-- Revenue -->
-          <div class="flex flex-col my-4 justify-between px-2">
-            <div class="rounded-lg border border-error card bg-base-100 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm font-medium">Umsatz Oktober</p>
-                <span class="shrink-0">
-                  <Icon name="heroicons:banknotes" class="h-4 w-4 text-muted-foreground" />
-                </span>
+            <div class="flex flex-wrap justify-center items-center w-full">
+              <!-- Revenue -->
+              <div class="w-1/2">
+                <div class="rounded-lg border border-error card bg-base-100 p-4 m-2">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium">Umsatz {{ shopOverviewData.currentMonth.toString() }}</p>
+                    <span class="shrink-0">
+                      <Icon name="heroicons:banknotes" class="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
+
+                  <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(shopOverviewData.monthlyRevenue) }}€</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-error font-bold">{{ formatRealNumber(shopOverviewData.monthlyPerformance) }}% </span></p>
+                </div>
               </div>
 
-              <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(revenueMonth) }}€</p>
-              <p class="text-xs text-muted-foreground"><span class="text-error font-bold">{{ formatRealNumber(revenueIncrement) }}% </span> weniger als letzen Monat</p>
+              <!-- Sales -->
+              <div class="w-1/2">
+                <div class="rounded-lg border border-success card bg-base-100 p-4 m-2">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium">Profit {{ shopOverviewData.currentMonth }}</p>
+                    <span class="shrink-0">
+                      <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
+
+                  <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(shopOverviewData.yearlyProfit) }}€</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-success font-bold">{{ formatRealNumber(margin) }}%</span></p>
+                </div>
+              </div>
             </div>
 
-            <!-- Sales -->
-            <div class="rounded-lg border border-success card bg-base-100 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm font-medium">Profit Oktober</p>
-                <span class="shrink-0">
-                  <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
-                </span>
+            <div class="flex flex-wrap justify-center items-center w-full">
+              <!-- Product -->
+              <div class="w-1/2">
+                <div class="rounded-lg border border-base-300 card bg-base-100 p-4 m-2">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium">Kunden</p>
+                    <span class="shrink-0">
+                      <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
+
+                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.totalAmountClients }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ shopOverviewData.totalAmountRegisteredUser }}</span> Registriert</p>
+                </div>
               </div>
 
-              <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(profit) }}€</p>
-              <p class="text-xs text-muted-foreground"><span class="text-success font-bold">{{ formatRealNumber(margin) }}%</span> Marge</p>
+              <!-- Orders -->
+              <div class="w-1/2">
+                <div class="rounded-lg border border-base-300 card bg-base-100 p-4 m-2">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium">Bestellungen</p>
+                    <span class="shrink-0">
+                      <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
+
+                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.ammountOrders }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ shopOverviewData.shippedOrders }}</span> Verschickt</p>
+                </div>
+              </div>
             </div>
 
-            <!-- Product -->
-            <div class="rounded-lg border border-base-300 card bg-base-100 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm font-medium">Produkte</p>
-                <span class="shrink-0">
-                  <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
-                </span>
+            <div class="flex flex-wrap justify-center items-center w-full">
+              <!-- Product -->
+              <div class="w-1/2">
+                <div class="rounded-lg border border-base-300 card bg-base-100 p-4 m-2">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium">Produkte</p>
+                    <span class="shrink-0">
+                      <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
+
+                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.totalAmountProducts }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ shopOverviewData.ammountOrders }}</span> Verkauft</p>
+                </div>
               </div>
 
-              <p class="mt-1.5 text-xl font-extrabold">{{ productsStore.products.length }}</p>
-              <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">2</span> Verkauft</p>
-            </div>
+              <!-- Clients -->
+              <div class="w-1/2">
+                <div class="rounded-lg border border-base-300 card bg-base-100 p-4 m-2">
+                  <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium">Kategorien</p>
+                    <span class="shrink-0">
+                      <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
 
-            <!-- Clients -->
-            <div class="rounded-lg border border-base-300 card bg-base-100 p-4">
-              <div class="flex items-center justify-between">
-                <p class="text-sm font-medium">Kunden</p>
-                <span class="shrink-0">
-                  <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
-                </span>
+                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.totalAmountProducts }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">14</span> Registriert</p>
+                </div>
               </div>
-
-              <p class="mt-1.5 text-xl font-extrabold">{{ clientsStore.clients.length }}</p>
-              <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">14</span> Registriert</p>
             </div>
           </div>
         </section>
 
         <!-- Sales List -->
-        <section class="border border-base-300 bg-base-100 rounded rounded-xl my-4 w-full p-8">
+        <section class="border border-base-300 bg-base-100 rounded rounded-xl my-4 w-full md:w-2/3 p-8">
           <div class="">
             <h1 class="text-xl font-medium">Sales</h1>
-            <p>Umsatz 2023: <b>{{ formatRealNumber(revenueYear) }}€</b></p>
+            <!-- <p>Umsatz 2023: <b>{{ formatRealNumber(revenueYear) }}€</b></p> -->
           </div>
           <div class="">
             <ShopAdminSales/>
@@ -104,94 +151,9 @@ const selectTab = (tab) => {
         </section>
       </div>
 
-
-      <section>
-        <ShopAdminCustomersNew class="w-max-screen md:w-[800px]"/>
+      <section class="container mx-auto">
+        <ShopAdminOrdersNew class="w-full"/>
       </section>
-
-      <section class="max-w-screen">
-        <div class="w-full flex justify-center">
-          <div class="tabs">
-            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'user' }" @click="selectTab('user')">Nutzer</a>
-            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'clients' }" @click="selectTab('clients')">Kunden</a>
-            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'orders' }" @click="selectTab('orders')">Bestellungen</a>
-            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'products' }" @click="selectTab('products')">Produkte</a>
-            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'groups' }" @click="selectTab('groups')">Warengruppen</a>
-            <a class="tab tab-lg tab-lifted" :class="{ 'tab-active': selectedTab === 'subgroups' }" @click="selectTab('subgroups')">Unterkategorien</a>
-          </div>
-        </div>
-
-        <!-- User List -->
-        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'user'">
-          <div class="p-8">
-            <h1 class="text-xl font-medium">Nutzer</h1>
-            <p>Total: <b>{{ clientsStore.clients.length }}</b></p>
-          </div>
-          <div class="">
-            <ShopAdminCustomers/>
-          </div>
-        </div>
-
-        <!-- Client List -->
-        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'clients'">
-          <div class="p-8">
-            <h1 class="text-xl font-medium">Kunden</h1>
-            <p>Total: <b>{{ clientsStore.clients.length }}</b></p>
-          </div>
-          <div class="">
-            <ShopAdminCustomers/>
-          </div>
-        </div>
-
-        <!-- Order List -->
-        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'orders'">
-          <div class="p-8">
-            <h1 class="text-xl font-medium">Bestellungen</h1>
-            <p>Total: <b>{{ ordersStore.orders.length }}</b></p>
-          </div>
-          <div class="">
-            <ShopAdminOrders/>
-          </div>
-        </div>
-
-        <!-- Product List -->
-        <div class="border border-base-300 bg-base-100 rounded rounded-xl mb-4 w-full" v-if="selectedTab === 'products'">
-          <div class="p-8">
-            <h1 class="text-xl font-medium">Produkte</h1>
-            <p>Total: <b>{{ productsStore.products.length }}</b></p>
-          </div>
-          <div class="">
-            <ShopAdminProducts/>
-          </div>
-        </div>
-
-        <!-- Group List -->
-        <div class="border border-base-300 bg-base-100 rounded mb-4 w-full" v-if="selectedTab === 'groups'">
-          <div class="p-8">
-            <h1 class="text-xl font-medium">Warengruppen</h1>
-            <p>Total Groups: <b>2{{ productsStore.products.length }}</b></p>
-          </div>
-          <div class="">
-            <ShopAdminProducts/>
-
-            <!-- <ShopAdminGroups/> -->
-          </div>
-        </div>
-
-        <!-- Subgroup List -->
-        <div class="border border-base-300 bg-base-100 rounded mb-4 w-full" v-if="selectedTab === 'subgroups'">
-          <div class="p-8">
-            <h1 class="text-xl font-medium">Unterkategorien</h1>
-            <p>Total Subgroups: <b>0</b></p>
-          </div>
-          <div class="">
-            <ShopAdminProducts/>
-
-            <!-- <ShopAdminSubgroups/> -->
-          </div>
-        </div>
-      </section>
-
     </div>
   </div>
 </template>

@@ -1,9 +1,11 @@
 export const useCategoriesStore = definePiniaStore('categories', () => {
+    const initialized = ref(false)
     const categories = ref([])
 
     const fetchCategories = async () => {
       try {
-        const { data } = await useFetch('/api/shop/categories/fetch')
+        const { data } = await useFetch('/api/shop/categories/')
+        initialized.value = true
         return categories.value = data.value
       } catch (error) {
         throw new Error(error)
@@ -42,16 +44,6 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
           method: 'DELETE'
         })
         categories.value = categories.value.filter(c => c !== category)
-      } catch (error) {
-        throw new Error(error)
-      }
-    }
-
-    // TODO
-    const fetchCategories = async () => {
-      try {
-        const { data } = await useFetch('/api/shop/categories/subcategories')
-        return categories.value = data.value
       } catch (error) {
         throw new Error(error)
       }
@@ -117,11 +109,11 @@ export const useCategoriesStore = definePiniaStore('categories', () => {
 
     return {
       categories,
+      initialized,
       fetchCategories,
       addCategories,
       updateCategories,
       removeCategories,
-      fetchCategories,
       addSubcategories,
       updateSubcategories,
       removeSubcategories

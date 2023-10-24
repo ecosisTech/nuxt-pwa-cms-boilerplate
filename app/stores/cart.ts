@@ -12,7 +12,7 @@ export const useCartStore = definePiniaStore('cart', () => {
       )
 
       existingItem.quantity = existingItem.quantity + 1
-      existingItem.subTotal = itemPayload.price * existingItem.quantity
+      existingItem.subTotal = itemPayload.sellingPrice * existingItem.quantity
       items.value[existingItemIndex] = existingItem
     } else {
       items.value.push({

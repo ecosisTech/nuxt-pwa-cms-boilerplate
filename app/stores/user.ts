@@ -4,11 +4,8 @@
 
 const { status, data, signOut, signIn } = useAuth()
 
-  console.log(status.value);
-
-
 export const useUserStore = definePiniaStore('user', () => {
-  const isAuthenticated = ref(true)
+  const isAuthenticated = ref(false)
   const isAdmin = ref(true)
   const user = ref('')
 
@@ -48,36 +45,36 @@ export const useUserStore = definePiniaStore('user', () => {
     }
   }
 
-  async function login(email: string, password?: string) {
-    try {
-      const { error } = await signIn('credentials', { username: email.avlue, password: password.avlue })
+  // async function login(email: string, password?: string) {
+  //   try {
+  //     const { error } = await signIn('credentials', { username: email.avlue, password: password.avlue })
+  //
+  //     user.value = email
+  //     isAuthenticated.value = true
+  //     isAdmin.value = true
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       console.log(error)
+  //       // notificationStore.addNotification({
+  //       //   type: 'error',
+  //       //   msg: error.message
+  //       // })
+  //     } else {
+  //       console.log(error)
+  //       // notificationStore.addNotification({
+  //       //   type: 'error',
+  //       //   msg: error
+  //       // });
+  //     }
+  //   }
+  // }
 
-      user.value = email
-      isAuthenticated.value = true
-      isAdmin.value = true
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error)
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error.message
-        // })
-      } else {
-        console.log(error)
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error
-        // });
-      }
-    }
-  }
-
-  async function logout(wallet) {
-    await signOut()
-    isAuthenticated.value = false
-    isAdmin.value = false
-    router.push('/')
-  }
+  // async function logout(wallet) {
+  //   await signOut()
+  //   isAuthenticated.value = false
+  //   isAdmin.value = false
+  //   router.push('/')
+  // }
 
   async function updatePassword(newPassword: string, oldPassword: string) {
     try {
@@ -104,5 +101,5 @@ export const useUserStore = definePiniaStore('user', () => {
     }
   }
 
-  return { isAuthenticated, isAdmin, user, register, login, logout, updatePassword }
+  return { isAuthenticated, isAdmin, user, register, updatePassword }
 })

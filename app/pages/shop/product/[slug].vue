@@ -5,21 +5,18 @@ import { useCartStore } from '../../../stores/cart'
 
 // const { $mdit } = useNuxtApp()
 
-const productsStore = useProductsStore()
 const userStore = useUserStore()
 const cartStore = useCartStore()
 const route = useRoute()
 const router = useRouter()
 
-const product = computed(() => {
-  return productsStore.products.find(p => p['product-id'].toString() === route.params.id)
-})
+const product = await getProduct(route.params.slug)
 
 async function addToCart(product) {
   await cartStore.addToCart({
-    id: product['product-id'],
-    name: product['name'],
-    price: product['selling-price'],
+    id: product.id,
+    name: product.name,
+    price: product.sellingPrice,
     currency: 'EUR',
     // stripePriceId: product.stripePriceId,
   })
@@ -38,7 +35,7 @@ const formatText = (text) => {
 
 onMounted(() => {
   if (product) {
-    selectedImage.value = product.value.images[0]
+    selectedImage.value = product.images[0]
   }
 })
 definePageMeta({
@@ -92,11 +89,11 @@ definePageMeta({
               class="px-6 py-4 btn-success rounded-xl"
               @click="addToCart(product)"
             >
-            In den Warenkorb {{ product['selling-price'].toFixed(2) }}€
+            In den Warenkorb {{ Number(product.sellingPrice).toFixed() }}€
           </button>
 
           <!-- Edit -->
-          <button class="btn" v-if="userStore.isAdmin" @click="router.push(`/admin/shop/edit/${route.params.id}`)">Edit</button>
+          <button class="btn" v-if="userStore.isAdmin" @click="router.push(`/admin/shop/products/edit/${route.params.slug}`)">Edit</button>
         </div>
       </div>
 
@@ -120,7 +117,7 @@ definePageMeta({
               </div>
             </div>
             <div class="flex">
-              <p><span>{{ product['property-name'] }}: </span>{{ product['property-value'] }}</p>
+              <p><span>{{ product.propertyName }}: </span>{{ product.propertyValue }}</p>
             </div>
           </div>
         </div>
