@@ -14,14 +14,14 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const { productsToImport } = useBody() // Assuming it's an array of products
+    const { data } = useBody() // Assuming it's an array of products
 
     // Import the array of products
-    for (let product: Product of productsToImport) {
+    for (let product: Product of data) {
       // Generate a unique user ID
-      const productId = uuid()
+      product.id = uuid()
 
-      await productsDatabase.put(productId, product)
+      await productsDatabase.put(product.slug, product)
     }
 
     setResponseStatus(event, 202)

@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid'
-import { Category } from '../../../lib/interfaces/category.interface' // Replace with the actual path to your interface file
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -21,23 +19,21 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    // Get the category data from the request body
-    const { data } = await readBody(event)
+    const slug = getRouterParam(event, 'slug')
 
-    // Generate a unique ID for the category (you can use your own method)
-    data.id = uuid() // Implement a method to generate unique IDs
-
-    // Add the category to the database
-    const categoryExists = await categoriesDatabase.exists(data.slug)
-    if (categoryExists) {
+    // Check if the category with the given ID exists
+    const categoryExists = await categoriesDatabase.exists(slug)
+    if (!categoryExists) {
       throw createError({
-        statusCode: 403, // Forbidden
-        statusMessage: 'Slug already exists1',
+        statusCode: 404, // Not Found
+        statusMessage: 'Category not found',
       })
     }
-    await categoriesDatabase.put(data.slug, data)
 
-    return { message: 'Category created successfully' }
+    // Delete the category from the database
+    await categoriesDatabase.del(slug)
+
+    return { message: 'Category deleted successfully' }
   } catch (error) {
     throw createError({
       statusCode: 400,

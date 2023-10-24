@@ -1,8 +1,7 @@
-import { v4 as uuid } from 'uuid';
-
 export default defineEventHandler(async (event) => {
   try {
     const ordersDatabase = event.context.ordersDatabase
+    console.log(ordersDatabase);
 
     return await ordersDatabase.all()
   } catch (error) {

@@ -1,12 +1,10 @@
-import { Product } from '../../../lib/interfaces/product.interface' // Replace with the actual path to your interface file
-
 export default defineEventHandler(async (event) => {
   try {
     const productsDatabase = event.context.productsDatabase
-    const productId = getRouterParam(event, 'id')
+    const slug = getRouterParam(event, 'slug')
 
     // Check if the product with the given ID exists
-    const productExists = await productsDatabase.exists(productId)
+    const productExists = await productsDatabase.exists(slug)
     if (!productExists) {
       throw createError({
         statusCode: 404, // Not Found
@@ -15,9 +13,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Check if the product with the given ID exists
-    const product: Product = await productsDatabase.get(productId)
-
-    return { product }
+    return await productsDatabase.get(slug)
   } catch (error) {
     throw createError({
       statusCode: 400,

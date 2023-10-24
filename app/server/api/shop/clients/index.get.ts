@@ -1,5 +1,3 @@
-import { v4 as uuid } from 'uuid';
-
 export default defineEventHandler(async (event) => {
   try {
     const clientsDatabase = event.context.clientsDatabase

@@ -1,10 +1,7 @@
-import { v4 as uuid } from 'uuid';
-
 export default defineEventHandler(async (event) => {
   try {
-    const subcategoriesDatabase = event.context.subcategoriesDatabase
-
-    return await subcategoriesDatabase.all()
+    const database = event.context.database
+    return await database.all()
   } catch (error) {
     throw createError({
       statusCode: 400,
