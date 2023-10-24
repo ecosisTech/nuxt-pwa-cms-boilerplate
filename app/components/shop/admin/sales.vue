@@ -51,9 +51,6 @@
     };
   });
 
-  console.log(colors);
-
-
   const data = ref<ChartData<"line">>({
     labels: ["März", "April", "Mai", "Juni", "Juli", "August", "Oktober"],
     datasets: [

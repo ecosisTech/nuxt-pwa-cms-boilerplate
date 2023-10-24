@@ -13,23 +13,24 @@ const props = defineProps({
 const productsStore = useProductsStore()
 
 const edit = ref(props.product || {
-  "image": "",
-  "group-id": 1,
-  "group-name": "",
-  "product-id": Date,
-  "brand": "",
-  "name": "",
-  "property-name": "",
-  "property-value": "",
-  "color": "",
-  "properties": "",
-  "selling-price": 0,
-  "account": 8400,
-  "tax": "19,00 %",
-  "buying-price": 0,
-  "EAN": "",
-  "quantity": 1,
-  "featured": false
+  id: '',
+  brand: '',
+  name: '',
+  slug: '',
+  images: [],
+  quantity: 0,
+  description: '',
+  facts: '',
+  propertyName: '',
+  propertyValue: '',
+  variant: '',
+  variants: [],
+  properties: '',
+  boughtPrice: 0,
+  sellingPrice: 0,
+  account: '',
+  tax: 19,
+  EAN: ''
 })
 
 const selectedFiles = ref([])
@@ -37,11 +38,7 @@ const uploadProgressInfos = ref([])
 const newFilesInfos = ref([])
 
 const selectFiles = (e) => {
-  console.log(e.target.files);
-
   selectedFiles.value = e.target.files
-  console.log(selectedFiles.value);
-
 }
 
 const uploadNewFiles = async () => {
@@ -50,14 +47,41 @@ const uploadNewFiles = async () => {
       const formData = new FormData()
       formData.append(file.name, file)
       await useFetch(`/api/files/upload`, {
-      // await useFetch(`/api/files/upload?path=${product['group-slug']}`, {        
+      // await useFetch(`/api/files/upload?path=${product['group-slug']}`, {
         method: 'post',
         body: formData,
       })
     }
   } catch (error) {
     console.log(error);
+  }
+}
 
+const addNewProduct = async () => {
+  try {
+    if (edit.value.slug && edit.value.name) {
+      if (!edit.value.id) {
+        await addProduct(edit)
+      } else {
+        await updateProduct(edit)
+      }
+      await productsStore.fetchProducts()
+      router.push(`/shop/product/${edit.value.slug}`)
+    } else {
+      alert('Bitte minimum das Feld "Slug" & "Name" füllen')
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const removeProduct = async () => {
+  try {
+    await deleteProduct(edit.value.slug)
+    await productsStore.fetchProducts()
+    router.push(`/admin/shop/products`)
+  } catch (error) {
+    console.log(error);
   }
 }
 </script>
@@ -68,7 +92,7 @@ const uploadNewFiles = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/products/${(product.images[0]) ? product.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/products/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Produkt Bild</button>
           <dialog id="img_upload" class="modal">
             <div class="modal-box">
@@ -108,7 +132,7 @@ const uploadNewFiles = async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr class="hover:bg-base-200" v-for="image in product.images">
+                <tr class="hover:bg-base-200" v-for="image in edit.images">
                   <!-- <th>
                     <label>
                       <input type="checkbox" class="checkbox" />
@@ -152,22 +176,33 @@ const uploadNewFiles = async () => {
       <div class="w-full md:w-1/3 p-4">
         <h2 class="font-bold">Meta Daten</h2>
         <!-- Product ID -->
-        <div class="">
+        <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
               <span class="label-text">Product ID</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['product-id']" disabled/>
+            <input type="text" placeholder="Automatisch generiert" class="input input-bordered w-full max-w-md"  v-model="edit.id" disabled/>
           </div>
-        </div>
+        </div> -->
 
         <!-- Product Name -->
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Product Name</span>
+              <span class="label-text">Produkt Name*</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['name']"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
+          </div>
+        </div>
+
+        <!-- Product Slug -->
+        <div class="">
+          <div class="form-control w-full max-w-md">
+            <label class="label">
+              <span class="label-text">Produkt Slug (URL)*</span>
+            </label>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md" disabled v-model="edit.slug" v-if="edit.id"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.slug" v-else/>
           </div>
         </div>
 
@@ -177,7 +212,7 @@ const uploadNewFiles = async () => {
             <label class="label">
               <span class="label-text">Menge</span>
             </label>
-            <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['quantity']"/>
+            <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.quantity"/>
           </div>
         </div>
 
@@ -185,14 +220,14 @@ const uploadNewFiles = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Brand</span>
+              <span class="label-text">Marke</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['brand']"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.brand"/>
           </div>
         </div>
 
         <!-- Group Name -->
-        <div class="">
+        <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
               <span class="label-text">Warengruppe</span>
@@ -202,10 +237,10 @@ const uploadNewFiles = async () => {
               <option v-for="group in productsStore.groups">{{ group.name }}</option>
             </select>
           </div>
-        </div>
+        </div> -->
 
         <!-- Subgroup Name -->
-        <div class="">
+        <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
               <span class="label-text">Unterkategorie</span>
@@ -215,24 +250,24 @@ const uploadNewFiles = async () => {
               <option v-for="subgroup in productsStore.subgroups">{{ subgroup }}</option>
             </select>
           </div>
-        </div>
+        </div> -->
 
         <!-- Prices -->
         <div class="flex flex-wrap">
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <span class="label-text">Selling Price (in EUR)</span>
+                <span class="label-text">Preis (Verkauf) (in EUR)</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['selling-price']"/>
+              <input type="number" placeholder="2€" class="input input-bordered w-full max-w-md"  v-model="edit.sellingPrice"/>
             </div>
           </div>
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <span class="label-text">Buying Price (in EUR)</span>
+                <span class="label-text">Preis (gekauft) (in EUR)</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['buying-price']"/>
+              <input type="number" placeholder="1€" class="input input-bordered w-full max-w-md"  v-model="edit.boughtPrice"/>
             </div>
           </div>
         </div>
@@ -243,7 +278,7 @@ const uploadNewFiles = async () => {
             <label class="label">
               <span class="label-text">EAN</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['EAN']"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.EAN"/>
           </div>
         </div>
 
@@ -254,7 +289,7 @@ const uploadNewFiles = async () => {
               <label class="label">
                 <span class="label-text">Tax</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['tax']"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.tax"/>
             </div>
           </div>
 
@@ -264,7 +299,7 @@ const uploadNewFiles = async () => {
               <label class="label">
                 <span class="label-text">Account</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit['account']"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.account"/>
             </div>
           </div>
         </div>
@@ -278,15 +313,7 @@ const uploadNewFiles = async () => {
             <label class="label">
               <span class="label-text">Beschreibung</span>
             </label>
-            <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit['description']"></textarea>
-          </div>
-          <div class="">
-            <div class="form-control w-full max-w-md">
-              <label class="label">
-                <span class="label-text">Fakten</span>
-              </label>
-              <textarea class="textarea textarea-bordered w-full h-32" placeholder="Produkt Beschreibung" v-model="edit['facts']"></textarea>
-            </div>
+            <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea>
           </div>
         </div>
 
@@ -297,14 +324,14 @@ const uploadNewFiles = async () => {
             <label class="label">
               <span class="label-text">Eigenschafts Name</span>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['property-name']"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyName"/>
           </div>
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
                 <span class="label-text">Eigenschafts Wert</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['property-value']"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyValue"/>
             </div>
           </div>
           <div class="">
@@ -312,7 +339,7 @@ const uploadNewFiles = async () => {
               <label class="label">
                 <span class="label-text">Weitere Eigenschaften</span>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit['properties']"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.properties"/>
             </div>
           </div>
         </div>
@@ -331,22 +358,22 @@ const uploadNewFiles = async () => {
           </div>
         </div>
       </div>
-      <button class="btn btn-success mr-2" @click="productsStore.updateProduct(edit)">Save</button>
-      <button class="btn btn-error mr-2" onclick="my_modal_5.showModal()">Remove</button>
-      <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <button class="btn btn-success mr-2" @click="addNewProduct()">Save</button>
+      <button class="btn btn-error mr-2" onclick="remove_product.showModal()">Remove</button>
+      <dialog id="remove_product" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
           <h3 class="font-bold text-lg">Attention!</h3>
           <p class="py-4">Removing this product deletes it permanentally!</p>
           <div class="modal-action">
             <form method="dialog">
               <!-- if there is a button in form, it will close the modal -->
-              <button class="btn btn-error" @click="productsStore.removeProduct(edit)">Remove</button>
+              <button class="btn btn-error" @click="removeProduct()">Remove</button>
               <button class="btn">Cancel</button>
             </form>
           </div>
         </div>
       </dialog>
-      <button class="btn" @click="router.push(`/shop/product/${edit['product-id']}`)">View</button>
+      <button class="btn" @click="router.push(`/shop/product/${edit.slug}`)">View</button>
     </div>
 
   </div>

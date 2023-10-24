@@ -4,17 +4,19 @@ import { useUserStore } from '../stores/user'
 import { useClientsStore } from '../stores/clients'
 import { useCartStore } from '../stores/cart'
 import { useProductsStore } from '../stores/products'
+import { useCategoriesStore } from '../stores/categories'
 
 const route = useRoute()
 const router = useRouter()
 
-const { status } = useAuth()
+const { status, singOut } = useAuth()
 
 const themeStore = useThemeStore()
 const userStore = useUserStore()
 const clientsStore = useClientsStore()
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
+const categoriesStore = useCategoriesStore()
 
 const cookie = useCookie('cookie')
 
@@ -39,15 +41,19 @@ const getLogo = () => {
 }
 
 const logout = async () => {
-  await userStore.logout()
+  await singOut()
   router.push('/shop')
 }
 
 onBeforeMount(async () => {
-  // await productsStore.fetchUser()
-  await clientsStore.fetchClients()
+  await categoriesStore.fetchCategories()
   await productsStore.fetchProducts()
-  await productsStore.fetchGroups()
+  //
+  // if (route.path.startsWith('/admin') && !productsStore.initialized) {
+  //   await productsStore.init()
+  // }
+  // await clientsStore.fetchClients()
+  // await productsStore.fetchGroups()
 })
 </script>
 
@@ -244,12 +250,18 @@ onBeforeMount(async () => {
                     </summary>
                     <ul>
                       <li>
-                        <a>
+                        <NuxtLink to="/admin/shop/categories">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+                          Alle
+                        </NuxtLink>
+                      </li>
+                      <li>
+                        <NuxtLink to="/admin/shop/categories/new">
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                           Hinzufügen
-                        </a>
+                        </NuxtLink>
                       </li>
-                      <li v-for="group in productsStore.groups">
+                      <li v-for="group in categoriesStore.categories">
                         <details class="bg-base-200 rounded rounded-xl m-2 max-w-sm">
                           <summary>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
