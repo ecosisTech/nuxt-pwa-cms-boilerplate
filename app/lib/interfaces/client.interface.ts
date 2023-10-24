@@ -1,5 +1,6 @@
 export interface Client {
   id: string;
+  isUser: boolean;
   created: Date;
   updated: Date;
   company?: string;
