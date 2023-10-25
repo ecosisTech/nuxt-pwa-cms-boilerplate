@@ -3,6 +3,8 @@ import { useUserStore } from '../../../stores/user'
 
 const userStore = useUserStore()
 
+const router = useRouter()
+
 onBeforeMount(async () => {
   try {
     await userStore.fetchUser()
@@ -29,7 +31,7 @@ onBeforeMount(async () => {
         </dialog>
       </div>
     </div>
-    <table class="table table-xs table-pin-rows table-pin-cols">
+    <table class="table table-xs">
       <!-- head -->
       <thead>
         <tr>
@@ -102,14 +104,21 @@ onBeforeMount(async () => {
           </th>
           <th> {{ user.username }}</th>
           <th> {{ user.email }}</th>
-          <th> {{ user.roles }}</th>
+          <th>
+            <div
+              class="badge badge-neutral m-1" 
+              v-for="role in user.roles">
+              {{ role }}
+            </div>
+           </th>
           <th> {{ user.created }}</th>
           <th> {{ user.updated }}</th>
           <th class="flex flex-wrap justify-center items-center">
             <button class="btn btn-circle btn-sm mr-2" @click="router.push(`/admin/user/${user.email}/edit`)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
             </button>
-            <button class="btn btn-circle btn-sm" @click="resetPassword(user.email)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-restart"><path d="M21 6H3"/><path d="M7 12H3"/><path d="M7 18H3"/><path d="M12 18a5 5 0 0 0 9-3 4.5 4.5 0 0 0-4.5-4.5c-1.33 0-2.54.54-3.41 1.41L11 14"/><path d="M11 10v4h4"/></svg>
+            <button class="btn btn-circle btn-sm" @click="resetPassword(user.email)" disabled>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-restart"><path d="M21 6H3"/><path d="M7 12H3"/><path d="M7 18H3"/><path d="M12 18a5 5 0 0 0 9-3 4.5 4.5 0 0 0-4.5-4.5c-1.33 0-2.54.54-3.41 1.41L11 14"/><path d="M11 10v4h4"/></svg>
             </button>
           </th>
           <th>

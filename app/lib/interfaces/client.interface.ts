@@ -3,11 +3,11 @@ export interface Client {
   isUser: boolean;
   created: Date;
   updated: Date;
-  company?: string;
   title?: string;
   firstname: string;
   lastname: string;
   email: string;
+  orders: string[];
   phone?: string;
   street?: string;
   number?: string;
@@ -15,6 +15,5 @@ export interface Client {
   state?: string;
   postalCode?: string;
   country?: string;
-  isActive: boolean;
   // Add other client properties as needed
 }

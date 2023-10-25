@@ -2,20 +2,28 @@
 import Multiselect from '@vueform/multiselect'
 import { useClientsStore } from '../../../../stores/clients'
 
+const router = useRouter()
+
 const clientsStore = useClientsStore()
 
 const props = defineProps({
   client: {
     type: Object,
-    required: true
+    required: false
   }
 })
 
 const newClientData = ref(props.client || {
+  id: '',
+  isUser: false,
+  created: '',
+  updated: '',
   title: '',
   firstname: '',
   lastname: '',
   email: '',
+  orders: [],
+  phone: '',
   street: '',
   number: '',
   city: '',
@@ -24,20 +32,18 @@ const newClientData = ref(props.client || {
   country: '',
 })
 
-const passwordRepeat = ref('')
-
-const addClient = async () => {
+const addNewClient = async () => {
   try {
-    if (newClientData.value.email) {
+    if (validEmail(newClientData.value.email)) {
       if (!newClientData.value.id) {
-        await addClient(newClientData)
+        await addClient(newClientData.value)
       } else {
-        await updateClient(newClientData)
+        await updateClient(newClientData.value)
       }
       await clientsStore.fetchClients()
-      router.push(`/shop/product/${newClientData.value.slug}`)
+      router.push(`/admin/shop/clients/`)
     } else {
-      alert('Bitte die E-Mail-Adresse eintragen')
+      alert('Bitte eine gültige E-Mail-Adresse eintragen')
     }
   } catch (error) {
     console.log(error);
@@ -46,8 +52,7 @@ const addClient = async () => {
 </script>
 <template>
   <div class="w-full">
-    <h3 class="font-bold text-lg pb-4">Neuen Kunden hinzufügen</h3>
-    <div class="flex flex-wrap justify-center">
+    <div class="flex flex-wrap">
       <div class="flex flex-col bg-base-200 rounded rounded-xl m-2 p-4">
         <!-- Title -->
         <div class="form-control w-full max-w-xs">
@@ -133,6 +138,6 @@ const addClient = async () => {
       </div>
     </div>
 
-    <button class="btn btn-success mt-2" @click="addClient(newClientData)">Erstellen</button>
+    <button class="btn btn-success mt-2" @click="addNewClient()">Erstellen</button>
   </div>
 </template>

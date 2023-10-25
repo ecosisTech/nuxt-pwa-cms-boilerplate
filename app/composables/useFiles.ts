@@ -1,6 +1,6 @@
-export const addClient = async (data) => {
+export const addFile = async (data) => {
   try {
-    return await useFetch('/api/shop/clients/', {
+    return await useFetch('/api/shop/files/', {
       method: 'POST',
       body: data
     })
@@ -9,9 +9,9 @@ export const addClient = async (data) => {
   }
 }
 
-export const updateClient = async (id, data) => {
+export const updateFile = async (id, data) => {
   try {
-    return await useFetch('/api/shop/clients/' + id, {
+    return await useFetch('/api/shop/files/' + id, {
       method: 'PUT',
       body: data
     })
@@ -20,9 +20,9 @@ export const updateClient = async (id, data) => {
   }
 }
 
-export const getClient = async (id) => {
+export const getFile = async (id) => {
   try {
-    return await useFetch('/api/shop/clients/' + id, {
+    return await useFetch('/api/shop/files/' + id, {
       method: 'GET'
     })
   } catch (error) {
@@ -30,9 +30,9 @@ export const getClient = async (id) => {
   }
 }
 
-export const getAllClients = async () => {
+export const getAllFiles = async () => {
   try {
-    return await useFetch('/api/shop/clients/', {
+    return await useFetch('/api/shop/files/', {
       method: 'GET'
     })
   } catch (error) {
@@ -40,9 +40,9 @@ export const getAllClients = async () => {
   }
 }
 
-export const deleteClient = async (id) => {
+export const deleteFile = async (id) => {
   try {
-    return await useFetch('/api/shop/clients/' + id, {
+    return await useFetch('/api/shop/files/' + id, {
       method: 'DELETE'
     })
   } catch (error) {

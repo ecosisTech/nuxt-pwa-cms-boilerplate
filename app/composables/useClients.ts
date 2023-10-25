@@ -1,5 +1,7 @@
 export const addClient = async (data) => {
   try {
+    console.log('data', data);
+
     return await useFetch('/api/shop/clients/', {
       method: 'POST',
       body: {
@@ -11,9 +13,9 @@ export const addClient = async (data) => {
   }
 }
 
-export const updateClient = async (id, data) => {
+export const updateClient = async (email, data) => {
   try {
-    return await useFetch('/api/shop/clients/' + id, {
+    return await useFetch('/api/shop/clients/' + email, {
       method: 'PUT',
       body: {
         data
@@ -24,9 +26,9 @@ export const updateClient = async (id, data) => {
   }
 }
 
-export const getClient = async (id) => {
+export const getClient = async (email) => {
   try {
-    const { data } = await useFetch('/api/shop/clients/' + id, {
+    const { data } = await useFetch('/api/shop/clients/' + email, {
       method: 'GET'
     })
     return data.value
@@ -37,7 +39,7 @@ export const getClient = async (id) => {
 
 export const getAllClients = async () => {
   try {
-    const { data } = await useFetch('/api/shop/clients/'', {
+    const { data } = await useFetch('/api/shop/clients/', {
       method: 'GET'
     })
     return data.value
@@ -46,9 +48,9 @@ export const getAllClients = async () => {
   }
 }
 
-export const deleteClient = async (id) => {
+export const deleteClient = async (email) => {
   try {
-    return await useFetch('/api/shop/clients/' + id, {
+    return await useFetch('/api/shop/clients/' + email, {
       method: 'DELETE'
     })
   } catch (error) {

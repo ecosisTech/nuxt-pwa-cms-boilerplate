@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import Multiselect from '@vueform/multiselect'
 import { useUserStore } from '../../../stores/user'
+import { useNotificationStore } from '../../../stores/notifications'
 
 const userStore = useUserStore()
+const notificationStore = useNotificationStore()
 
 const props = defineProps({
   user: {
@@ -10,6 +12,12 @@ const props = defineProps({
     required: true
   }
 })
+
+const roles = [
+  'client',
+  'user',
+  'admin',
+]
 
 const newUserData = ref(props.user || {
   email: '',
@@ -20,14 +28,29 @@ const newUserData = ref(props.user || {
 
 const passwordRepeat = ref('')
 
-const registerUser = async () => {
+const edit = async () => {
   try {
-    if (newUserData.password === passwordRepeat) {
+    if (newUserData.value.id) {
+      await updateUser(newUserData.value)
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'User updated!'
+      })
+      return await userStore.fetchUser()
+    }
+
+    if (newUserData.value.password === passwordRepeat.value) {
       await addUser(newUserData.value)
-      const userStore = useUserStore()
-      await userStore.fetchUser()
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'User registered!'
+      })
+      return await userStore.fetchUser()
     } else {
-      alert('Passwort nicht gleich!')
+      notificationStore.addNotification({
+        type: 'error',
+        msg: 'Passwords dont match!'
+      })
     }
   } catch (error) {
     console.log(error)
@@ -36,8 +59,6 @@ const registerUser = async () => {
 </script>
 <template>
   <div class="">
-    <h3 class="font-bold text-lg pb-4">Neuen User hinzufügen</h3>
-
     <!-- E_Mail Address -->
     <div class="form-control w-full max-w-xs">
       <label class="label">
@@ -73,9 +94,14 @@ const registerUser = async () => {
       <label class="label">
         <span class="label-text">Roles</span>
       </label>
-      <input type="text" placeholder="Roles" class="input input-bordered w-full max-w-xs" v-model="newUserData.roles[0]"/>
+      <Multiselect
+        v-model="newUserData.roles"
+        :options="roles"
+        :classes="useMultiselectClasses()"
+        mode="tags"
+      />
     </div>
-    <button class="btn btn-success mt-2" @click="addUser(newUserData)">Erstellen</button>
+    <button class="btn btn-success mt-2" @click="edit()">Speichern</button>
   </div>
 </template>
 

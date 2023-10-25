@@ -11,6 +11,12 @@ export default eventHandler(async (event) => {
         statusMessage: 'Permission denied',
       })
     }
+    // if (userRole !== 'admin') {
+    //   throw createError({
+    //     statusCode: 403, // Forbidden
+    //     statusMessage: 'Permission denied',
+    //   });
+    // }
 
     const email = getRouterParam(event, 'email')
     const { data } = await readBody(event)
@@ -22,12 +28,9 @@ export default eventHandler(async (event) => {
         statusMessage: 'User does not exist!',
       })
     }
-    // TODO
-    // // Check if the user is authorized to edit the data
-    // if (session.email !== email && session.userRole !== 'admin') {
-    //   return createError({ statusCode: 403, statusMessage: 'Forbidden' })
-    // }
-    await databaseManager.updateUser(email, data)
+
+    // Add user
+    return await databaseManager.updateUser(email, data)
   } catch (error) {
     return createError({
       statusCode: 400,

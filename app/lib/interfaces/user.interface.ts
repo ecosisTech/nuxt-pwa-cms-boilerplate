@@ -24,9 +24,10 @@ export interface User {
   //   github: string;
   // };
   // Password information
-  password: {
-    hash: string; // Encrypted password hash
-    salt: string; // Password salt for added security
-  };
+  password: string;
+  // password: { // TODO
+  //   hash: string; // Encrypted password hash
+  //   salt: string; // Password salt for added security
+  // };
   // Add other user properties as needed
 }

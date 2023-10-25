@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useUserStore } from '../stores/user';
 import { useThemeStore } from '../stores/theme';
-// import { useNotificationStore } from '../stores/notifications';
+import { useNotificationStore } from '../stores/notifications';
 
+const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const themeStore = useThemeStore()
-// const notificationStore = useNotificationStore()
+const notificationStore = useNotificationStore()
 
 const { signIn } = useAuth()
 
@@ -15,33 +16,21 @@ const password = ref('')
 const password2 = ref('')
 const registration = ref(false)
 
-const validEmail = (email) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
-};
-
 const login = async () => {
   try {
     if (validEmail(email.value)) {
       const { error } = await signIn('credentials', { username: email.value, password: password.value })
-      // await userStore.login(email.value, password.value)
-      // router.push('/admin')
-      // if (error) {
-      //   alert(error)
-      // }
     } else {
-      // notificationStore.addNotification({
-      //   type: 'error',
-      //   msg: 'Not a valid e-mail-address!'
-      // })
+      notificationStore.addNotification({
+        type: 'error',
+        msg: 'Not a valid e-mail-address!'
+      })
     }
   } catch (error) {
-    alert(error)
-    // notificationStore.addNotification({
-    //   type: 'error',
-    //   msg: error
-    // })
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
@@ -49,25 +38,37 @@ const register = async () => {
   try {
     if (password.value === password2.value) {
       if (validEmail(email.value)) {
-        await userStore.register(email.value, password.value)
-        router.push('/')
+        const { error } = await addUser({
+          id: '',
+          email: email.value,
+          password: password.value,
+          username: email.value,
+          roles: ['user']
+        })
+        registration.value = false
+        notificationStore.addNotification({
+          type: 'success',
+          msg: 'You are registered!'
+        })
       } else {
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: 'Not a valid e-mail-address!'
-        // })
+        notificationStore.addNotification({
+          type: 'error',
+          msg: 'Not a valid E-Mail address!'
+        })
       }
     } else {
-      // notificationStore.addNotification({
-      //   type: 'error',
-      //   msg: 'Passwords dont match!'
-      // })
+      notificationStore.addNotification({
+        type: 'error',
+        msg: 'Passwords dont match!'
+      })
     }
   } catch (error) {
-    // notificationStore.addNotification({
-    //   type: 'error',
-    //   msg: error
-    // })
+    console.log(error);
+
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error.message
+    })
   }
 }
 
@@ -93,10 +94,18 @@ const register = async () => {
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/admin',
+    navigateAuthenticatedTo: '/admin/shop',
   },
 })
 
+onMounted(() => {
+  if (route.query.error === 'CredentialsSignin') {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: 'Credentials wrong!'
+    })
+  }
+})
 </script>
 
 <template>
@@ -158,13 +167,13 @@ definePageMeta({
               Terms and Conditions
             </NuxtLink>
           </div>
-          <!-- Password Reset -->
-          <div class="text-center xl:text-left mt-2">
+          <!-- Password Reset TODO-->
+          <!-- <div class="text-center xl:text-left mt-2">
             Passwort vegessen?
             <NuxtLink class="underline" to="/terms-of-use" target="_blank">
               Setze es zurück!
             </NuxtLink>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

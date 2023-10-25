@@ -33,9 +33,7 @@ const viewOrder = (order) => {
             <th>Bezahlt</th>
             <th>Versendet</th>
             <th></th>
-          </tr>    <div class="">
-
-          </div>
+          </tr>
         </thead>
         <tbody>
           <!-- row 1 -->
@@ -80,6 +78,7 @@ const viewOrder = (order) => {
             <th>Bestellungen</th>
             <th>Summe</th>
             <th>Bezahlt</th>
+            <th>Versendet</th>
             <th></th>
           </tr>
         </tfoot>
