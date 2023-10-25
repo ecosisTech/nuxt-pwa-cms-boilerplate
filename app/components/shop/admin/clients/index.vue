@@ -2,76 +2,18 @@
 import { useClientsStore } from '../../../../stores/clients'
 
 const clientsStore = useClientsStore()
+
+await clientsStore.fetchClients()
 </script>
 <template>
-  <div class="overflow-x-auto bg-base-100 rounded mx-8 pb-8">
+  <div class="overflow-x-auto bg-base-100 rounded px-4 py-8">
     <div class="flex flex-col justify-center items-center">
       <div class="">
-        <button class="btn" onclick="add_client.showModal()" disabled>+ Erstellen</button>
+        <button class="btn" onclick="add_client.showModal()">+ Erstellen</button>
         <dialog id="add_client" class="modal">
-          <div class="modal-box w-11/12 max-w-5xl h-11/12 max-h-5xl">
-            <h3 class="font-bold text-lg pb-4">Neuen Kunden hinzufügen</h3>
-
-            <!-- First Name -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Vorname</span>
-              </label>
-              <input type="text" placeholder="Vorname" class="input input-bordered w-full max-w-xs" />
+            <div class="modal-box md:w-1/3 max-w-5xl">
+              <ShopAdminClientsEditor/>
             </div>
-
-            <!-- Last Name -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Nachname</span>
-              </label>
-              <input type="text" placeholder="Nachname" class="input input-bordered w-full max-w-xs" />
-            </div>
-
-            <!-- Last Name -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">E-Mail-Adresse</span>
-              </label>
-              <input type="text" placeholder="E-Mail" class="input input-bordered w-full max-w-xs" />
-            </div>
-          </div>
-
-          <div class="flex flex-col pr-4">
-            <!-- Street -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Straße</span>
-              </label>
-              <input type="text" placeholder="Straße" class="input input-bordered w-full max-w-xs" />
-            </div>
-
-            <!-- City Province -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Ort</span>
-              </label>
-              <input type="text" placeholder="Ort" class="input input-bordered w-full max-w-xs" />
-            </div>
-
-            <!-- Postal -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">PLZ oder ZIP Code</span>
-              </label>
-              <input type="text" placeholder="PLZ/ZIP" class="input input-bordered w-full max-w-xsfull" />
-            </div>
-
-            <!-- State -->
-            <div class="form-control w-full max-w-xs">
-              <label class="label">
-                <span class="label-text">Land/Staat</span>
-              </label>
-              <input type="text" placeholder="Lad/Staat" class="input input-bordered w-full max-w-xs" />
-            </div>
-
-            <button class="btn btn-success mt-2" @click="">Add</button>
-          </div>
           <form method="dialog" class="modal-backdrop">
             <button>close</button>
           </form>
@@ -182,13 +124,16 @@ const clientsStore = useClientsStore()
               <input type="checkbox" class="checkbox" />
             </label>
           </th>
-          <th>Name</th>
-          <th>ID</th>
-          <th>Slogan</th>
-          <th>Slug</th>
-          <th>Banner</th>
-          <th>Products</th>
-          <th>Subgroups</th>
+          <th>Profilbild</th>
+          <th>Anrede</th>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>Straße</th>
+          <th>Stadt/Province</th>
+          <th>PLZ/ZIP</th>
+          <th>E-Mail</th>
+          <th>Registriert</th>
+          <th>Bestellungen</th>
           <th></th>
         </tr>
       </tfoot>

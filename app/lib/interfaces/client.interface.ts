@@ -9,7 +9,8 @@ export interface Client {
   lastname: string;
   email: string;
   phone?: string;
-  address?: string;
+  street?: string;
+  number?: string;
   city?: string;
   state?: string;
   postalCode?: string;
