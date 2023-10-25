@@ -32,7 +32,7 @@ export const getClient = async (id) => {
 
 export const getAllClients = async () => {
   try {
-    return await useFetch('/api/shop/clients/'', {
+    return await useFetch('/api/shop/clients/', {
       method: 'GET'
     })
   } catch (error) {

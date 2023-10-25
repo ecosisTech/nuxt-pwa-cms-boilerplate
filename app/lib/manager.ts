@@ -52,39 +52,47 @@ export class DatabaseManager {
 
   async del(id: string) {
     try {
-      return await this.database.del(userID)
+      return await this.database.del(email)
     } catch (error) {
       throw new Error(error)
     }
   }
 
   // User Functions
-  async addUser(userID: string, userData: object) {
+  async addUser(email: string, userData: object) {
     try {
-      return await this.userDatabase.put(userID, userData)
+      return await this.userDatabase.put(email, userData)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async updateUser(userID: string, userData: object) {
+  async updateUser(email: string, userData: object) {
     try {
-      return await this.userDatabase.put(userID, userData)
+      return await this.userDatabase.put(email, userData)
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async getUser(userID: string) {
+  async userExists(email: string) {
     try {
-      const userExists = this.userDatabase.exists(userID)
+      return await this.userDatabase.exists(email)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  async getUser(email: string) {
+    try {
+      const userExists = await this.userDatabase.exists(email)
       if (!userExists) {
         throw new Error('User does not exist!')
       }
     } catch (error) {
       throw new Error(error)
     }
-    return await this.userDatabase.get(userID)
+    return await this.userDatabase.get(email)
   }
 
   async getAllUser() {
@@ -95,9 +103,9 @@ export class DatabaseManager {
     }
   }
 
-  async deleteUser(userID: string) {
+  async deleteUser(email: string) {
     try {
-      return await this.userDatabase.del(userID)
+      return await this.userDatabase.del(email)
     } catch (error) {
       throw new Error(error)
     }

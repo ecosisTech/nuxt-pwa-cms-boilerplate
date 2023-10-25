@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
     if (productExists) {
       throw createError({
         statusCode: 403, // Forbidden
-        statusMessage: 'Slug already exists1',
+        statusMessage: 'Slug already exists!',
       })
     }
     await productsDatabase.put(data.slug, data)
