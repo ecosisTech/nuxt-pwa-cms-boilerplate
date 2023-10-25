@@ -3,9 +3,10 @@ import { useCategoriesStore } from '../../../../stores/categories'
 import { useProductsStore } from '../../../../stores/products'
 
 const router = useRouter()
+const route = useRoute()
 
 const props = defineProps({
-  category: {
+  subcategory: {
     type: Object,
     required: true
   }
@@ -14,15 +15,25 @@ const props = defineProps({
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
 
-const edit = ref(props.category || {
+const category = computed(() => {
+  return categoriesStore.categories.find(c => c.slug === route.params.slug)
+})
+
+const products = computed(() => {
+  return productsStore.products.filter(p => {
+
+  })
+})
+
+const edit = ref(props.subcategory || {
   id: '',
+  parent: route.params.slug,
   name: '',
   slug: '',
-  image: '',
+  image: null,
   description: '',
   products: [],
   featured: [],
-  subcategories: [],
   created: '',
   updated: '',
 })
@@ -51,29 +62,29 @@ const uploadNewFiles = async () => {
   }
 }
 
-const addNewCategory = async () => {
+const addNewSubcategory = async () => {
   try {
     if (edit.value.slug && edit.value.name) {
       if (!edit.value.id) {
-        await addCategory(edit)
+        await addSubcategory(route.params.slug, edit)
       } else {
-        await updateCategory(edit)
+        await updateSubcategory(route.params.slug, edit)
       }
       await categoriesStore.fetchCategories()
-      router.push(`/admin/shop/categories`)
+      router.push(`/admin/shop/categories/${route.params.slug}`)
     } else {
-      alert('Bitte minimum das Feld "Slug" & "Name" füllen')
+      alert('Bitte die Felder "Slug" & "Name" füllen')
     }
   } catch (error) {
     console.log(error);
   }
 }
 
-const removeCategory = async () => {
+const removeSubcategory = async () => {
   try {
-    await deleteCategory(edit.value.slug)
-    await categoriesStore.fetchCategories()
-    router.push(`/admin/shop/categories`)
+    await deleteSubcategory(route.params.slug, edit.value.slug)
+    await categoriesStore.fetchSubcategories()
+    router.push(`/admin/shop/categories/${route.params.slug}`)
   } catch (error) {
     console.log(error);
   }
@@ -86,8 +97,8 @@ const removeCategory = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/categorys/${(edit.image) ? edit.image : 'category-placeholder.png'}`" onclick="my_modal_1.showModal()">
-          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Kategorie Bild</button>
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/categorys/${(edit.image) ? edit.image : 'category-placeholder.png'}`" onclick="img_upload.showModal()">
+          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Subkategorie Bild</button>
           <dialog id="img_upload" class="modal">
             <div class="modal-box">
               <div class="form-control w-full max-w-xs">
@@ -183,7 +194,7 @@ const removeCategory = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Kategorie Name*</span>
+              <span class="label-text">Subkategorie Name*</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
           </div>
@@ -193,7 +204,7 @@ const removeCategory = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Kategorie Slug (URL)*</span>
+              <span class="label-text">Subkategorie Slug (URL)*</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md" disabled v-model="edit.slug" v-if="edit.id"/>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.slug" v-else/>
@@ -204,14 +215,14 @@ const removeCategory = async () => {
           <label class="label">
             <span class="label-text">Beschreibung</span>
           </label>
-          <textarea class="textarea textarea-bordered w-full h-64" placeholder="Kategorie Beschreibung" v-model="edit.description"></textarea>
+          <textarea class="textarea textarea-bordered w-full h-64" placeholder="Subkategorie Beschreibung" v-model="edit.description"></textarea>
         </div>
       </div>
 
       <div class="w-full md:w-1/3 p-4 flex flex-col p-4">
         <!-- Category Details -->
         <div class="">
-          <h3 class="font-bold">Kategorie Inhalt</h3>
+          <h3 class="font-bold">Subkategorie Inhalt</h3>
           <label class="label">
             <span class="label-text">Produkte</span>
           </label>
@@ -230,34 +241,13 @@ const removeCategory = async () => {
             <option v-for="product in productsStore.products">{{ product.name }}</option>
           </select>
         </div>
-
-        <div class="">
-          <label class="label">
-            <span class="label-text">Unterkategorien</span>
-          </label>
-          <select class="select select-bordered w-full max-w-md h-64" multiple v-model="edit.products">
-            <option disabled selected>Produkte</option>
-            <option v-for="product in productsStore.products">{{ product.name }}</option>
-          </select>
-        </div>
-
-        <!-- Property Meta -->
-        <!-- <div class="">
-          <label class="label">
-            <span class="label-text">Unterkategorien</span>
-          </label>
-          <select class="select select-bordered w-full max-w-md h-64" multiple v-model="edit.subcategories">
-            <option disabled selected>Unterkategorien</option>
-            <option v-for="product in productsStore.products">{{ product.name }}</option>
-          </select>
-        </div> -->
       </div>
 
     </div>
     <div class="w-full p-4 rounded-t rounded-xl">
-      <button class="btn btn-success mr-2" @click="addNewCategory()">Save</button>
-      <button class="btn btn-error mr-2" onclick="remove_category.showModal()">Remove</button>
-      <dialog id="remove_category" class="modal modal-bottom sm:modal-middle">
+      <button class="btn btn-success mr-2" @click="addNewSubcategory()">Save</button>
+      <button class="btn btn-error mr-2" onclick="remove_subcategory.showModal()">Remove</button>
+      <dialog id="remove_subcategory" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
           <h3 class="font-bold text-lg">Attention!</h3>
           <p class="py-4">Removing this category deletes it permanentally!</p>

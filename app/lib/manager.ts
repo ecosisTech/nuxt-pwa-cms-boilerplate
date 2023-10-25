@@ -3,14 +3,14 @@ import { v4 as uuid } from 'uuid';
 // import { writeFile, mkdir, stat } from 'fs/promises';
 
 export class DatabaseManager {
-  private userDatabase: Level.default
-  private settingsDatabase: Level.default
   private database: Level.default // Database for managing other databases
+  private settingsDatabase: Level.default
+  private userDatabase: Level.default
 
   constructor() {
-    this.userDatabase = new Level.default('./.db/user')
-    this.settingsDatabase = new Level.default('./.db/settings')
     this.database = new Level.default('./.db')
+    this.settingsDatabase = new Level.default('./.db/settings')
+    this.userDatabase = new Level.default('./.db/user')
   }
 
   // Database Functions
@@ -123,16 +123,27 @@ export class DatabaseManager {
   // Database Functions
   async createDatabase(slug: string) {
     try {
-      const db = await new Level.default(`./.db/${slug}`)
-      await this.database.put(slug, {
-        id: uuid(),
-        created: new Date(),
-        updated: new Date(),
-        name: slug,
-        path: slug,
-        slug: slug,
-      })
+      const db = new Level.default(`./.db/${slug}`)
+      const dbExists = await this.database.exists(slug)
+      if (!dbExists) {
+        await this.database.put(slug, {
+          id: uuid(),
+          created: new Date(),
+          updated: new Date(),
+          name: slug,
+          path: slug,
+          slug: slug,
+        })
+      }
       return db
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  async getAllDatabases() {
+    try {
+    return await this.database.all()
     } catch (error) {
       throw new Error(error)
     }
@@ -140,7 +151,7 @@ export class DatabaseManager {
 
   async accessDatabase(slug: string) {
     try {
-      return await new Level.default(`./.db/${slug}`)
+      return new Level.default(`./.db/${slug}`)
     } catch (error) {
       throw new Error(error)
     }

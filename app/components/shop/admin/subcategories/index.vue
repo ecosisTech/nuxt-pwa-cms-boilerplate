@@ -2,19 +2,44 @@
 import { useCategoriesStore } from '../../../../stores/categories'
 
 const router = useRouter()
+const route = useRoute()
 
 const categoriesStore = useCategoriesStore()
 
+const subcategories = ref([])
+const category = ref([])
+
 const selected = ref([])
+
+onBeforeMount(() => {
+  category.value = categoriesStore.categories.find(c => c.slug === route.params.slug)
+})
+
+onMounted(async () => {
+  if (category.value) {
+    for (let slug of category.value.subcategories) {
+      // console.log(slug);
+
+      try {
+        const subcategory = await getSubcategory(route.params.slug, slug)
+        subcategories.value.push(subcategory)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  if (category.value) {
+  }
+})
 </script>
 <template>
   <div class="overflow-x-auto bg-base-100 rounded rouned-xl px-4 py-8">
     <div class="w-full flex justify-center">
-      <NuxtLink class="btn" to="/admin/shop/categories/new">Hinzufügen</NuxtLink>
+      <NuxtLink class="btn" :to="`/admin/shop/categories/${route.params.slug}/new`">Hinzufügen</NuxtLink>
     </div>
 
     <!-- Table Data -->
-    <table class="table table-xs table-pin-rows table-pin-col">
+    <table class="table table-xs table-pin-rows table-pin-col" v-if="category">
       <!-- head -->
       <thead>
         <tr>
@@ -27,7 +52,6 @@ const selected = ref([])
           <th>Slug</th>
           <th>Produkte</th>
           <th>Featured</th>
-          <th>Subkategorien</th>
           <th>Erstellt</th>
           <th>Aktualisiert</th>
           <th></th>
@@ -35,7 +59,7 @@ const selected = ref([])
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr v-for="item in categoriesStore.categories" class="hover:bg-base-200">
+        <tr v-for="item in subcategories" class="hover:bg-base-200">
           <th>
             <label>
               <input type="checkbox" class="checkbox" />
@@ -46,11 +70,10 @@ const selected = ref([])
           <th>{{ item.description }}</th>
           <th>{{ item.products.length }}</th>
           <th>{{ item.featured.length }}</th>
-          <th>{{ item.subcategories.length }}</th>
           <th>{{ item.created }}</th>
           <th>{{ item.updated }}</th>
           <th>
-            <button class="btn btn-circle btn-sm" @click="router.push(`/admin/shop/categories/edit/${item.slug}`)">
+            <button class="btn btn-circle btn-sm" @click="router.push(`/admin/shop/categories/${route.params.slug}/edit/${item.slug}`)">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </th>
@@ -64,7 +87,6 @@ const selected = ref([])
           <th>Slug</th>
           <th>Produkte</th>
           <th>Featured</th>
-          <th>Subkategorien</th>
           <th>Erstellt</th>
           <th>Aktualisiert</th>
           <th></th>

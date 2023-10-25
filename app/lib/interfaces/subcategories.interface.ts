@@ -1,5 +1,6 @@
 export interface Subcategory {
   id: string; // Unique identifier for the category
+  parent: string; // parent category for the category
   name: string; // Name of the category
   slug: string; // URL Slug
   description?: string; // Optional description of the category
