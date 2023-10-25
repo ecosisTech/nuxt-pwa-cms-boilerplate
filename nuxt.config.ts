@@ -8,10 +8,11 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
-    'nuxt-lucide-icons',
+    'nuxt-lucide-icons'
   ],
   plugins: [
-    { src: '~/plugins/markdown.ts', mode: 'client' }
+    { src: '~/plugins/markdown.ts', mode: 'client' },
+    { src: '~/plugins/multiselect.ts', mode: 'client' },
   ],
   auth: {
     globalAppMiddleware: true,

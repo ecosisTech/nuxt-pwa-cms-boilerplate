@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "@vueform/multiselect": "^2.6.6",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.0",
     "highlight.js": "^11.9.0",
