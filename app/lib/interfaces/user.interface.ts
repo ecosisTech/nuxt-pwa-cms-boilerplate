@@ -13,7 +13,7 @@ export interface User {
   state?: string;
   postalCode?: string;
   country?: string;
-  profilePictureURL?: string;
+  image?: string;
   dateOfBirth?: Date; // You can use a Date type for date values
   bio?: string;
   // socialMediaLinks?: {

@@ -4,19 +4,28 @@ import { User } from '../../../lib/interfaces/user.interface'; // Adjust the imp
 export default defineEventHandler(async (event) => {
   try {
     const session = await getServerSession(event)
+    const databaseManager = event.context.databaseManager
 
-    if (!session || session.userRole !== 'admin') {
-      throw new Error('Unauthorized')
+    if (!session) {
+      throw createError({
+        statusCode: 403, // Forbidden
+        statusMessage: 'Permission denied',
+      })
     }
 
-    const databaseManager = event.context.databaseManager
-    const userId = getRouterParam(event, 'id')
+    const email = getRouterParam(event, 'email')
 
     // Retrieve the user from the database
-    const user: User = await databaseManager.getUser(userId)
+    const userExists = await databaseManager.userExists(email)
+    if (!userExists) {
+      throw createError({
+        statusCode: 403, // Forbidden
+        statusMessage: 'User does not exist!',
+      })
+    }
 
     // Delete the user from the database
-    await databaseManager.deleteUser(userId)
+    await databaseManager.deleteUser(email)
 
     return { status: 'User deleted successfully', user }
   } catch (error) {

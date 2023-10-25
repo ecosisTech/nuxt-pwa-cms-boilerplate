@@ -1,40 +1,56 @@
-export const addUsers = async (data) => {
+export const addUser = async (data) => {
   try {
     return await useFetch('/api/user/', {
       method: 'POST',
-      body: data
+      body: {
+        data
+      }
     })
   } catch (error) {
     throw new Error(error)
   }
 }
 
-export const updateUsers = async (id, data) => {
+export const updateUser = async (email, data) => {
   try {
-    return await useFetch('/api/user/' + id, {
+    return await useFetch('/api/user/' + email, {
       method: 'PUT',
-      body: data
+      body: {
+        data
+      }
     })
   } catch (error) {
     throw new Error(error)
   }
 }
 
-export const getUsers = async (id) => {
+export const resetPassword = async (email, data) => {
   try {
-    return await useFetch('/api/user/' + id, {
-      method: 'GET'
+    return await useFetch('/api/user/' + email + '/passwordreset', {
+      method: 'POST'
     })
   } catch (error) {
     throw new Error(error)
   }
 }
 
-export const getAllUserss = async () => {
+export const getUser = async (email) => {
   try {
-    return await useFetch('/api/user/'', {
+    const { data } = await useFetch('/api/user/' + email, {
       method: 'GET'
     })
+    return data.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const getAllUsers = async () => {
+  try {
+    const { data } = await useFetch('/api/user/', {
+      method: 'GET'
+    })
+    return data.value
   } catch (error) {
     throw new Error(error)
   }
@@ -51,9 +67,9 @@ export const getAllUserss = async () => {
 //   }
 // }
 
-export const deleteUsers = async (id) => {
+export const deleteUser = async (email) => {
   try {
-    return await useFetch('/api/user/' + id, {
+    return await useFetch('/api/user/' + email, {
       method: 'DELETE'
     })
   } catch (error) {
