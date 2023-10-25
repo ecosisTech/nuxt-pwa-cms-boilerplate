@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Multiselect from '@vueform/multiselect'
 import { useCategoriesStore } from '../../../../stores/categories'
 import { useProductsStore } from '../../../../stores/products'
 
@@ -17,12 +18,6 @@ const productsStore = useProductsStore()
 
 const category = computed(() => {
   return categoriesStore.categories.find(c => c.slug === route.params.slug)
-})
-
-const products = computed(() => {
-  return productsStore.products.filter(p => {
-
-  })
 })
 
 const edit = ref(props.subcategory || {
@@ -222,14 +217,32 @@ const removeSubcategory = async () => {
       <div class="w-full md:w-1/3 p-4 flex flex-col p-4">
         <!-- Category Details -->
         <div class="">
-          <h3 class="font-bold">Subkategorie Inhalt</h3>
+          <h3 class="font-bold">Kategorie Inhalt</h3>
           <label class="label">
             <span class="label-text">Produkte</span>
           </label>
-          <select class="select select-bordered w-full max-w-md h-64" multiple v-model="edit.products">
+          <Multiselect
+            v-model="edit.products"
+            :options="products"
+            :classes="useMultiselectClasses()"
+            mode="tags"
+          />
+
+          <div class="">
+            <label class="label">
+              <span class="label-text">Featured</span>
+            </label>
+            <Multiselect
+              v-model="edit.featured"
+              :options="edit.products"
+              :classes="useMultiselectClasses()"
+              mode="tags"
+            />
+          </div>
+          <!-- <select class="select select-bordered w-full max-w-md h-64" multiple v-model="edit.products">
             <option disabled selected>Produkte</option>
             <option v-for="product in productsStore.products">{{ product.name }}</option>
-          </select>
+          </select> -->
         </div>
 
         <div class="">
