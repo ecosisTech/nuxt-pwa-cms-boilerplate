@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Permission denied',
       })
     }
-
     // if (userRole !== 'admin') {
     //   throw createError({
     //     statusCode: 403, // Forbidden

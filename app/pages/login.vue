@@ -129,7 +129,7 @@ onMounted(() => {
             <input type="email" placeholder="E-Mail" class="input input-bordered w-full my-4"
               v-model="email"
             />
-            <input type="email" placeholder="Password" class="input input-bordered w-full my-4"
+            <input type="password" placeholder="Password" class="input input-bordered w-full my-4"
               v-model="password"
               @keydown.enter="login()"
             />
@@ -145,7 +145,7 @@ onMounted(() => {
             <input type="email" placeholder="E-Mail" class="input input-bordered w-full my-4"
               v-model="email"
             />
-            <input type="email" placeholder="Password" class="input input-bordered w-full my-4"
+            <input type="password" placeholder="Password" class="input input-bordered w-full my-4"
               v-model="password"
               @keydown.enter="register()"
             />

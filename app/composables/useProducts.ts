@@ -46,10 +46,10 @@ export const getAllProducts = async () => {
   }
 }
 
-export const importProduct = async (data) => {
+export const importProducts = async (data) => {
   try {
     return await useFetch('/api/shop/products/import', {
-      method: 'GET',
+      method: 'POST',
       body: {
         data
       }

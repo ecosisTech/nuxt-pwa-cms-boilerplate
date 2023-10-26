@@ -1,12 +1,30 @@
 <script setup lang="ts">
 import { useProductsStore } from '../../../../stores/products'
+import { useCategoriesStore } from '../../../../stores/categories'
+import { useNotificationStore } from '../../../../stores/notifications'
 
 const router = useRouter()
 
 const productsStore = useProductsStore()
+const categoriesStore = useCategoriesStore()
+const notificationStore = useNotificationStore()
+
 const JSON_Data = ref('')
-const importJSON = async () => {
-  await productsStore.importJSON(JSON_Data.value)
+const importNewProducts = async () => {
+  try {
+    await importProducts(JSON.parse(JSON_Data.value))
+    await productsStore.fetchProducts()
+    await categoriesStore.fetchCategories()
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Products imported'
+    })
+  } catch (error) {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error.message
+    })
+  }
 }
 
 const selected = ref([])
@@ -18,12 +36,12 @@ const selected = ref([])
     <div class="w-full flex justify-center">
       <NuxtLink class="btn" to="/admin/shop/products/new">Hinzufügen</NuxtLink>
       <div class="ml-2">
-        <button class="btn" onclick="my_modal_2.showModal()">Importieren</button>
-        <dialog id="my_modal_2" class="modal">
+        <button class="btn" onclick="import_products.showModal()">Importieren</button>
+        <dialog id="import_products" class="modal">
           <div class="modal-box">
             <h3 class="font-bold text-lg pb-4">Import Products</h3>
             <textarea class="textarea textarea-bordered w-full h-64" placeholder="JSON Format supported only" v-model="JSON_Data"></textarea>
-            <button class="btn btn-success mt-2" @click="importJSON()">Import</button>
+            <button class="btn btn-success mt-2" @click="importNewProducts()">Import</button>
           </div>
           <form method="dialog" class="modal-backdrop">
             <button>close</button>
@@ -65,8 +83,8 @@ const selected = ref([])
           </th>
           <th>{{ item['name'] }}</th>
           <th>{{ item['brand'] }}</th>
-          <th>{{ item['property-name'] }}</th>
-          <th>{{ item['property-value'] }}</th>
+          <th>{{ item['propertyName'] }}</th>
+          <th>{{ item['propertyValue'] }}</th>
           <th>{{ item['color'] }}</th>
           <th>{{ item['properties'] }}</th>
           <th>{{ item['EAN'] }}</th>

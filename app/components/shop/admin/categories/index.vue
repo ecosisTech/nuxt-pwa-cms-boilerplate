@@ -43,7 +43,6 @@ const selected = ref([])
           </th>
           <th>{{ item.name }}</th>
           <th>{{ item.slug }}</th>
-          <th>{{ item.description }}</th>
           <th>{{ item.products.length }}</th>
           <th>{{ item.featured.length }}</th>
           <th>{{ item.subcategories.length }}</th>
