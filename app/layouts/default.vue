@@ -107,7 +107,7 @@ onBeforeMount(async () => {
 
 <template>
   <div>
-    <div class="w-screen h-screen flex justify-center items-center bg-[url(/uploads/shop/banner.webp)] bg-cover bg-fixed bg-center bg-no-repeat text-center" v-if="lockedScreen">
+    <div class="w-screen h-screen flex justify-center items-center bg-[url(/uploads/shop/banner.webp)] bg-cover bg-fixed bg-center bg-no-repeat text-center" v-if="lockedScreen || status === 'unauthenticated'">
       <div class="flex flex-col items-center">
         <h1 class="text-2xl font-bold">Willkommen</h1>
         <p>Was schönen wird hier gebastelt. <br> Gib das Passwort ein um darauf zuzugreifen.</p>
