@@ -2,6 +2,7 @@
 import Multiselect from '@vueform/multiselect'
 import { useCategoriesStore } from '../../../../stores/categories'
 import { useProductsStore } from '../../../../stores/products'
+import { useNotificationStore } from '../../../../stores/notifications';
 
 const router = useRouter()
 const route = useRoute()
@@ -15,6 +16,8 @@ const props = defineProps({
 
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
+const notificationStore = useNotificationStore()
+
 
 const category = computed(() => {
   return categoriesStore.categories.find(c => c.slug === route.params.slug)
@@ -52,8 +55,15 @@ const uploadNewFiles = async () => {
         body: formData,
       })
     }
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Saved!'
+    })
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
@@ -67,21 +77,35 @@ const addNewSubcategory = async () => {
       }
       await categoriesStore.fetchCategories()
       router.push(`/admin/shop/categories/${route.params.slug}`)
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'Saved!'
+      })
     } else {
       alert('Bitte die Felder "Slug" & "Name" füllen')
     }
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
 const removeSubcategory = async () => {
   try {
     await deleteSubcategory(route.params.slug, edit.value.slug)
-    await categoriesStore.fetchSubcategories()
+    await categoriesStore.fetchCategories()
     router.push(`/admin/shop/categories/${route.params.slug}`)
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Successfully removed!'
+    })
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 </script>
@@ -264,7 +288,7 @@ const removeSubcategory = async () => {
           <div class="modal-action">
             <form method="dialog">
               <!-- if there is a button in form, it will close the modal -->
-              <button class="btn btn-error" @click="removeCategory()">Remove</button>
+              <button class="btn btn-error" @click="removeSubcategory()">Remove</button>
               <button class="btn">Cancel</button>
             </form>
           </div>

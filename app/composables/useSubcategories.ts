@@ -46,9 +46,9 @@ export const getAllSubsubcategoriess = async () => {
   }
 }
 
-export const deleteSubcategory = async (slug) => {
+export const deleteSubcategory = async (cat, slug) => {
   try {
-    return await useFetch('/api/shop/categories/' + slug, {
+    return await useFetch('/api/shop/categories/' + cat + '/' + slug, {
       method: 'DELETE'
     })
   } catch (error) {

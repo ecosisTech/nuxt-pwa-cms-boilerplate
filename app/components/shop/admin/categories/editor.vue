@@ -2,6 +2,7 @@
 import Multiselect from '@vueform/multiselect'
 import { useCategoriesStore } from '../../../../stores/categories'
 import { useProductsStore } from '../../../../stores/products'
+import { useNotificationStore } from '../../../../stores/notifications';
 
 const router = useRouter()
 
@@ -14,6 +15,7 @@ const props = defineProps({
 
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
+const notificationStore = useNotificationStore()
 
 const products = computed(() => {
   return productsStore.products.map((product) => product.slug);
@@ -59,8 +61,15 @@ const uploadNewFiles = async () => {
         body: formData,
       })
     }
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Uploaded'
+    })
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
@@ -74,11 +83,18 @@ const addNewCategory = async () => {
       }
       await categoriesStore.fetchCategories()
       router.push(`/admin/shop/categories`)
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'Saved!'
+      })
     } else {
       alert('Bitte minimum das Feld "Slug" & "Name" füllen')
     }
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
@@ -87,8 +103,15 @@ const removeCategory = async () => {
     await deleteCategory(edit.value.slug)
     await categoriesStore.fetchCategories()
     router.push(`/admin/shop/categories`)
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Successfully removed!'
+    })
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 </script>
@@ -99,7 +122,7 @@ const removeCategory = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/categorys/${(edit.image) ? edit.image : 'category-placeholder.png'}`" onclick="my_modal_1.showModal()">
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/categorys/${(edit.image) ? edit.image : 'category-placeholder.png'}`" onclick="img_upload.showModal()">
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Kategorie Bild</button>
           <dialog id="img_upload" class="modal">
             <div class="modal-box">

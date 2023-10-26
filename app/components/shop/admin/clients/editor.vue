@@ -42,11 +42,18 @@ const addNewClient = async () => {
       }
       await clientsStore.fetchClients()
       router.push(`/admin/shop/clients/`)
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'Saved!'
+      })
     } else {
       alert('Bitte eine gültige E-Mail-Adresse eintragen')
     }
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 </script>

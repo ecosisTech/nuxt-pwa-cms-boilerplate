@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useProductsStore } from '../../../../stores/products'
+import { useNotificationStore } from '../../../../stores/notifications';
 
 const router = useRouter()
 
@@ -11,6 +12,7 @@ const props = defineProps({
 })
 
 const productsStore = useProductsStore()
+const notificationStore = useNotificationStore()
 
 const edit = ref(props.product || {
   id: '',
@@ -52,8 +54,15 @@ const uploadNewFiles = async () => {
         body: formData,
       })
     }
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Saved!'
+    })
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
@@ -67,11 +76,18 @@ const addNewProduct = async () => {
       }
       await productsStore.fetchProducts()
       router.push(`/shop/product/${edit.value.slug}`)
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'Saved!'
+      })
     } else {
       alert('Bitte minimum das Feld "Slug" & "Name" füllen')
     }
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 
@@ -80,8 +96,15 @@ const removeProduct = async () => {
     await deleteProduct(edit.value.slug)
     await productsStore.fetchProducts()
     router.push(`/admin/shop/products`)
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Successfully removed!'
+    })
   } catch (error) {
-    console.log(error);
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
   }
 }
 </script>
