@@ -1,3 +1,9 @@
+<script setuo lang="ts">
+useHead({
+  title: 'The Crowned Lion'
+})
+</script>
+
 <template>
   <div>
     <VitePwaManifest />

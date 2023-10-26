@@ -4,7 +4,9 @@ import { useProductsStore } from '../../../stores/products'
 import { useCartStore } from '../../../stores/cart'
 
 // const { $mdit } = useNuxtApp()
+const { status } = useAuth()
 
+const productsStore = useProductsStore()
 const userStore = useUserStore()
 const cartStore = useCartStore()
 const route = useRoute()
@@ -33,6 +35,14 @@ const formatText = (text) => {
   return text.replace(/\n/g, "<br />")
 }
 
+const featuredProducts = computed(() => {
+  return productsStore.products.filter(p => {
+    if (p.featured === true) {
+      return p
+    }
+  })
+})
+
 onMounted(() => {
   if (product) {
     selectedImage.value = product.images[0]
@@ -47,7 +57,8 @@ definePageMeta({
   <div class="">
     <!-- Header -->
     <section>
-      <div class="w-full flex flex-col justify-end  bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/products/${selectedImage})` }">
+      <div class="w-full flex flex-col justify-end bg-[#1f2937] bg-cover bg-fixed bg-center bg-no-repeat">
+      <!-- <div class="w-full flex flex-col justify-end  bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/products/${selectedImage})` }"> -->
         <div class="flex flex-col justify-start items-center text-center w-full h-24">
           <!-- <h1 class="text-3xl text-white">{{ group.name }}</h1> -->
         </div>
@@ -58,10 +69,10 @@ definePageMeta({
         </div>
       </div>
     </section>
-    <div class="container mx-auto flex justify-center items-start min-h-screen pt-12">
+    <div class="flex flex-col justify-center items-start min-h-screen pt-12">
 
       <!-- Product Content -->
-      <div class="flex flex-wrap h-full">
+      <div class="container mx-auto flex flex-wrap h-full">
         <div class="w-full md:w-1/4 m-8 h-full flex flex-col justify-center items-center">
           <!-- Images -->
           <div class="">
@@ -93,7 +104,7 @@ definePageMeta({
           </button>
 
           <!-- Edit -->
-          <button class="btn" v-if="userStore.isAdmin" @click="router.push(`/admin/shop/products/edit/${route.params.slug}`)">Edit</button>
+          <button class="btn" v-if="status === 'authenticated'" @click="router.push(`/admin/shop/products/edit/${route.params.slug}`)">Edit</button>
         </div>
       </div>
 
@@ -116,13 +127,13 @@ definePageMeta({
                 </select>
               </div>
             </div>
-            <div class="flex">
+            <div class="flex" v-if="product.propertyName">
               <p><span>{{ product.propertyName }}: </span>{{ product.propertyValue }}</p>
             </div>
           </div>
         </div>
         <div class="italic">
-          <p>Quantity: <span>{{ product.quantity }}</span></p>
+          <p>Auf Lager: <span>{{ product.quantity }}</span></p>
         </div>
         <div class="py-2">
           <div class="flex-1 " v-if="product.description">
@@ -138,7 +149,24 @@ definePageMeta({
         </div>
       </div>
     </div>
+    <!-- Featured -->
+    <section class="flex flex-col items-center justify-around bg-[#1f2937] py-8 w-screen" v-if="featuredProducts.length > 0">
+      <div class="">
+        <h2 class="text-3xl pb-4 text-white">Top Produkte</h2>
+      </div>
+      <div class="carousel w-full flex justify-center" ref="carouselRef">
+        <div v-for="product in featuredProducts" :key="product.slug" class="carousel-item">
+          <ShopProductsFeatured :product="product"/>
+        </div>
+      </div>
+
+      <div class="flex justify-between pt-2">
+        <a href="#prev" class="btn btn-circle" @click="slideLeft()">❮</a>
+        <a href="#next" class="btn btn-circle" @click="slideRight()">❯</a>
+      </div>
+    </section>
   </div>
+
   </div>
 </template>
 

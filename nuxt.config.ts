@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  title: 'The Crowned Lion',
   srcDir: './app',
   ssr: false,
   modules: [
@@ -36,6 +37,29 @@ export default defineNuxtConfig({
     ],
   },
   pwa: {
-    /* your pwa options */
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'The Crowned Lion',
+      short_name: 'CrownedLion',
+      theme_color: '#66cc8a',
+      icons: [
+        {
+          src: 'favicon.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'favicon.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: 'favicon.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+      ],
+    },
   }
 })

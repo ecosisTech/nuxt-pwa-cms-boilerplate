@@ -1,30 +1,30 @@
 <script setup lang="ts">
 const props = defineProps({
-  group: {
+  category: {
     type: Object,
     required: true
   }
 })
 
-// const image = useAssets(`/uploads/shop/groups/group-placeholder.png`)
+// const image = useAssets(`/uploads/shop/categorys/category-placeholder.png`)
 </script>
 <template>
   <div>
     <div class="bg-base-100 rounded-lg border border-base-200 shadow-md m-2">
-      <nuxt-link :to="`/shop/${group.slug}`">
+      <nuxt-link :to="`/shop/${category.slug}`">
         <div>
           <img class="rounded-t-lg h-80 w-full object-cover"
-          :src="(group.banner) ? `/uploads/shop/groups/${group.banner}` : '/uploads/shop/groups/group-placeholder.png'"
+          :src="(category.image) ? `/uploads/shop/categories/${category.image}` : '/uploads/shop/categorys/category-placeholder.png'"
           >
         </div>
         <div class="p-5">
           <div>
             <h5 class="mb-2 text-2xl font-bold tracking-tight">
-              {{ group.name }}
+              {{ category.name }}
             </h5>
           </div>
           <!-- <p class="mb-3 font-medium">
-            <span>Produkte:</span> {{ group.subgroups.length }}
+            <span>Produkte:</span> {{ category.subcategories.length }}
           </p> -->
         </div>
       </nuxt-link>

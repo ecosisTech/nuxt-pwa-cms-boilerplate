@@ -42,7 +42,7 @@ const activateSidebar = () => {
   // })
 }
 const deactivateSidebar = () => {
-  activeSidebar.value = false
+  activeSidebar.value = !activeSidebar.value
 }
 
 watch(route, value => {
@@ -50,7 +50,7 @@ watch(route, value => {
 }, {deep: true, immediate: true})
 
 // Password Protection
-const pw = 'absoluteCrown'
+const pw = 'crowned'
 const enterPW = ref('')
 
 const lockedScreen = ref(false)
@@ -149,33 +149,40 @@ onBeforeMount(async () => {
           <!-- Navbar Start -->
           <div class="navbar-start">
             <!-- Menu -->
-            <div class="hidden md:block dropdown">
+            <!-- Mobile visible Sidebar Button -->
+            <button class="btn btn-circle btn-ghost" :class="(status === 'authenticated') ? 'block md:hidden' : 'hidden'" @click="activateSidebar()">
+              <label tabindex="0" class="btn btn-ghost btn-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-right-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="15" x2="15" y1="3" y2="21"/><path d="m8 9 3 3-3 3"/></svg>
+              </label>
+            </button>
+            <div class="dropdown">
               <label tabindex="0" class="btn btn-ghost btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
               </label>
-              <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a @click="router.push(`/shop/`)">Home</a></li>
-                <li><a @click="router.push(`/shop/${group.slug}`)" v-for="group in productsStore.groups">{{ group.name }}</a></li>
+
+              <ul class="dropdown-content bg-base-100 menu xl:menu-horizontal lg:min-w-max rounded-box mt-16">
+                <li v-for="category in categoriesStore.categories">
+                  <NuxtLink :to="`/shop/${category.slug}`">
+                    <img class="w-12 h-12" :src="'/uploads/shop/categories/' + category.image"/>
+                    {{ category.name }}
+                  </NuxtLink>
+                  <ul v-for="subcategory in category.subcategories">
+                    <li><NuxtLink :to="`/shop/${category.slug}/${subcategory}`">{{ subcategory }}</NuxtLink></li>
+                  </ul>
+                </li>
               </ul>
             </div>
 
-            <!-- Mobile visible Sidebar Button -->
-            <button class="btn btn-circle btn-ghost block md:hidden" @click="activateSidebar()">
-              <label tabindex="0" class="btn btn-ghost btn-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-              </label>
-            </button>
-
             <!-- Search Button -->
-            <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
+            <!-- <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </button>
+            </button> -->
           </div>
 
           <!-- Navbar Center -->
           <div class="navbar-center">
-            <input type="text" placeholder="Suche..." class="input input-ghost w-full w-full rounded rounded-full" disabled v-if="searchbar"/>
-            <NuxtLink class="btn btn-ghost normal-case text-xl font-thin" to="/" v-if="!searchbar">
+            <!-- <input type="text" placeholder="Suche..." class="input input-ghost w-full w-full rounded rounded-full" disabled v-if="searchbar"/> -->
+            <NuxtLink class="btn btn-ghost normal-case text-xl font-thin" to="/shop" v-if="!searchbar">
               <img class="h-12" :src="`/${(themeStore.colorMode.preference === 'dark') ? 'logo.png' : 'logo_dark.png' }`" alt="The Crowned Lion">
             </NuxtLink>
           </div>
@@ -247,7 +254,7 @@ onBeforeMount(async () => {
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
         >
-          <button class="w-full block md:hidden p-2" @click="deactivateSidebar()">
+          <button class="w-full p-2" @click="deactivateSidebar()">
             <div class="flex justify-end bg-base-200 w-full px-2 py-4 rounded rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
             </div>

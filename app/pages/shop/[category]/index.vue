@@ -1,64 +1,71 @@
 <script setup lang="ts">
 import { useProductsStore } from '../../../stores/products'
+import { useCategoriesStore } from '../../../stores/categories'
 
 const route = useRoute()
 
 const productsStore = useProductsStore()
+const categoriesStore = useCategoriesStore()
 
-const featuredProducts = computed(() => {
-  return productsStore.products.filter(p => {
-    if (p.featured === true && p['group-id'] === group.value.id) {
-      return p
-    }
-  })
-  // return productsStore.products
-})
-
-// const group = computed(() => {
-//   return productsStore.groups.find(g => {
-//     if (g.slug === route.params.group) {
-//       console.log(g.slug);
-//       console.log(route.params.group);
-//       console.log(g);
-//
-//       return g.value
-//     }
-//   })
-// })
-
-const group = computed(() => {
-  return productsStore.groups.find(g => {
-    if (g.slug === route.params.group) {
-      return g
+const category = computed(() => {
+  return categoriesStore.categories.find(c => {
+    if (c.slug === route.params.category) {
+      return c
     }
   })
 })
 
 const allProducts = computed(() => {
-  return productsStore.products.filter(p => {
-    if (p['group-name'] === group.value.name) {
-      return p
-    }
-  })
+  let items = []
+  for (let product of category.value.products) {
+    items.push(productsStore.products.find(p => p.slug === product))
+  }
+  return items
 })
 
-// const bannerImage = computed(() => {
-//   // return
-// })
+const featuredProducts = computed(() => {
+  let items = []
+  for (let product of category.value.featured) {
+    items.push(productsStore.products.find(p => p.slug === product))
+  }
+  return items
+})
+
+const subcategories = computed(async () => {
+  let items = []
+  for (let subcategory of category.value.subcategories) {
+    let subcategory = await getSubcategory(category.slug, subcategory)
+    items.push(subcategory)
+  }
+  return items
+})
+
 definePageMeta({
   auth: false,
 })
 </script>
 
 <template>
-  <div class="" v-if="group">
+  <div class="" v-if="category">
     <!-- Header -->
-    <section>
-      <div class="w-full flex flex-col justify-end pt-12 bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/groups/${group.banner})` }">
-        <div class="flex flex-col justify-start items-center text-center w-full mt-24">
-          <h1 class="text-3xl text-white">{{ group.name }}</h1>
+    <section class="">
+      <!-- Featured -->
+      <div class="w-full flex flex-col justify-end pt-16 bg-[#1f2937] bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/categories/${category.image})` }">
+        <div class="flex flex-col justify-start items-center text-center w-full my-24">
+          <div class="">
+            <h2 class="text-3xl pb-4 text-white">{{ category.name }}</h2>
+          </div>
+          <div class="carousel w-full flex justify-center" ref="carouselRef">
+            <div v-for="product in featuredProducts" :key="product.slug" class="carousel-item">
+              <ShopProductsPreview :product="product"/>
+            </div>
+          </div>
         </div>
-        <div class="custom-shape-divider-bottom-1697729642">
+        <div class="flex justify-center pt-2">
+          <a href="#prev" class="btn btn-circle mx-1" @click="slideLeft()">❮</a>
+          <a href="#next" class="btn btn-circle mx-1" @click="slideRight()">❯</a>
+        </div>
+        <div class="custom-shape-divider-bottom-1697729642" id="shop">
           <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-200"></path>
           </svg>
@@ -66,42 +73,25 @@ definePageMeta({
       </div>
     </section>
 
-    <!-- Featured -->
-    <section class="flex flex-col items-center justify-around py-8 w-screen" v-if="featuredProducts.length > 0">
-      <div class="">
-        <h2 class="text-3xl pb-4">Top Produkte</h2>
-      </div>
-      <div class="carousel w-full flex justify-center" ref="carouselRef">
-        <div v-for="product in featuredProducts" :key="product['product-id']" class="carousel-item">
-          <ShopProductsFeatured :product="product"/>
-        </div>
-      </div>
-
-      <div class="flex justify-between pt-2">
-        <a href="#prev" class="btn btn-circle" @click="slideLeft()">❮</a>
-        <a href="#next" class="btn btn-circle" @click="slideRight()">❯</a>
-      </div>
-    </section>
-
     <!-- Groups -->
-    <section class="bg-base-300 flex flex-col items-center justify-around py-12" v-if="group.subgroups.length > 0" id="shop">
+    <section class="bg-base-200 flex flex-col items-center justify-around py-12" v-if="category.subcategories.length > 0" id="shop">
       <div class="">
         <h2 class="text-3xl pb-4">Unterkategorien</h2>
       </div>
       <div class="flex flex-wrap justify-around">
-        <div v-for="subgroup in group.subgroups" :key="subgroup.id" class="flex-1">
-          <ShopProductsSubgroup :subgroup="subgroup"/>
+        <div v-for="subcategory in category.subcategories" :key="subcategory.id" class="flex-1">
+          <ShopProductsSubcategory :slug="subcategory"/>
         </div>
       </div>
     </section>
 
     <!-- Products -->
-    <section class="container mx-auto flex flex-col items-center justify-around pt-16" v-if="allProducts.length > 0">
+    <section class="bg-base-300 mx-auto flex flex-col items-center justify-around pt-16" v-if="allProducts.length > 0">
       <div class="">
         <h2 class="text-3xl pb-4">Produkte</h2>
       </div>
       <div class="flex flex-wrap justify-center">
-        <div v-for="product in allProducts" :key="product['product-id']">
+        <div v-for="product in allProducts" :key="product.slug">
           <ShopProductsPreview :product="product"/>
         </div>
       </div>

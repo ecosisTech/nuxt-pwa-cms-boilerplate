@@ -122,10 +122,10 @@ onMounted(() => {
 
           <!-- Login -->
           <div class="" v-if="!registration">
-            <button class="w-full rounded pb-4" @click="registration = true">
+            <!-- <button class="w-full rounded pb-4" @click="registration = true">
               <h1>Login</h1>
               <p class="underline">Register</p>
-            </button>
+            </button> -->
             <input type="email" placeholder="E-Mail" class="input input-bordered w-full my-4"
               v-model="email"
             />

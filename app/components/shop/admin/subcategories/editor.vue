@@ -25,7 +25,7 @@ const edit = ref(props.subcategory || {
   parent: route.params.slug,
   name: '',
   slug: '',
-  image: null,
+  image: '',
   description: '',
   products: [],
   featured: [],
@@ -102,9 +102,9 @@ const removeSubcategory = async () => {
                   <span class="label-text-alt">Upload</span>
                 </label>
                 <input class="file-input file-input-bordered w-full max-w-xs" type="file" name="file" multiple @change="selectFiles"/>
-                <label class="label">
+                <!-- <label class="label">
                   <span class="label-text-alt">Resolution: 600x600px</span>
-                </label>
+                </label> -->
               </div>
               <div class="modal-action">
                 <form method="dialog">
@@ -204,6 +204,13 @@ const removeSubcategory = async () => {
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md" disabled v-model="edit.slug" v-if="edit.id"/>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.slug" v-else/>
           </div>
+        </div>
+
+        <div class="form-control w-full max-w-md">
+          <label class="label">
+            <span class="label-text">Image URL</span>
+          </label>
+          <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.image"/>
         </div>
 
         <div class="form-control w-full max-w-md">

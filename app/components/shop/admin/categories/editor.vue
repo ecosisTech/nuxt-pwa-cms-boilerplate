@@ -215,6 +215,13 @@ const removeCategory = async () => {
 
         <div class="form-control w-full max-w-md">
           <label class="label">
+            <span class="label-text">Image URL</span>
+          </label>
+          <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.image"/>
+        </div>
+
+        <div class="form-control w-full max-w-md">
+          <label class="label">
             <span class="label-text">Beschreibung</span>
           </label>
           <textarea class="textarea textarea-bordered w-full h-64" placeholder="Kategorie Beschreibung" v-model="edit.description"></textarea>
@@ -289,7 +296,7 @@ const removeCategory = async () => {
           </div>
         </div>
       </dialog>
-      <button class="btn" @click="router.push(`/shop/category/${edit.slug}`)">View</button>
+      <button class="btn" @click="router.push(`/shop/${edit.slug}`)">View</button>
     </div>
 
   </div>
