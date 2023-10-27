@@ -35,16 +35,12 @@ const activateSearchBar = () => {
 // Admin Sidebar
 const sidebar = ref()
 const activeSidebar = ref(false)
-const activateSidebar = () => {
-  activeSidebar.value = true
+const toggleSidebar = () => {
+  activeSidebar.value = !activeSidebar.value
   // clickOutside(sidebar, () => { // TODO
   //   activeSidebar.value = false
   // })
 }
-const deactivateSidebar = () => {
-  activeSidebar.value = false
-}
-
 watch(route, value => {
   activeSidebar.value = false
 }, {deep: true, immediate: true})
@@ -150,11 +146,14 @@ onBeforeMount(async () => {
           <div class="navbar-start">
             <!-- Menu -->
             <!-- Mobile visible Sidebar Button -->
-            <button class="btn btn-circle btn-ghost" :class="(status === 'authenticated') ? 'block md:hidden' : 'hidden'" @click="activateSidebar()">
+            <button class="btn btn-circle btn-ghost" :class="(status === 'authenticated') ? 'block' : 'hidden'" @click="toggleSidebar()">
               <label tabindex="0" class="btn btn-ghost btn-circle">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-right-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="15" x2="15" y1="3" y2="21"/><path d="m8 9 3 3-3 3"/></svg>
+                <svg v-if="!activeSidebar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-right-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="15" x2="15" y1="3" y2="21"/><path d="m8 9 3 3-3 3"/></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
               </label>
             </button>
+
+            <!-- Dropdown Mega Menu -->
             <div class="dropdown">
               <label tabindex="0" class="btn btn-ghost btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
@@ -254,7 +253,7 @@ onBeforeMount(async () => {
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
         >
-          <button class="w-full p-2" @click="deactivateSidebar()">
+          <button class="w-full p-4 block md:hidden" @click="toggleSidebar()">
             <div class="flex justify-end bg-base-200 w-full px-2 py-4 rounded rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
             </div>
