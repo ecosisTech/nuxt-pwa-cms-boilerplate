@@ -42,7 +42,7 @@ const activateSidebar = () => {
   // })
 }
 const deactivateSidebar = () => {
-  activeSidebar.value = !activeSidebar.value
+  activeSidebar.value = false
 }
 
 watch(route, value => {
@@ -250,7 +250,7 @@ onBeforeMount(async () => {
         <!-- Admin Menu -->
         <div
           class="bg-base-300 fixed md:static min-h-screen justify-center items-center z-50"
-          :class="(activeSidebar) ? 'block' : 'hidden md:block'"
+          :class="(activeSidebar) ? 'block' : 'hidden'"
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
         >
