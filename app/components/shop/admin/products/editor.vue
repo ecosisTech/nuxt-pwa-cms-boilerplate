@@ -83,10 +83,11 @@ const uploadNewFiles = async () => {
 const addNewProduct = async () => {
   try {
     if (slug.value && edit.value.name) {
+      edit.value.slug = slug.value
       if (!edit.value.id) {
-        await addProduct({ ...edit, slug: slug.value })
+        await addProduct(edit)
       } else {
-        await updateProduct({ ...edit, slug: slug.value })
+        await updateProduct(edit)
       }
       await productsStore.fetchProducts()
       router.push(`/shop/product/${edit.value.slug}`)
@@ -232,17 +233,6 @@ const removeProduct = async () => {
               </p>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
-          </div>
-        </div>
-
-        <!-- Product Slug -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Produkt Slug (URL)*</p>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md" disabled v-model="edit.slug" v-if="edit.id"/>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.slug" v-else/>
           </div>
         </div>
 
