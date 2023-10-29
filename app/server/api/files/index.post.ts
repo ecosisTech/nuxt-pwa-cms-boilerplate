@@ -1,26 +1,37 @@
+// import {
+//   existsSync,
+//   mkdirSync,
+//
+// } from 'fs';
+import fs from 'fs';
+import { writeFile, mkdir, access } from 'fs';
+import path from 'path';
 import { v4 as uuid } from 'uuid';
-import { writeFile, mkdir, stat } from 'fs/promises';
-import { File } from '../../../lib/interfaces/file.interface' // Replace with the actual path to your interface file
+import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
   try {
+    const session = await getServerSession(event)
     const filesDatabase = event.context.filesDatabase
-    const userRole = event.context.userRole // Assuming you've set the user's role in a previous middleware
+    const databaseManager = event.context.databaseManager
+    // const userRole = event.context.userRole // Assuming you've set the user's role in a previous middleware
 
-    if (userRole !== 'admin') {
+    if (!session) {
       throw createError({
         statusCode: 403, // Forbidden
         statusMessage: 'Permission denied',
       })
     }
+    // if (userRole !== 'admin') {
+    //   throw createError({
+    //     statusCode: 403, // Forbidden
+    //     statusMessage: 'Permission denied',
+    //   });
+    // }
 
-    const { path } = getQuery(event)
+    // const { path } = await getQuery(event)
 
-    if (!stat(`./uploads/${path}`)) {
-      console.log(`./uploads/${path}`);
-
-      await mkdir(path)
-    }
+    const files = await readMultipartFormData(event);
 
     if (!files || files.length === 0) {
       throw createError({
@@ -30,22 +41,26 @@ export default defineEventHandler(async (event) => {
     }
 
     for (let file of files) {
-      const filename = file.filename
-      //   const mimetype = file.type
-      const data = file.data
-      // const filePath = `./public/${path}/${filename}`
-      const filePath = `./uploads/${filename}`
-      await writeFile(filePath, data)
+      let filename = file.filename
+      const path = `app/public/uploads/`
+      const filePath = path + filename
+
+      if (fs.existsSync(path)) {
+        fs.writeFileSync(filePath, file.data);
+      } else {
+        fs.mkdirSync(path, { recursive: true });
+        fs.writeFileSync(filePath, file.data);
+      }
     }
 
-    // Get the product data from the request body
-    const { fileData: File } = useBody()
-
-    // Generate a unique ID for the product (you can use your own method)
-    const fileID = uuid() // Implement a method to generate unique IDs
-
-    // Add the product to the database
-    await filesDatabase.put(fileID, fileData)
+    // // Get the product data from the request body
+    // const { data } = await readBody()
+    //
+    // // Generate a unique ID for the product (you can use your own method)
+    // const fileID = uuid() // Implement a method to generate unique IDs
+    //
+    // // Add the product to the database
+    // await filesDatabase.put(fileID, fileData)
 
     return { message: 'Product created successfully' }
   } catch (error) {
