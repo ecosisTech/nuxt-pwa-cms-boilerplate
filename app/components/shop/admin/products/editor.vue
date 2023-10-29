@@ -14,11 +14,16 @@ const props = defineProps({
 const productsStore = useProductsStore()
 const notificationStore = useNotificationStore()
 
+const date = new Date().toISOString().split('T')[0]
+
+const slug = computed(() => {
+  return slugify(edit.value.name)
+})
+
 const edit = ref(props.product || {
   id: '',
   brand: '',
   name: '',
-  slug: '',
   images: [],
   quantity: 0,
   description: '',
@@ -45,12 +50,21 @@ const selectFiles = (e) => {
 
 const uploadNewFiles = async () => {
   try {
+    const formData = new FormData()
     for (let file of selectedFiles.value) {
-      const formData = new FormData()
-      formData.append(file.name, file)
-      await useFetch(`/api/files/upload`, {
+      formData.append('file', file)
+      // file.name = slugify(file.name)
+
+      // let path;
+      // if (file.name) {
+      //   path = slugify(file.name)
+      // } else {
+      //   path = slugify(generateRandomString(32))
+      // }
+
+      await useFetch(`/api/files?path=shop/${date}/${slug.value}/`, {
       // await useFetch(`/api/files/upload?path=${product['group-slug']}`, {
-        method: 'post',
+        method: 'POST',
         body: formData,
       })
     }
@@ -68,11 +82,11 @@ const uploadNewFiles = async () => {
 
 const addNewProduct = async () => {
   try {
-    if (edit.value.slug && edit.value.name) {
+    if (slug.value && edit.value.name) {
       if (!edit.value.id) {
-        await addProduct(edit)
+        await addProduct({ ...edit, slug: slug.value })
       } else {
-        await updateProduct(edit)
+        await updateProduct({ ...edit, slug: slug.value })
       }
       await productsStore.fetchProducts()
       router.push(`/shop/product/${edit.value.slug}`)
@@ -116,17 +130,18 @@ const removeProduct = async () => {
       <div class="w-full md:w-1/3">
         <div class="">
           <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/products/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
-          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Produkt Bild</button>
+          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner tooltip" onclick="img_upload.showModal()" disabled v-if="!slug" data-tip="Benenne das Produkt erst">Neues Produkt Bild</button>
+          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()" v-else>Neues Produkt Bild</button>
           <dialog id="img_upload" class="modal">
             <div class="modal-box">
               <div class="form-control w-full max-w-xs">
                 <label class="label">
-                  <span class="label-text">Pick an image file</span>
-                  <span class="label-text-alt">Upload</span>
+                  <p class="label-text">Pick an image file</p>
+                  <p class="label-text-alt">Upload</p>
                 </label>
                 <input class="file-input file-input-bordered w-full max-w-xs" type="file" name="file" multiple @change="selectFiles"/>
                 <label class="label">
-                  <span class="label-text-alt">Resolution: 600x600px</span>
+                  <p class="label-text-alt">Resolution: 600x600px</p>
                 </label>
               </div>
               <div class="modal-action">
@@ -202,7 +217,7 @@ const removeProduct = async () => {
         <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Product ID</span>
+              <p class="label-text">Product ID</p>
             </label>
             <input type="text" placeholder="Automatisch generiert" class="input input-bordered w-full max-w-md"  v-model="edit.id" disabled/>
           </div>
@@ -212,7 +227,9 @@ const removeProduct = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Produkt Name*</span>
+              <p class="label-text">Produkt Name*
+                <span class="text-gray-500 italic text-sm">Slug: {{ slug }}</span>
+              </p>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
           </div>
@@ -222,7 +239,7 @@ const removeProduct = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Produkt Slug (URL)*</span>
+              <p class="label-text">Produkt Slug (URL)*</p>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md" disabled v-model="edit.slug" v-if="edit.id"/>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.slug" v-else/>
@@ -233,7 +250,7 @@ const removeProduct = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Menge</span>
+              <p class="label-text">Menge</p>
             </label>
             <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.quantity"/>
           </div>
@@ -243,7 +260,7 @@ const removeProduct = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Marke</span>
+              <p class="label-text">Marke</p>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.brand"/>
           </div>
@@ -253,7 +270,7 @@ const removeProduct = async () => {
         <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Warengruppe</span>
+              <p class="label-text">Warengruppe</p>
             </label>
             <select class="select select-bordered w-full max-w-md" v-model="edit['group-name']">
               <option selected>{{ edit['group-name'] }}</option>
@@ -266,7 +283,7 @@ const removeProduct = async () => {
         <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Unterkategorie</span>
+              <p class="label-text">Unterkategorie</p>
             </label>
             <select class="select select-bordered w-full max-w-md" v-model="edit['subgroup-name']">
               <option selected>{{ edit['subgroup-name'] }}</option>
@@ -280,7 +297,7 @@ const removeProduct = async () => {
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <span class="label-text">Preis (Verkauf) (in EUR)</span>
+                <p class="label-text">Preis (Verkauf) (in EUR)</p>
               </label>
               <input type="number" placeholder="2€" class="input input-bordered w-full max-w-md"  v-model="edit.sellingPrice"/>
             </div>
@@ -288,7 +305,7 @@ const removeProduct = async () => {
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <span class="label-text">Preis (gekauft) (in EUR)</span>
+                <p class="label-text">Preis (gekauft) (in EUR)</p>
               </label>
               <input type="number" placeholder="1€" class="input input-bordered w-full max-w-md"  v-model="edit.boughtPrice"/>
             </div>
@@ -299,7 +316,7 @@ const removeProduct = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">EAN</span>
+              <p class="label-text">EAN</p>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.EAN"/>
           </div>
@@ -310,7 +327,7 @@ const removeProduct = async () => {
           <div class="">
             <div class="form-control w-full max-w-xs">
               <label class="label">
-                <span class="label-text">Tax</span>
+                <p class="label-text">Tax</p>
               </label>
               <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.tax"/>
             </div>
@@ -320,7 +337,7 @@ const removeProduct = async () => {
           <div class="">
             <div class="form-control w-full max-w-xs">
               <label class="label">
-                <span class="label-text">Account</span>
+                <p class="label-text">Account</p>
               </label>
               <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.account"/>
             </div>
@@ -334,7 +351,7 @@ const removeProduct = async () => {
           <h3 class="font-bold">Produkt Daten</h3>
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Beschreibung</span>
+              <p class="label-text">Beschreibung</p>
             </label>
             <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea>
           </div>
@@ -345,14 +362,14 @@ const removeProduct = async () => {
           <h3 class="font-bold">Eigenschaften</h3>
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Eigenschafts Name</span>
+              <p class="label-text">Eigenschafts Name</p>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyName"/>
           </div>
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <span class="label-text">Eigenschafts Wert</span>
+                <p class="label-text">Eigenschafts Wert</p>
               </label>
               <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyValue"/>
             </div>
@@ -360,7 +377,7 @@ const removeProduct = async () => {
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <span class="label-text">Weitere Eigenschaften</span>
+                <p class="label-text">Weitere Eigenschaften</p>
               </label>
               <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.properties"/>
             </div>
@@ -376,7 +393,7 @@ const removeProduct = async () => {
           <div class="form-control">
             <label class="label cursor-pointer">
               <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['featured']"/>
-              <span class="label-text pl-2">Featured</span>
+              <p class="label-text pl-2">Featured</p>
             </label>
           </div>
         </div>

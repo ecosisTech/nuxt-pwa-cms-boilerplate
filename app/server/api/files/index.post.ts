@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     //   });
     // }
 
-    // const { path } = await getQuery(event)
+    const { path } = await getQuery(event)
 
     const files = await readMultipartFormData(event);
 
@@ -42,13 +42,13 @@ export default defineEventHandler(async (event) => {
 
     for (let file of files) {
       let filename = file.filename
-      const path = `app/public/uploads/`
-      const filePath = path + filename
+      const fullpath = `app/public/uploads/${path}`
+      const filePath = fullpath + filename
 
-      if (fs.existsSync(path)) {
+      if (fs.existsSync(fullpath)) {
         fs.writeFileSync(filePath, file.data);
       } else {
-        fs.mkdirSync(path, { recursive: true });
+        fs.mkdirSync(fullpath, { recursive: true });
         fs.writeFileSync(filePath, file.data);
       }
     }

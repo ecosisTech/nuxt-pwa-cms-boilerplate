@@ -22,9 +22,10 @@ export const updateFile = async (id, data) => {
 
 export const getFile = async (id) => {
   try {
-    return await useFetch('/api/shop/files/' + id, {
+    const { data } = await useFetch('/api/shop/files/' + id, {
       method: 'GET'
     })
+    return data.value
   } catch (error) {
     throw new Error(error)
   }
@@ -32,9 +33,10 @@ export const getFile = async (id) => {
 
 export const getAllFiles = async () => {
   try {
-    return await useFetch('/api/shop/files/', {
+    const { data } = await useFetch('/api/shop/files/', {
       method: 'GET'
     })
+    return data.value
   } catch (error) {
     throw new Error(error)
   }

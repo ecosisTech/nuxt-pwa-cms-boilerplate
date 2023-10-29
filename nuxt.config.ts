@@ -15,6 +15,14 @@ export default defineNuxtConfig({
     { src: '~/plugins/markdown.ts', mode: 'client' },
     { src: '~/plugins/multiselect.ts', mode: 'client' },
   ],
+  nitro: {
+    serverAssets: [
+      {
+        baseName: '',
+        dir: 'uploads',
+      },
+    ],
+  },
   auth: {
     globalAppMiddleware: true,
     enableSessionRefreshPeriodically: 5000,
@@ -36,6 +44,17 @@ export default defineNuxtConfig({
       ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
     ],
   },
+  // vite: {
+  //   server: { // https://github.com/nuxt/nuxt/issues/12748#issuecomment-1397234566
+  //     https: {
+  //       // key: fs.readFileSync('.cert/localhost-key.pem'),
+  //       // cert: fs.readFileSync('.cert/localhost-cert.pem'),
+  //     },
+  //     hmr: {
+  //       // protocol: 'wss'
+  //     }
+  //   }
+  // },
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
