@@ -36,13 +36,13 @@ definePageMeta({
     <!-- Header -->
     <section class="">
       <!-- Featured -->
-      <div class="w-full flex flex-col justify-end pt-16 bg-[#1f2937] bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/shop/categories/${subcategory.image})` }">
+      <div class="w-full flex flex-col justify-end pt-16 bg-[#1f2937] bg-cover bg-fixed bg-center bg-no-repeat" :style="{ 'background-image': `url(/uploads/${subcategory.image})` }">
         <div class="flex flex-col justify-start items-center text-center w-full my-24">
           <div class="">
             <h2 class="text-3xl pb-4 text-white">{{ subcategory.name }}</h2>
           </div>
           <div class="carousel w-full flex justify-center" ref="carouselRef">
-            <div v-for="product in featuredProducts" :key="product.slug" class="carousel-item">
+            <div v-for="product in featuredProducts" class="carousel-item" v-if="featuredProducts">
               <ShopProductsPreview :product="product"/>
             </div>
           </div>
@@ -65,7 +65,7 @@ definePageMeta({
         <h2 class="text-3xl pb-4">Produkte</h2>
       </div>
       <div class="flex flex-wrap justify-center">
-        <div v-for="product in allProducts" :key="product.slug">
+        <div v-for="product in allProducts" v-if="allProducts">
           <ShopProductsPreview :product="product"/>
         </div>
       </div>

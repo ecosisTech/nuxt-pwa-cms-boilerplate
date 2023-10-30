@@ -162,7 +162,7 @@ onBeforeMount(async () => {
               <ul class="dropdown-content bg-base-100 menu xl:menu-horizontal lg:min-w-max rounded-box mt-16">
                 <li v-for="category in categoriesStore.categories">
                   <NuxtLink :to="`/shop/${category.slug}`">
-                    <img class="w-12 h-12" :src="'/uploads/shop/categories/' + category.image"/>
+                    <img class="w-12 h-12" :src="'/uploads/' + category.image"/>
                     {{ category.name }}
                   </NuxtLink>
                   <ul v-for="subcategory in category.subcategories">

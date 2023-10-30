@@ -87,7 +87,7 @@ definePageMeta({
             <a>Produkte</a>
             <ul>
               <li v-for="product in allProducts"><NuxtLink :to="`/shop/product/${product.slug}`">
-                <img class="w-12 h-12" :src="'/uploads/shop/products/' + product.images[0]"/>
+                <img class="w-12 h-12" :src="'/uploads/' + product.images[0]"/>
                 {{ product.name }}
               </NuxtLink></li>
             </ul>
@@ -96,7 +96,7 @@ definePageMeta({
             <a>Kategorien</a>
             <ul>
               <li v-for="category in categories"><NuxtLink :to="`/shop/${category.slug}`">
-                <img class="w-12 h-12" :src="'/uploads/shop/categories/' + category.image"/>
+                <img class="w-12 h-12" :src="'/uploads/' + category.image"/>
                 {{ category.name }}
               </NuxtLink></li>
               <li>
