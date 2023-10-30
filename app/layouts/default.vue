@@ -49,7 +49,7 @@ watch(route, value => {
 const pw = 'crowned'
 const enterPW = ref('')
 
-const lockedScreen = ref(false)
+const lockedScreen = ref(true)
 const unlockScreen = () => {
   if (pw === enterPW.value) {
     lockedScreen.value = false
