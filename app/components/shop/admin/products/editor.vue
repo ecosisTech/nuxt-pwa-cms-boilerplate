@@ -48,25 +48,12 @@ const selectFiles = (e) => {
   selectedFiles.value = e.target.files
 }
 
-const uploadNewFiles = async () => {
+const uploadImages = async () => {
   try {
-    const formData = new FormData()
+    const path = `shop/${date}/${slug.value}/`
+    await uploadFiles(path, selectedFiles.value)
     for (let file of selectedFiles.value) {
-      formData.append('file', file)
-      // file.name = slugify(file.name)
-
-      // let path;
-      // if (file.name) {
-      //   path = slugify(file.name)
-      // } else {
-      //   path = slugify(generateRandomString(32))
-      // }
-
-      await useFetch(`/api/files?path=shop/${date}/${slug.value}/`, {
-      // await useFetch(`/api/files/upload?path=${product['group-slug']}`, {
-        method: 'POST',
-        body: formData,
-      })
+      edit.value.images.push(path + file.name)
     }
     notificationStore.addNotification({
       type: 'success',
@@ -78,6 +65,38 @@ const uploadNewFiles = async () => {
       msg: error
     })
   }
+}
+
+const removeImage = async (path) => {
+  try {
+    await deleteFile(path)
+    for (let image of edit.value.images) {
+      edit.value.images = edit.value.images.filter(p => p !== path)
+    }
+    notificationStore.addNotification({
+      type: 'success',
+      msg:  `"/uploads/${path}" successfully removed!`
+    })
+  } catch (error) {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
+  }
+}
+
+const makeImageFirst = (image) => {
+  const index = edit.value.images.indexOf(image);
+
+  if (index !== -1) {
+    // Remove the item from its current position
+    edit.value.images.splice(index, 1);
+
+    // Add the item back to the beginning of the array
+    edit.value.images.unshift(image);
+  }
+
+  return edit.value.images;
 }
 
 const addNewProduct = async () => {
@@ -130,7 +149,7 @@ const removeProduct = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/products/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner tooltip" onclick="img_upload.showModal()" disabled v-if="!slug" data-tip="Benenne das Produkt erst">Neues Produkt Bild</button>
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()" v-else>Neues Produkt Bild</button>
           <dialog id="img_upload" class="modal">
@@ -148,7 +167,7 @@ const removeProduct = async () => {
               <div class="modal-action">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-success" @click="uploadNewFiles()">Upload</button>
+                  <button class="btn btn-success" @click="uploadImages()">Upload</button>
                   <button class="btn">Cancel</button>
                 </form>
               </div>
@@ -171,7 +190,7 @@ const removeProduct = async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr class="hover:bg-base-200" v-for="image in edit.images">
+                <tr class="hover:bg-base-200" v-for="image in edit.images" @click="makeImageFirst(image)">
                   <!-- <th>
                     <label>
                       <input type="checkbox" class="checkbox" />
@@ -181,7 +200,7 @@ const removeProduct = async () => {
                     <div class="flex items-center space-x-3">
                       <div class="avatar">
                         <div class="mask mask-squircle w-12 h-12">
-                          <img :src="`/uploads/shop/products/${image}`" />
+                          <img :src="`/uploads/${image}`" />
                         </div>
                       </div>
                     </div>
@@ -190,7 +209,7 @@ const removeProduct = async () => {
                     {{ image }}
                   </td>
                   <th>
-                    <button class="btn btn-error btn-circle btn-md">
+                    <button class="btn btn-error btn-circle btn-md" @click="removeImage(image)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                     </button>
                   </th>

@@ -1,8 +1,3 @@
-// import {
-//   existsSync,
-//   mkdirSync,
-//
-// } from 'fs';
 import fs from 'fs';
 import { writeFile, mkdir, access } from 'fs';
 import path from 'path';
@@ -30,27 +25,16 @@ export default defineEventHandler(async (event) => {
 
     const { path } = await getQuery(event)
 
-    const files = await readMultipartFormData(event);
-
-    if (!files || files.length === 0) {
+    if (!path) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Image Not Found',
+        statusMessage: 'No path entered!',
       })
     }
 
-    for (let file of files) {
-      let filename = file.filename
-      const fullpath = `app/public/uploads/${path}`
-      const filePath = fullpath + filename
+    const filepath = `app/public/uploads/${path}`
 
-      if (fs.existsSync(fullpath)) {
-        fs.writeFileSync(filePath, file.data);
-      } else {
-        fs.mkdirSync(fullpath, { recursive: true });
-        fs.writeFileSync(filePath, file.data);
-      }
-    }
+    await fs.unlinkSync(filepath);
 
     // // Get the product data from the request body
     // const { data } = await readBody()

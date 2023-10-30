@@ -81,14 +81,14 @@ definePageMeta({
               class="rounded-3xl border border-base-200 h-24 w-24 p-1 object-cover"
                 v-if="product.images.length > 1"
                 v-for="image in product.images"
-                :src="(product.images) ? `/uploads/shop/products/${image}` : '/uploads/shop/products/product-placeholder.png'"
+                :src="(product.images) ? `/uploads/${image}` : '/uploads/shop/products/product-placeholder.png'"
                 @click="selectImage(image)"
               >
             </div>
             <div class="">
               <img
                 class="rounded-3xl border border-base-200 h-full w-full"
-                :src="(selectedImage) ? `/uploads/shop/products/${selectedImage}` : '/uploads/shop/products/product-placeholder.png'"
+                :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/products/product-placeholder.png'"
               >
             </div>
           </div>
@@ -117,7 +117,7 @@ definePageMeta({
             <h3 class="text-4xl font-bold text-primary">{{ product.brand }}</h3>
           </div>
           <div class="flex flex-col p-2">
-            <div class="flex flex-col">
+            <!-- <div class="flex flex-col">
               <p>Produkt Farbe: {{ product.color }}</p>
               <div class="">
                 <select class="select select-bordered w-full max-w-xs">
@@ -126,14 +126,14 @@ definePageMeta({
                   <option>Variante B</option>
                 </select>
               </div>
-            </div>
+            </div> -->
             <div class="flex" v-if="product.propertyName">
               <p><span>{{ product.propertyName }}: </span>{{ product.propertyValue }}</p>
             </div>
           </div>
         </div>
         <div class="italic">
-          <p>Auf Lager: <span>{{ product.quantity }}</span></p>
+          <p>Auf Lager: <span>{{ product.quantity || 0 }}</span></p>
         </div>
         <div class="py-2">
           <div class="flex-1 " v-if="product.description">
