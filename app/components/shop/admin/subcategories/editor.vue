@@ -114,7 +114,7 @@ const removeSubcategory = async () => {
   try {
     await deleteSubcategory(route.params.slug, edit.value.slug)
     await categoriesStore.fetchCategories()
-    router.push(`/admin/shop/subcategories/${route.params.slug}`)
+    router.push(`/admin/shop/categories/${route.params.slug}`)
     notificationStore.addNotification({
       type: 'success',
       msg: 'Successfully removed!'

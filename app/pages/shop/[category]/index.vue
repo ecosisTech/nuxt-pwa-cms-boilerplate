@@ -56,7 +56,7 @@ definePageMeta({
             <h2 class="text-3xl pb-4 text-white">{{ category.name }}</h2>
           </div>
           <div class="carousel w-full flex justify-center" ref="carouselRef">
-            <div v-for="product in featuredProducts" :key="product.slug" class="carousel-item">
+            <div v-for="product in featuredProducts" class="carousel-item">
               <ShopProductsPreview :product="product"/>
             </div>
           </div>
@@ -91,7 +91,7 @@ definePageMeta({
         <h2 class="text-3xl pb-4">Produkte</h2>
       </div>
       <div class="flex flex-wrap justify-center">
-        <div v-for="product in allProducts" :key="product.slug">
+        <div v-for="product in allProducts">
           <ShopProductsPreview :product="product"/>
         </div>
       </div>
