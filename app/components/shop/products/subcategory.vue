@@ -20,7 +20,7 @@ console.log(subcategory);
       <!-- <nuxt-link :to="`/shop/${subcategory.parent}/${subcategory.slug}`"> -->
         <div>
           <img class="rounded-t-lg h-80 w-full object-cover"
-          :src="(subcategory.image) ? `/uploads/shop/categories/${subcategory.image}` : '/uploads/shop/product-placeholder.png'"
+          :src="(subcategory.image) ? `/uploads/${subcategory.image}` : '/uploads/shop/product-placeholder.png'"
           >
         </div>
         <div class="p-5">
