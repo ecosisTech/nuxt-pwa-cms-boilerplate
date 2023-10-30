@@ -24,6 +24,7 @@ const edit = ref(props.product || {
   id: '',
   brand: '',
   name: '',
+  slug: '',
   images: [],
   quantity: 0,
   description: '',
@@ -149,7 +150,7 @@ const removeProduct = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="my_modal_1.showModal()">
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="img_upload.showModal()">
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner tooltip" onclick="img_upload.showModal()" disabled v-if="!slug" data-tip="Benenne das Produkt erst">Neues Produkt Bild</button>
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()" v-else>Neues Produkt Bild</button>
           <dialog id="img_upload" class="modal">

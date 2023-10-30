@@ -17,6 +17,8 @@ const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
 const notificationStore = useNotificationStore()
 
+const date = new Date().toISOString().split('T')[0]
+
 const products = computed(() => {
   return productsStore.products.map((product) => product.slug);
 })
@@ -27,6 +29,10 @@ const featured = computed(() => {
 
 const subcategories = computed(() => {
   return productsStore.products.map((product) => product.slug);
+})
+
+const slug = computed(() => {
+  return slugify(edit.value.name)
 })
 
 const edit = ref(props.category || {
@@ -50,20 +56,32 @@ const selectFiles = (e) => {
   selectedFiles.value = e.target.files
 }
 
-const uploadNewFiles = async () => {
+const uploadImages = async () => {
   try {
+    const path = `shop/categories/${date}/${slug.value}/`
+    await uploadFiles(path, selectedFiles.value)
     for (let file of selectedFiles.value) {
-      const formData = new FormData()
-      formData.append(file.name, file)
-      await useFetch(`/api/files/upload`, {
-      // await useFetch(`/api/files/upload?path=${category['group-slug']}`, {
-        method: 'post',
-        body: formData,
-      })
+      edit.value.image = path + selectedFiles.value[0].name
     }
     notificationStore.addNotification({
       type: 'success',
-      msg: 'Uploaded'
+      msg: 'Saved!'
+    })
+  } catch (error) {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
+  }
+}
+
+const removeImage = async (path) => {
+  try {
+    await deleteFile(path)
+    edit.value.image = ''
+    notificationStore.addNotification({
+      type: 'success',
+      msg:  `"/uploads/${path}" successfully removed!`
     })
   } catch (error) {
     notificationStore.addNotification({
@@ -75,7 +93,8 @@ const uploadNewFiles = async () => {
 
 const addNewCategory = async () => {
   try {
-    if (edit.value.slug && edit.value.name) {
+    if (slug.value && edit.value.name) {
+      edit.value.slug = slug.value
       if (!edit.value.id) {
         await addCategory(edit)
       } else {
@@ -122,24 +141,25 @@ const removeCategory = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/shop/categorys/${(edit.image) ? edit.image : 'category-placeholder.png'}`" onclick="img_upload.showModal()">
-          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()">Neues Kategorie Bild</button>
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/${(edit.image) ? edit.image : 'shop/product-placeholder.png'}`" onclick="img_upload.showModal()">
+          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()" disabled v-if="!slug" data-tip="Benenne das Produkt erst">Neues Kategorie Bild</button>
+          <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()" v-else>Neues Kategorie Bild</button>
           <dialog id="img_upload" class="modal">
             <div class="modal-box">
               <div class="form-control w-full max-w-xs">
                 <label class="label">
-                  <span class="label-text">Pick an image file</span>
-                  <span class="label-text-alt">Upload</span>
+                  <p class="label-text">Pick an image file</p>
+                  <p class="label-text-alt">Upload</p>
                 </label>
-                <input class="file-input file-input-bordered w-full max-w-xs" type="file" name="file" multiple @change="selectFiles"/>
+                <input class="file-input file-input-bordered w-full max-w-xs" type="file" name="file" @change="selectFiles"/>
                 <label class="label">
-                  <span class="label-text-alt">Resolution: 600x600px</span>
+                  <p class="label-text-alt">Resolution: 600x600px</p>
                 </label>
               </div>
               <div class="modal-action">
                 <form method="dialog">
                   <!-- if there is a button in form, it will close the modal -->
-                  <button class="btn btn-success" @click="uploadNewFiles()">Upload</button>
+                  <button class="btn btn-success" @click="uploadImages()">Upload</button>
                   <button class="btn">Cancel</button>
                 </form>
               </div>
@@ -162,7 +182,7 @@ const removeCategory = async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr class="hover:bg-base-200">
+                <tr class="hover:bg-base-200" v-if="edit.image">
                   <!-- <th>
                     <label>
                       <input type="checkbox" class="checkbox" />
@@ -172,16 +192,16 @@ const removeCategory = async () => {
                     <div class="flex items-center space-x-3">
                       <div class="avatar">
                         <div class="mask mask-squircle w-12 h-12">
-                          <img :src="`/uploads/shop/categories/${edit.image}`" />
+                          <img :src="`/uploads/${edit.image}`" />
                         </div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    {{ edit.image }}../
+                    {{ edit.image }}.
                   </td>
                   <th>
-                    <button class="btn btn-error btn-circle btn-md">
+                    <button class="btn btn-error btn-circle btn-md" @click="removeImage(edit.image)">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                     </button>
                   </th>
@@ -209,7 +229,7 @@ const removeCategory = async () => {
         <!-- <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Category ID</span>
+              <p class="label-text">Category ID</p>
             </label>
             <input type="text" placeholder="Automatisch generiert" class="input input-bordered w-full max-w-md"  v-model="edit.id" disabled/>
           </div>
@@ -219,33 +239,16 @@ const removeCategory = async () => {
         <div class="">
           <div class="form-control w-full max-w-md">
             <label class="label">
-              <span class="label-text">Kategorie Name*</span>
+              <p class="label-text">Kategorie Name*</p>
+                <span class="text-gray-500 italic text-sm">Slug: {{ slug }}</span>
             </label>
             <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
           </div>
         </div>
 
-        <!-- Category Slug -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <span class="label-text">Kategorie Slug (URL)*</span>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md" disabled v-model="edit.slug" v-if="edit.id"/>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.slug" v-else/>
-          </div>
-        </div>
-
         <div class="form-control w-full max-w-md">
           <label class="label">
-            <span class="label-text">Image URL</span>
-          </label>
-          <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.image"/>
-        </div>
-
-        <div class="form-control w-full max-w-md">
-          <label class="label">
-            <span class="label-text">Beschreibung</span>
+            <p class="label-text">Beschreibung</p>
           </label>
           <textarea class="textarea textarea-bordered w-full h-64" placeholder="Kategorie Beschreibung" v-model="edit.description"></textarea>
         </div>
@@ -256,7 +259,7 @@ const removeCategory = async () => {
         <div class="">
           <h3 class="font-bold">Kategorie Inhalt</h3>
           <label class="label">
-            <span class="label-text">Produkte</span>
+            <p class="label-text">Produkte</p>
           </label>
           <Multiselect
             v-model="edit.products"
@@ -268,7 +271,7 @@ const removeCategory = async () => {
 
         <div class="">
           <label class="label">
-            <span class="label-text">Featured</span>
+            <p class="label-text">Featured</p>
           </label>
           <Multiselect
             v-model="edit.featured"
@@ -280,7 +283,7 @@ const removeCategory = async () => {
 
         <!-- <div class="">
           <label class="label">
-            <span class="label-text">Unterkategorien</span>
+            <p class="label-text">Unterkategorien</p>
           </label>
           <Multiselect
             v-model="edit.products"
@@ -293,7 +296,7 @@ const removeCategory = async () => {
         <!-- Property Meta -->
         <!-- <div class="">
           <label class="label">
-            <span class="label-text">Unterkategorien</span>
+            <p class="label-text">Unterkategorien</p>
           </label>
           <select class="select select-bordered w-full max-w-md h-64" multiple v-model="edit.subcategories">
             <option disabled selected>Unterkategorien</option>
