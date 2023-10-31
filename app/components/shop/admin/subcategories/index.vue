@@ -7,7 +7,7 @@ const route = useRoute()
 const categoriesStore = useCategoriesStore()
 
 const subcategories = ref([])
-const category = ref([])
+const category = ref({})
 
 const selected = ref([])
 
