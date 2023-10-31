@@ -40,21 +40,20 @@ export default defineEventHandler(async (event) => {
     }
 
     for (const rawProduct of data) {
-      console.log(rawProduct);
 
       // Create a product object from the raw data
       const product = {
-        id: uuid(), // Generate a unique ID
+        id: rawProduct.id, // Generate a unique ID
         brand: rawProduct.brand,
         name: rawProduct.name,
-        slug: slugify(rawProduct.slug), // You need to implement slug generation
-        images: rawProduct.images,
+        slug: slugify(rawProduct.name),
+        images: [],
         quantity: rawProduct.quantity,
         description: rawProduct.description,
         propertyName: rawProduct.propertyName,
         propertyValue: rawProduct.propertyValue,
-        variant: rawProduct.variant,
-        variants: rawProduct.variants,
+        variant: 'color',
+        variants: [ rawProduct.variants ],
         properties: rawProduct.properties,
         boughtPrice: rawProduct.boughtPrice,
         sellingPrice: rawProduct.sellingPrice,
@@ -62,60 +61,67 @@ export default defineEventHandler(async (event) => {
         tax: rawProduct.tax,
         EAN: rawProduct.EAN,
         featured: rawProduct.featured,
-      };
+      }
 
-      // Generate a slug based on the product name (you can implement your slug generation logic here)
-      product.slug = slugify(product.name);
+      const productExists = await productsDatabase.exists(product.slug)
 
+      if (productExists) {
+        product.slug + '-' + generateRandomString(4)
+      }
       // Store the product in the product database
-      await productsDatabase.put(product.slug, product);
+      await productsDatabase.put(product.slug, product)
 
-      // Sort the product into the appropriate category
-      let category;
-      const categoryExists = await categoriesDatabase.exists(slugify(product.group));
-      if (!categoryExists) {
-        category = {
-          id: uuid(),
-          name: product.group,
-          slug: slugify(product.group),
-          image: '',
-          description: '',
-          products: [],
-          featured: [],
-          subcategories: [],
-          created: '',
-          updated: '',
-        };
-      } else {
-        category = await categoriesDatabase.get(slugify(product.group))
-      }
-
-      category.products.push(product.slug);
-
-      let subcategory;
-      const subcategoryExists = await subcategoriesDatabase.exists(slugify(product.subgroup));
-      if (!subcategoryExists) {
-        subcategory = {
-          id: uuid(),
-          parent: slugify(product.group),
-          name: product.subgroup,
-          slug: slugify(product.subgroup),
-          image: '',
-          description: '',
-          products: [],
-          featured: [],
-          created: '',
-          updated: '',
-        };
-      } else {
-        subcategory = await subcategoriesDatabase.get(slugify(product.subgroup))
-      }
-
-      subcategory.products.push(product.slug);
-
-      await categoriesDatabase.put(category.slug, category);
-      await subcategoriesDatabase.put(subcategory.slug, subcategory);
+      // // Sort the product into the appropriate category
+      // let category
+      // const categoryExists = await categoriesDatabase.exists(slugify(product.group))
+      // if (!categoryExists) {
+      //   category = {
+      //     id: uuid(),
+      //     name: product.group,
+      //     slug: slugify(product.group),
+      //     image: '',
+      //     description: '',
+      //     products: [],
+      //     featured: [],
+      //     subcategories: [],
+      //     created: '',
+      //     updated: '',
+      //   }
+      // } else {
+      //   category = await categoriesDatabase.get(slugify(product.group))
+      // }
+      //
+      // category.products.push(product.slug)
+      //
+      // let subcategory
+      // const subcategoryExists = await subcategoriesDatabase.exists(slugify(product.subgroup))
+      // if (!subcategoryExists) {
+      //   subcategory = {
+      //     id: uuid(),
+      //     parent: slugify(product.group),
+      //     name: product.subgroup,
+      //     slug: slugify(product.subgroup),
+      //     image: '',
+      //     description: '',
+      //     products: [],
+      //     featured: [],
+      //     created: '',
+      //     updated: '',
+      //   }
+      // } else {
+      //   subcategory = await subcategoriesDatabase.get(slugify(product.subgroup))
+      // }
+      //
+      // subcategory.products.push(product.slug)
+      //
+      // await categoriesDatabase.put(category.slug, category)
+      // await subcategoriesDatabase.put(subcategory.slug, subcategory)
     }
+
+    const allProducts = await productsDatabase.all()
+
+    console.log('Items', data.length);
+    console.log('Imported', allProducts.length);
 
     setResponseStatus(event, 202)
   } catch (error) {
