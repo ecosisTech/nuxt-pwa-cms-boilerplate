@@ -22,7 +22,9 @@ onMounted(async () => {
 
       try {
         const subcategory = await getSubcategory(route.params.slug, slug)
-        subcategories.value.push(subcategory)
+        if (subcategory) {
+          subcategories.value.push(subcategory)
+        }
       } catch (error) {
         console.log(error);
       }

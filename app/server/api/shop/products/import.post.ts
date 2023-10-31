@@ -24,7 +24,6 @@ export default defineEventHandler(async (event) => {
     //   })
     // }
     const { data } = await readBody(event) // Array of products
-
     // Import the array of products
     for (let product of data) {
       // Generate a unique user ID
@@ -44,6 +43,8 @@ export default defineEventHandler(async (event) => {
       // Create a product object from the raw data
       const product = {
         id: rawProduct.id, // Generate a unique ID
+        created: new Date().toISOString().split('T')[0],
+        updated: new Date().toISOString().split('T')[0],
         brand: rawProduct.brand,
         name: rawProduct.name,
         slug: slugify(rawProduct.name),
@@ -52,13 +53,14 @@ export default defineEventHandler(async (event) => {
         description: rawProduct.description,
         propertyName: rawProduct.propertyName,
         propertyValue: rawProduct.propertyValue,
-        variant: 'color',
+        variant: 'Farbe',
         variants: [ rawProduct.variants ],
         properties: rawProduct.properties,
-        boughtPrice: rawProduct.boughtPrice,
-        sellingPrice: rawProduct.sellingPrice,
+        shippingWeight: rawProduct.shippingWeight,
+        boughtPrice: convertCurrencyStringToNumber(rawProduct.boughtPrice),
+        sellingPrice: convertCurrencyStringToNumber(rawProduct.sellingPrice),
         account: rawProduct.account,
-        tax: rawProduct.tax,
+        tax: 0.19,
         EAN: rawProduct.EAN,
         featured: rawProduct.featured,
       }
@@ -66,7 +68,7 @@ export default defineEventHandler(async (event) => {
       const productExists = await productsDatabase.exists(product.slug)
 
       if (productExists) {
-        product.slug + '-' + generateRandomString(4)
+        product.slug = product.slug + '-' + generateRandomString(4)
       }
       // Store the product in the product database
       await productsDatabase.put(product.slug, product)
@@ -125,6 +127,8 @@ export default defineEventHandler(async (event) => {
 
     setResponseStatus(event, 202)
   } catch (error) {
+    console.log(error);
+
     throw createError({
       statusCode: 400,
       statusMessage: error.message,

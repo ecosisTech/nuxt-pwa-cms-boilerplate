@@ -32,7 +32,11 @@ const subcategories = computed(() => {
 })
 
 const slug = computed(() => {
-  return slugify(edit.value.name)
+  if (!props.category) {
+    return slugify(edit.value.name)
+  } else {
+    return props.category.slug
+  }
 })
 
 const edit = ref(props.category || {
@@ -93,7 +97,7 @@ const removeImage = async (path) => {
 
 const addNewCategory = async () => {
   try {
-    if (slug.value && edit.value.name) {
+    if (edit.value.name) {
       edit.value.slug = slug.value
       if (!edit.value.id) {
         await addCategory(edit)

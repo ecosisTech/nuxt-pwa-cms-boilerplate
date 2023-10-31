@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     if (!subcategoryExists) {
       throw createError({
         statusCode: 404, // Not Found
-        statusMessage: 'Category not found',
+        statusMessage: 'Subcategory not found',
       })
     }
 

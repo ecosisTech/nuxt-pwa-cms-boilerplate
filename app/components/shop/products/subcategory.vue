@@ -15,7 +15,7 @@ console.log(subcategory);
 </script>
 <template>
   <div>
-    <div class="bg-base-100 rounded-lg border border-base-200 shadow-md m-2">
+    <div class="bg-base-100 rounded-lg border border-base-200 shadow-md m-2" v-if="subcategory">
       <nuxt-link :to="`/shop/${subcategory.parent}/${subcategory.slug}`">
       <!-- <nuxt-link :to="`/shop/${subcategory.parent}/${subcategory.slug}`"> -->
         <div>

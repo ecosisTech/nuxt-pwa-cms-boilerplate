@@ -24,15 +24,6 @@ export default defineEventHandler(async (event) => {
     const subslug = getRouterParam(event, 'subslug')
 
     // Check if the category with the given ID exists
-    const subcategoryExists = await subcategoriesDatabase.exists(subslug)
-    if (!subcategoryExists) {
-      throw createError({
-        statusCode: 404, // Not Found
-        statusMessage: 'Subcategory not found',
-      })
-    }
-
-    // Check if the category with the given ID exists
     const categoryExists = await categoriesDatabase.exists(slug)
     if (!categoryExists) {
       throw createError({
@@ -42,11 +33,25 @@ export default defineEventHandler(async (event) => {
     }
 
     const category = await categoriesDatabase.get(slug)
+    console.log(category.subcategories);
+
+    category.subcategories = category.subcategories.filter(sc => sc !== subslug)
+    await categoriesDatabase.put(slug, category)
+
+    console.log(category.subcategories);
+
+
+    // Check if the subcategory with the given ID exists
+    const subcategoryExists = await subcategoriesDatabase.exists(subslug)
+    if (!subcategoryExists) {
+      throw createError({
+        statusCode: 404, // Not Found
+        statusMessage: 'Subcategory not found',
+      })
+    }
 
     // Delete the category from the database
     await subcategoriesDatabase.del(subslug)
-    category.subcategories = category.subcategories.filter(sc => sc.slug !== subslug)
-    await subcategoriesDatabase.put(slug, category)
 
     return { message: 'Category deleted successfully' }
   } catch (error) {

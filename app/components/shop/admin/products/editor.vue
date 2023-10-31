@@ -17,7 +17,11 @@ const notificationStore = useNotificationStore()
 const date = new Date().toISOString().split('T')[0]
 
 const slug = computed(() => {
-  return slugify(edit.value.name)
+  if (!props.product) {
+    return slugify(edit.value.name)
+  } else {
+    return props.product.slug
+  }
 })
 
 const edit = ref(props.product || {
@@ -102,7 +106,7 @@ const makeImageFirst = (image) => {
 
 const addNewProduct = async () => {
   try {
-    if (slug.value && edit.value.name) {
+    if (edit.value.name) {
       edit.value.slug = slug.value
       if (!edit.value.id) {
         await addProduct(edit)

@@ -100,7 +100,7 @@ definePageMeta({
               class="px-6 py-4 btn-success rounded-xl"
               @click="addToCart(product)"
             >
-            In den Warenkorb {{ Number(product.sellingPrice).toFixed() }}€
+            In den Warenkorb {{ product.sellingPrice.toFixed() }}€
           </button>
 
           <!-- Edit -->
@@ -117,16 +117,16 @@ definePageMeta({
             <h3 class="text-4xl font-bold text-primary">{{ product.brand }}</h3>
           </div>
           <div class="flex flex-col p-2">
-            <!-- <div class="flex flex-col">
-              <p>Produkt Farbe: {{ product.color }}</p>
-              <div class="">
+            <div class="flex flex-col">
+              <p>Produkt Farbe: {{ product.variants[0] }}</p>
+              <!-- <div class="">
                 <select class="select select-bordered w-full max-w-xs">
                   <option disabled selected>Wähle Farbe</option>
                   <option>Variante A</option>
                   <option>Variante B</option>
                 </select>
-              </div>
-            </div> -->
+              </div> -->
+            </div>
             <div class="flex" v-if="product.propertyName">
               <p><span>{{ product.propertyName }}: </span>{{ product.propertyValue }}</p>
             </div>
