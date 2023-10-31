@@ -24,7 +24,7 @@ const props = defineProps({
             </h5>
           </div>
           <p class="mb-3 font-medium" v-if="product.sellingPrice">
-            {{ product.sellingPrice.toFixed(2) }}€
+            {{ Number(product.sellingPrice).toFixed(2) }}€
           </p>
         </div>
       </nuxt-link>
