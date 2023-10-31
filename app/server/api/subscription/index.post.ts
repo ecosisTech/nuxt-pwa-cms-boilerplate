@@ -14,8 +14,7 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Already subscribed! Thanks!',
       })
     }
-    console.log('email');
-
+    
     await subscribersDatabase.put(email, {
       id: uuid(),
       created: new Date().toISOString().split('T')[0],

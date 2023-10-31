@@ -43,8 +43,8 @@ export default defineEventHandler(async (event) => {
       // Create a product object from the raw data
       const product = {
         id: rawProduct.id, // Generate a unique ID
-        created: new Date().toISOString().split('T')[0],
-        updated: new Date().toISOString().split('T')[0],
+        created: new Date().toISOString(),
+        updated: new Date().toISOString(),
         brand: rawProduct.brand,
         name: rawProduct.name,
         slug: slugify(rawProduct.name),

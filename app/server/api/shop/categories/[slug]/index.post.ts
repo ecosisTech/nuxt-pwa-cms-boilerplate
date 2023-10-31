@@ -27,8 +27,8 @@ export default defineEventHandler(async (event) => {
 
     // Generate a unique ID for the category (you can use your own method)
     data.id = uuid() // Implement a method to generate unique IDs
-    data.created = new Date().toISOString().split('T')[0]
-    data.updated = new Date().toISOString().split('T')[0]
+    data.created = new Date().toISOString()
+    data.updated = new Date().toISOString()
 
     // Get category to add subcategory
     const categoryExists = await categoriesDatabase.exists(categorySlug)

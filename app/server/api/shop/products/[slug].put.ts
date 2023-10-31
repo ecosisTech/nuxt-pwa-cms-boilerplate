@@ -33,8 +33,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    data.updated = new Date().toISOString().split('T')[0]
-    
+    data.updated = new Date().toISOString()
+
     // Update the product in the database
     await productsDatabase.put(slug, data)
 
