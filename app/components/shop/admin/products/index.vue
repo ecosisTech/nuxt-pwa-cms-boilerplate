@@ -112,8 +112,8 @@ const selected = ref([])
           <th>Farbe</th>
           <th>Weitere Eigenschaften</th>
           <th>EAN</th>
-          <th>Preis (gekauft)</th>
           <th>Preis (Verkauf)</th>
+          <th>Preis (gekauft)</th>
           <th>Quantity</th>
           <th></th>
         </tr>
