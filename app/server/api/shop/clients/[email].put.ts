@@ -22,6 +22,8 @@ export default defineEventHandler(async (event) => {
 
     const email = getRouterParam(event, 'email');
     const { data } = await readBody(event)
+    
+    data.updated = new Date().toISOString().split('T')[0]
 
     // Check if the client with the given ID exists
     const clientExists = await clientsDatabase.exists(email);

@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid'
-import { Category } from '../../../lib/interfaces/category.interface' // Replace with the actual path to your interface file
 import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
@@ -26,6 +25,8 @@ export default defineEventHandler(async (event) => {
 
     // Generate a unique ID for the category (you can use your own method)
     data.id = uuid() // Implement a method to generate unique IDs
+    data.created = new Date().toISOString().split('T')[0]
+    data.updated = new Date().toISOString().split('T')[0]
 
     // Add the category to the database
     const categoryExists = await categoriesDatabase.exists(data.slug)

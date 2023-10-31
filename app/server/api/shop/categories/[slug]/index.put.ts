@@ -33,6 +33,8 @@ export default defineEventHandler(async (event) => {
       })
     }
 
+    data.updated = new Date().toISOString().split('T')[0]
+
     // Update the category in the database
     await categoriesDatabase.put(slug, data)
 

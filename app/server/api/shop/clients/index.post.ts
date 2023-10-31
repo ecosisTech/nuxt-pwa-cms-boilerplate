@@ -19,6 +19,8 @@ export default defineEventHandler(async (event) => {
 
     // Generate a unique ID for the client (you can use your own method)
     data.id = uuid(); // Implement a method to generate unique IDs
+    data.created = new Date().toISOString().split('T')[0]
+    data.updated = new Date().toISOString().split('T')[0]
 
     // Add the client to the database
     await clientsDatabase.put(data.email, data);
