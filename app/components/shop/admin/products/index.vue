@@ -85,7 +85,7 @@ const selected = ref([])
           <th>{{ item['brand'] }}</th>
           <th>{{ item['propertyName'] }}</th>
           <th>{{ item['propertyValue'] }}</th>
-          <th>{{ item['color'] }}</th>
+          <th>{{ item['variants'][0] }}</th>
           <th>{{ item['properties'] }}</th>
           <th>{{ item['EAN'] }}</th>
           <th>{{ item['sellingPrice'] }}</th>

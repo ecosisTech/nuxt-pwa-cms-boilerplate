@@ -266,6 +266,16 @@ const removeProduct = async () => {
           </div>
         </div>
 
+        <!-- Varaints -->
+        <div class="">
+          <div class="form-control w-full max-w-md">
+            <label class="label">
+              <p class="label-text">Farbe</p>
+            </label>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.variants[0]"/>
+          </div>
+        </div>
+
         <!-- Brand -->
         <div class="">
           <div class="form-control w-full max-w-md">

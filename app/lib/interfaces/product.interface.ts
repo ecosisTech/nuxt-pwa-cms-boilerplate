@@ -1,5 +1,7 @@
 export interface Product {
   id: string; // Unique product identifier
+  created: Date;
+  updated: Date;
   brand?: string; // Brand name
   name: string; // Product name
   slug: string; // URL Slug
