@@ -33,13 +33,8 @@ export default defineEventHandler(async (event) => {
     }
 
     const category = await categoriesDatabase.get(slug)
-    console.log(category.subcategories);
-
     category.subcategories = category.subcategories.filter(sc => sc !== subslug)
     await categoriesDatabase.put(slug, category)
-
-    console.log(category.subcategories);
-
 
     // Check if the subcategory with the given ID exists
     const subcategoryExists = await subcategoriesDatabase.exists(subslug)
