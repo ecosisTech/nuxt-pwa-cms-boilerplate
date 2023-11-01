@@ -44,6 +44,13 @@ const edit = async () => {
 
       if (newUserData.value.password === passwordRepeat.value) {
         await addUser(newUserData.value)
+        newUserData.value = {
+          email: '',
+          password: '',
+          username: '',
+          roles: []
+        }
+        passwordRepeat.value = ''
         notificationStore.addNotification({
           type: 'success',
           msg: 'User registered!'
@@ -131,7 +138,7 @@ const removeUser = async () => {
       />
     </div>
     <button class="btn btn-success mt-2" @click="edit()">Speichern</button>
-    <button class="btn btn-error mt-2 ml-2" @click="removeUser()">Löschen</button>
+    <button class="btn btn-error mt-2 ml-2" @click="removeUser()" v-if="newUserData.id">Löschen</button>
   </div>
 </template>
 

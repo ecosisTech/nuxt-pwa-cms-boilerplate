@@ -15,7 +15,6 @@ export default defineEventHandler(async (event) => {
 
     // Get User
     const user = await databaseManager.getUser(id)
-    console.log(id);
 
     // Hide User Password Data
     user.password = undefined

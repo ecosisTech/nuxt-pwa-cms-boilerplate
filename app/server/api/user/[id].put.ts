@@ -29,9 +29,6 @@ export default eventHandler(async (event) => {
       })
     }
     const user = await databaseManager.getUser(id)
-    console.log(data);
-    console.log(user);
-
     if (!data.password) {
       data.password = user.password
     }
