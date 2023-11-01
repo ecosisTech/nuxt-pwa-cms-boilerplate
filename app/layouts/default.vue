@@ -187,7 +187,7 @@ onBeforeMount(async () => {
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
               </label>
 
-              <ul class="dropdown-content relative flex flex-wrap bg-base-100 menu xl:menu-horizontal  w-[720px] rounded mt-16">
+              <ul class="dropdown-content relative flex flex-wrap bg-base-100 menu xl:menu-horizontal w-[720px] rounded mt-16">
                 <li class="bg-base-100 m-1 rounded rounded-md flex-64" v-for="category in categoriesStore.categories">
                   <NuxtLink :to="`/shop/${category.slug}`">
                     <img class="w-12 h-12 rounded rouned-md" :src="'/uploads/' + category.image"/>
