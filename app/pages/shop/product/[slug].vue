@@ -35,17 +35,18 @@ const formatText = (text) => {
   return text.replace(/\n/g, "<br />")
 }
 
-const featuredProducts = computed(() => {
-  return productsStore.products.filter(p => {
-    if (p.featured === true) {
-      return p
-    }
-  })
-})
+const similarProducts = ref([])
 
-onMounted(() => {
+onMounted(async () => {
   if (product) {
     selectedImage.value = product.images[0]
+
+    const filteredProducts = []
+    for (let slug of product.similarProducts) {
+      const res = await getProduct(slug)
+      filteredProducts.push(res)
+    }
+    similarProducts.value = filteredProducts
   }
 })
 definePageMeta({
@@ -150,12 +151,12 @@ definePageMeta({
       </div>
     </div>
     <!-- Featured -->
-    <section class="flex flex-col items-center justify-around bg-[#1f2937] py-8 w-screen" v-if="featuredProducts.length > 0">
+    <section class="flex flex-col items-center justify-around bg-[#1f2937] py-8 w-screen" v-if="similarProducts.length > 0">
       <div class="">
-        <h2 class="text-3xl pb-4 text-white">Top Produkte</h2>
+        <h2 class="text-3xl pb-4 text-white">Ähnliche Produkte</h2>
       </div>
       <div class="carousel w-full flex justify-center" ref="carouselRef">
-        <div v-for="product in featuredProducts" :key="product.slug" class="carousel-item">
+        <div v-for="product in similarProducts" :key="product.slug" class="carousel-item">
           <ShopProductsFeatured :product="product"/>
         </div>
       </div>
