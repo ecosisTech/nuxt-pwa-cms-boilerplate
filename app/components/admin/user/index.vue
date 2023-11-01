@@ -106,7 +106,7 @@ onBeforeMount(async () => {
           <th> {{ user.email }}</th>
           <th>
             <div
-              class="badge badge-neutral m-1" 
+              class="badge badge-neutral m-1"
               v-for="role in user.roles">
               {{ role }}
             </div>
@@ -114,7 +114,7 @@ onBeforeMount(async () => {
           <th> {{ user.created }}</th>
           <th> {{ user.updated }}</th>
           <th class="flex flex-wrap justify-center items-center">
-            <button class="btn btn-circle btn-sm mr-2" @click="router.push(`/admin/user/${user.email}/edit`)">
+            <button class="btn btn-circle btn-sm mr-2" @click="router.push(`/admin/user/${user.id}/edit`)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
             </button>
             <button class="btn btn-circle btn-sm" @click="resetPassword(user.email)" disabled>

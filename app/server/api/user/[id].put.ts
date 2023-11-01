@@ -18,19 +18,26 @@ export default eventHandler(async (event) => {
     //   });
     // }
 
-    const email = getRouterParam(event, 'email')
+    const id = getRouterParam(event, 'id')
     const { data } = await readBody(event)
 
-    const userExists = await databaseManager.userExists(email)
+    const userExists = await databaseManager.userExists(data.id)
     if (!userExists) {
       throw createError({
         statusCode: 403, // Forbidden
         statusMessage: 'User does not exist!',
       })
     }
+    const user = await databaseManager.getUser(id)
+    console.log(data);
+    console.log(user);
+
+    if (!data.password) {
+      data.password = user.password
+    }
 
     // Add user
-    return await databaseManager.updateUser(email, data)
+    return await databaseManager.updateUser(data)
   } catch (error) {
     return createError({
       statusCode: 400,

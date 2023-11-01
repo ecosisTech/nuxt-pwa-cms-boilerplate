@@ -13,10 +13,10 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    const email = getRouterParam(event, 'email')
+    const id = getRouterParam(event, 'id')
 
     // Retrieve the user from the database
-    const userExists = await databaseManager.userExists(email)
+    const userExists = await databaseManager.userExists(id)
     if (!userExists) {
       throw createError({
         statusCode: 403, // Forbidden
@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
     }
 
     // Delete the user from the database
-    await databaseManager.deleteUser(email)
+    await databaseManager.deleteUser(id)
 
-    return { status: 'User deleted successfully', user }
+    return { status: 'User deleted successfully' }
   } catch (error) {
     throw createError({
       statusCode: 400,

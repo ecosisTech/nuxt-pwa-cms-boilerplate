@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const user = await getUser(route.params.email)
+const user = await getUser(route.params.id)
 </script>
 
  <template>

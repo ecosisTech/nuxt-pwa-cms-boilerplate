@@ -3,18 +3,19 @@ import { User } from '../../../lib/interfaces/user.interface' // Replace with th
 export default defineEventHandler(async (event) => {
   try {
     const databaseManager = event.context.databaseManager
-    const email = getRouterParam(event, 'email')
+    const id = getRouterParam(event, 'id')
 
-    const userExists = await databaseManager.userExists(email)
-    if (!userExists) {
-      throw createError({
-        statusCode: 403, // Forbidden
-        statusMessage: 'User does not exist!',
-      })
-    }
+    // const userExists = await databaseManager.userExists(id)
+    // if (!userExists) {
+    //   throw createError({
+    //     statusCode: 403, // Forbidden
+    //     statusMessage: 'User does not exist!',
+    //   })
+    // }
 
     // Get User
-    const user: User = await databaseManager.getUser(email)
+    const user = await databaseManager.getUser(id)
+    console.log(id);
 
     // Hide User Password Data
     user.password = undefined

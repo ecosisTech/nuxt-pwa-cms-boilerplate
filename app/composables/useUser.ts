@@ -11,9 +11,9 @@ export const addUser = async (data) => {
   }
 }
 
-export const updateUser = async (email, data) => {
+export const updateUser = async (data) => {
   try {
-    const { error } = await useFetch('/api/user/' + email, {
+    const { error } = await useFetch('/api/user/' + data.id, {
       method: 'PUT',
       body: {
         data
@@ -24,9 +24,9 @@ export const updateUser = async (email, data) => {
   }
 }
 
-export const resetPassword = async (email) => {
+export const resetPassword = async (id) => {
   try {
-    const { error } = await useFetch('/api/user/' + email + '/passwordreset', {
+    const { error } = await useFetch('/api/user/' + id + '/passwordreset', {
       method: 'POST'
     })
   } catch (error) {
@@ -34,9 +34,9 @@ export const resetPassword = async (email) => {
   }
 }
 
-export const getUser = async (email) => {
+export const getUser = async (id) => {
   try {
-    const { data, error } = await useFetch('/api/user/' + email, {
+    const { data } = await useFetch('/api/user/' + id, {
       method: 'GET'
     })
     return data.value
@@ -67,9 +67,9 @@ export const getAllUsers = async () => {
 //   }
 // }
 
-export const deleteUser = async (email) => {
+export const deleteUser = async (id) => {
   try {
-    const { data, error } =  await useFetch('/api/user/' + email, {
+    return await useFetch('/api/user/' + id, {
       method: 'DELETE'
     })
   } catch (error) {

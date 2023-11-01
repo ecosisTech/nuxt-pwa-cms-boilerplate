@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     const { data } = await readBody(event)
 
     // Add the new user to the database
-    const userExists = await databaseManager.userExists(data.email)
+    const userExists = await databaseManager.getUserByMail(data.email)
     if (userExists) {
       throw createError({
         statusCode: 403, // Forbidden
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     data.id = uuid()
 
     // Add new User
-    return await databaseManager.addUser(data.email, data)
+    return await databaseManager.addUser(data)
   } catch (error) {
     throw createError({
       statusCode: 400,
