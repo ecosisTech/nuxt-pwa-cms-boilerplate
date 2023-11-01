@@ -44,10 +44,10 @@ export default NuxtAuthHandler({
               // NOTE: THE BELOW LOGIC IS NOT SAFE OR PROPER FOR AUTHENTICATION!
 
               // Check if user exists
-              const userExists = await databaseManager.getUserByMail(credentials.username)
-              if (userExists) {
-                const user = await databaseManager.getUser(credentials.username)
+              const user = await databaseManager.getUserByMail(credentials.username)
+              console.log(user);
 
+              if (user) {
                 // Check Password
                 if (user.password === credentials.password) {
                   return user
