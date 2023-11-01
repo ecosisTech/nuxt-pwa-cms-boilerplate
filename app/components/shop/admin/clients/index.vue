@@ -11,6 +11,18 @@ const client = ref({})
 const editClient = (clientToEdit) => {
   client.value = clientToEdit
 }
+
+const propertyToSortWith = ref('name')
+const ascending = ref(true)
+
+const clients = computed(() => {
+  return sortArrayByProperty(clientsStore.clients, propertyToSortWith.value, ascending.value)
+})
+
+const sortWith = (prop) => {
+  ascending.value = !ascending.value
+  propertyToSortWith.value = prop
+}
 </script>
 <template>
   <div class="overflow-x-auto bg-base-100 rounded px-4 py-8">
@@ -38,19 +50,19 @@ const editClient = (clientToEdit) => {
               </label>
             </th>
             <th>Profilbild</th>
-            <th>Name</th>
-            <th>E-Mail</th>
-            <th>Straße</th>
-            <th>Stadt</th>
-            <th>PLZ/ZIP</th>
-            <th>Land</th>
+            <th @click="sortWith('firstname')">Name</th>
+            <th @click="sortWith('email')">E-Mail</th>
+            <th @click="sortWith('street')">Straße</th>
+            <th @click="sortWith('city')">Stadt</th>
+            <th @click="sortWith('postcode')">PLZ/ZIP</th>
+            <th @click="sortWith('country')">Land</th>
             <th>Bestellungen</th>
-            <th>Registriert</th>
+            <th @click="sortWith('isUser')">Registriert</th>
           </tr>
         </thead>
         <tbody>
         <!-- Clients List -->
-        <tr v-for="client in clientsStore.clients" class="hover:bg-base-200">
+        <tr v-for="client in clients" class="hover:bg-base-200">
           <th>
             <label>
               <input type="checkbox" class="checkbox" />

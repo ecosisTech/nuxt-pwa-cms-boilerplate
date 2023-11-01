@@ -5,6 +5,18 @@ const router = useRouter()
 
 const categoriesStore = useCategoriesStore()
 
+const propertyToSortWith = ref('name')
+const ascending = ref(true)
+
+const categories = computed(() => {
+  return sortArrayByProperty(categoriesStore.categories, propertyToSortWith.value, ascending.value)
+})
+
+const sortWith = (prop) => {
+  ascending.value = !ascending.value
+  propertyToSortWith.value = prop
+}
+
 const selected = ref([])
 </script>
 <template>
@@ -23,19 +35,19 @@ const selected = ref([])
               <input type="checkbox" class="checkbox" />
             </label>
           </th>
-          <th>Name</th>
-          <th>Slug</th>
-          <th>Produkte</th>
-          <th>Featured</th>
-          <th>Subkategorien</th>
-          <th>Erstellt</th>
-          <th>Aktualisiert</th>
+          <th @click="sortWith('name')">Name</th>
+          <th @click="sortWith('slug')">Slug</th>
+          <th @click="sortWith('products')">Produkte</th>
+          <th @click="sortWith('featured')">Featured</th>
+          <th @click="sortWith('subcategories')">Subkategorien</th>
+          <th @click="sortWith('created')">Erstellt</th>
+          <th @click="sortWith('updated')">Aktualisiert</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr v-for="item in categoriesStore.categories" class="hover:bg-base-200">
+        <tr v-for="item in categories" class="hover:bg-base-200">
           <th>
             <label>
               <input type="checkbox" class="checkbox" />

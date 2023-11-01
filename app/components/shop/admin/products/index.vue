@@ -9,6 +9,18 @@ const productsStore = useProductsStore()
 const categoriesStore = useCategoriesStore()
 const notificationStore = useNotificationStore()
 
+const propertyToSortWith = ref('name')
+const ascending = ref(true)
+
+const products = computed(() => {
+  return sortArrayByProperty(productsStore.products, propertyToSortWith.value, ascending.value)
+})
+
+const sortWith = (prop) => {
+  ascending.value = !ascending.value
+  propertyToSortWith.value = prop
+}
+
 const JSON_Data = ref('')
 const importNewProducts = async () => {
   try {
@@ -60,22 +72,22 @@ const selected = ref([])
               <input type="checkbox" class="checkbox" />
             </label>
           </th>
-          <th>Name</th>
-          <th>Marke</th>
-          <th>Eigenschafts Name</th>
-          <th>Eigenschafts Wert</th>
-          <th>Farbe</th>
-          <th>Weitere Eigenschaften</th>
-          <th>EAN</th>
-          <th>Preis (gekauft)</th>
-          <th>Preis (Verkauf)</th>
-          <th>Quantity</th>
+          <th @click="sortWith('name')">Name</th>
+          <th @click="sortWith('brand')">Marke</th>
+          <th @click="sortWith('propertyName')">Eigenschafts Name</th>
+          <th @click="sortWith('propertyValue')">Eigenschafts Wert</th>
+          <th @click="sortWith('variant')">Farbe</th>
+          <th @click="sortWith('properties')">Weitere Eigenschaften</th>
+          <th @click="sortWith('EAN')">EAN</th>
+          <th @click="sortWith('boughtPrice')">Preis (gekauft)</th>
+          <th @click="sortWith('sellingPrice')">Preis (Verkauf)</th>
+          <th @click="sortWith('quantity')">Quantity</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr v-for="item in productsStore.products" class="hover:bg-base-200">
+        <tr v-for="item in products" class="hover:bg-base-200">
           <th>
             <label>
               <input type="checkbox" class="checkbox" />

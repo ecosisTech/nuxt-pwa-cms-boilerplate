@@ -9,6 +9,18 @@ const categoriesStore = useCategoriesStore()
 const subcategories = ref([])
 const category = ref({})
 
+const propertyToSortWith = ref('name')
+const ascending = ref(true)
+
+const sortedSubcategories = computed(() => {
+  return sortArrayByProperty(subcategories.value, propertyToSortWith.value, ascending.value)
+})
+
+const sortWith = (prop) => {
+  ascending.value = !ascending.value
+  propertyToSortWith.value = prop
+}
+
 const selected = ref([])
 
 onBeforeMount(() => {
@@ -50,18 +62,18 @@ onMounted(async () => {
               <input type="checkbox" class="checkbox" />
             </label>
           </th>
-          <th>Name</th>
-          <th>Slug</th>
-          <th>Produkte</th>
-          <th>Featured</th>
-          <th>Erstellt</th>
-          <th>Aktualisiert</th>
+          <th @click="sortWith('name')">Name</th>
+          <th @click="sortWith('slug')">Slug</th>
+          <th @click="sortWith('products')">Produkte</th>
+          <th @click="sortWith('featured')">Featured</th>
+          <th @click="sortWith('created')">Erstellt</th>
+          <th @click="sortWith('updated')">Aktualisiert</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr v-for="item in subcategories" class="hover:bg-base-200">
+        <tr v-for="item in sortedSubcategories" class="hover:bg-base-200">
           <th>
             <label>
               <input type="checkbox" class="checkbox" />

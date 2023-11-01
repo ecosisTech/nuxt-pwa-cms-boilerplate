@@ -10,6 +10,18 @@ const orderDetails = ref({})
 const viewOrder = (order) => {
   orderDetails.value = order
 }
+
+const propertyToSortWith = ref('name')
+const ascending = ref(true)
+
+const orders = computed(() => {
+  return sortArrayByProperty(ordersStore.orders, propertyToSortWith.value, ascending.value)
+})
+
+const sortWith = (prop) => {
+  ascending.value = !ascending.value
+  propertyToSortWith.value = prop
+}
 </script>
 <template>
   <div class="">
@@ -27,11 +39,11 @@ const viewOrder = (order) => {
                 <input type="checkbox" class="checkbox" />
               </label>
             </th>
-            <th>Kunde</th>
-            <th>Bestellungen</th>
-            <th>Summe</th>
-            <th>Bezahlt</th>
-            <th>Versendet</th>
+            <th @click="sortWith('client')">Kunde</th>
+            <th @click="sortWith('products')">Bestellungen</th>
+            <th @click="sortWith('totalsum')">Summe</th>
+            <th @click="sortWith('paid')">Bezahlt</th>
+            <th @click="sortWith('shipped')">Versendet</th>
             <th></th>
           </tr>
         </thead>
