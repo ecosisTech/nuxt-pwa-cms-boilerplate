@@ -20,5 +20,6 @@ export interface Product {
   tax?: number; // Tax percentage (e.g., 0.2 for 20% tax)
   EAN?: string; // European Article Number (EAN) or barcode
   featured?: boolean; // Is the product featured or not
+  similarProducts?: string[] // Product IDs of similar products
   // Add any other necessary properties here
 }

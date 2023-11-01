@@ -9,7 +9,7 @@ export default function useMultiselectClasses() {
     singleLabel: 'flex items-center h-full max-w-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 pr-16 rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5',
     singleLabelText: 'overflow-ellipsis overflow-hidden block whitespace-nowrap max-w-full',
     multipleLabel: 'flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5',
-    search: 'w-full absolute inset-0 outline-none focus:ring-0 appearance-none text-content font-sans bg-base-200 rounded pl-3.5 rtl:pl-0 rtl:pr-3.5',
+    search: 'w-full absolute inset-0 outline-none focus:ring-0 appearance-none text-content font-sans bg-base-300 rounded pl-3.5 rtl:pl-0 rtl:pr-3.5',
     tags: 'flex-grow flex-shrink flex flex-wrap items-center mt-1 pl-2 min-w-0 rtl:pl-0 rtl:pr-2',
     tag: 'bg-primary text-content text-sm font-semibold py-0.5 pl-2 rounded mr-1 mb-1 flex items-center whitespace-nowrap min-w-0 rtl:pl-0 rtl:pr-2 rtl:mr-0 rtl:ml-1',
     tagDisabled: 'pr-2 opacity-50 rtl:pl-2',

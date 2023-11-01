@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Multiselect from '@vueform/multiselect'
 import { useProductsStore } from '../../../../stores/products'
 import { useNotificationStore } from '../../../../stores/notifications';
 
@@ -13,6 +14,10 @@ const props = defineProps({
 
 const productsStore = useProductsStore()
 const notificationStore = useNotificationStore()
+
+const products = computed(() => {
+  return productsStore.products.map((product) => product.slug);
+})
 
 const date = new Date().toISOString().split('T')[0]
 
@@ -42,7 +47,8 @@ const edit = ref(props.product || {
   sellingPrice: 0,
   account: '',
   tax: 19,
-  EAN: ''
+  EAN: '',
+  similarProducts: []
 })
 
 const selectedFiles = ref([])
@@ -379,6 +385,19 @@ const removeProduct = async () => {
             </label>
             <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea>
           </div>
+        </div>
+
+        <div class="">
+          <label class="label">
+            <p class="label-text">Ähnliche Produkte</p>
+          </label>
+          <Multiselect
+            v-model="edit.similarProducts"
+            :options="products"
+            :searchable="true"
+            :classes="useMultiselectClasses()"
+            mode="tags"
+          />
         </div>
 
         <!-- Property Meta -->

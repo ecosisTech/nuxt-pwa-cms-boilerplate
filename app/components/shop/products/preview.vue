@@ -14,7 +14,7 @@ const props = defineProps({
       <nuxt-link :to="`/shop/product/${product.slug}`">
         <div>
           <img class="rounded-t-lg h-80 w-full object-cover"
-          :src="(product.images) ? `/uploads/${product.images[0]}` : '/uploads/shop/product-placeholder.png'"
+          :src="(product.images[0]) ? `/uploads/${product.images[0]}` : 'shop/product-placeholder.png'"
           >
         </div>
         <div class="p-5">
