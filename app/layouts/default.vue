@@ -154,7 +154,7 @@ onBeforeMount(async () => {
     </div>
 
     <div class="w-screen h-screen flex justify-center items-center bg-[url(/uploads/shop/banner.webp)] bg-cover bg-fixed bg-center bg-no-repeat text-center" v-if="!route.path.startsWith('/login') && lockedScreen && status === 'unauthenticated'">
-      <div class="flex flex-col items-center w-full bg-base-200/70 backdrop-blur-md py-8 ">
+      <div class="flex flex-col items-center w-full bg-base-200/70 backdrop-blur-md py-8">
         <img class="h-32" :src="`/${(themeStore.colorMode.preference === 'dark') ? 'logo.png' : 'logo_dark.png' }`" alt="The Crowned Lion">
         <h1 class="text-2xl font-bold pb-4">Willkommen</h1>
         <p>Was schönen wird hier gebastelt. <br> <b>Gib deine E-Mail Adresse ein und <br> werde benachrichtig, wenn der Shop online geht!</b></p>
@@ -425,7 +425,7 @@ onBeforeMount(async () => {
         <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
           <div class="overflow-scroll" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
             <slot/>
-            <Footer/>
+            <!-- <Footer/> -->
           </div>
         </div>
       </section>
