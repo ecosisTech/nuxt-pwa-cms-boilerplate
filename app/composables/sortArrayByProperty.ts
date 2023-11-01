@@ -1,4 +1,4 @@
-export function sortArrayByProperty(array, property, ascending = true) {
+export default function sortArrayByProperty(array, property, ascending = true) {
   const compareFunction = (a, b) => {
     // Use the `localeCompare` method to compare strings
     if (typeof a[property] === 'string' || typeof b[property] === 'string') {

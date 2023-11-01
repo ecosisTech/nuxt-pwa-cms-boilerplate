@@ -21,6 +21,13 @@ const sortWith = (prop) => {
   propertyToSortWith.value = prop
 }
 
+const currentPage = ref(1)
+const nextPage = () => {
+  // if (currentPage.value <= ) {
+  //
+  // }
+}
+
 const JSON_Data = ref('')
 const importNewProducts = async () => {
   try {
@@ -45,7 +52,7 @@ const selected = ref([])
   <div class="overflow-x-auto bg-base-100 rounded rouned-xl px-4 py-8">
 
     <!-- Add Product Modal -->
-    <div class="w-full flex justify-center">
+    <div class="w-full flex justify-center mb-8">
       <NuxtLink class="btn" to="/admin/shop/products/new">Hinzufügen</NuxtLink>
       <div class="ml-2">
         <button class="btn" onclick="import_products.showModal()">Importieren</button>
@@ -68,9 +75,9 @@ const selected = ref([])
       <thead>
         <tr>
           <th>
-            <label>
+            <!-- <label>
               <input type="checkbox" class="checkbox" />
-            </label>
+            </label> -->
           </th>
           <th @click="sortWith('name')">Name</th>
           <th @click="sortWith('brand')">Marke</th>
@@ -87,17 +94,18 @@ const selected = ref([])
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr v-for="item in products" class="hover:bg-base-200">
+        <tr v-for="item in paginate(products, currentPage, 25)" class="hover:bg-base-200">
           <th>
-            <label>
+            <img class="w-8 h-8 rounded" :src="`/uploads/${(item.images[0]) ? item.images[0] : 'shop/product-placeholder.png'}`">
+            <!-- <label>
               <input type="checkbox" class="checkbox" />
-            </label>
+            </label> -->
           </th>
           <th>{{ item['name'] }}</th>
           <th>{{ item['brand'] }}</th>
           <th>{{ item['propertyName'] }}</th>
           <th>{{ item['propertyValue'] }}</th>
-          <th>{{ item['variants'][0] }}</th>
+          <!-- <th>{{ item['variants'][0] }}</th> -->
           <th>{{ item['properties'] }}</th>
           <th>{{ item['EAN'] }}</th>
           <th>{{ item['sellingPrice'] }}</th>
@@ -132,5 +140,10 @@ const selected = ref([])
       </tfoot>
 
     </table>
+    <div class="join flex justify-center pt-4">
+      <button class="join-item btn" @click="currentPage = currentPage - 1">«</button>
+      <button class="join-item btn" disabled>{{ currentPage }}</button>
+      <button class="join-item btn" @click="currentPage = currentPage + 1">»</button>
+    </div>
   </div>
 </template>
