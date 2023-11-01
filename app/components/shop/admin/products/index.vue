@@ -12,8 +12,9 @@ const notificationStore = useNotificationStore()
 const propertyToSortWith = ref('name')
 const ascending = ref(true)
 
+const filterKeyword = ref('')
 const products = computed(() => {
-  return sortArrayByProperty(productsStore.products, propertyToSortWith.value, ascending.value)
+  return filterArrayByKeyword(sortArrayByProperty(productsStore.products, propertyToSortWith.value, ascending.value), filterKeyword.value)
 })
 
 const sortWith = (prop) => {
@@ -68,7 +69,9 @@ const selected = ref([])
         </dialog>
       </div>
     </div>
-
+    <div class="flex justify-center mb-4">
+      <input class="input input-bordered input-xs w-1/3 py-4 bg-base-200" placeholder="Filter nach Stichwort" v-model="filterKeyword">
+    </div>
     <!-- Table Data -->
     <table class="table table-xs table-pin-rows table-pin-col">
       <!-- head -->
@@ -93,7 +96,6 @@ const selected = ref([])
         </tr>
       </thead>
       <tbody>
-        <!-- row 1 -->
         <tr v-for="item in paginate(products, currentPage, 25)" class="hover:bg-base-200">
           <th>
             <img class="w-8 h-8 rounded" :src="`/uploads/${(item.images[0]) ? item.images[0] : 'shop/product-placeholder.png'}`">

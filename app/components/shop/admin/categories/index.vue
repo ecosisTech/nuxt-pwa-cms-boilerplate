@@ -8,8 +8,9 @@ const categoriesStore = useCategoriesStore()
 const propertyToSortWith = ref('name')
 const ascending = ref(true)
 
+const filterKeyword = ref('')
 const categories = computed(() => {
-  return sortArrayByProperty(categoriesStore.categories, propertyToSortWith.value, ascending.value)
+  return filterArrayByKeyword(sortArrayByProperty(categoriesStore.categories, propertyToSortWith.value, ascending.value), filterKeyword.value)
 })
 
 const sortWith = (prop) => {
@@ -23,6 +24,9 @@ const selected = ref([])
   <div class="overflow-x-auto bg-base-100 rounded rouned-xl px-4 py-8">
     <div class="w-full flex justify-center">
       <NuxtLink class="btn" to="/admin/shop/categories/new">Hinzufügen</NuxtLink>
+    </div>
+    <div class="flex justify-center my-4">
+      <input class="input input-bordered input-xs w-1/3 py-4 bg-base-200" placeholder="Filter nach Stichwort" v-model="filterKeyword">
     </div>
 
     <!-- Table Data -->
