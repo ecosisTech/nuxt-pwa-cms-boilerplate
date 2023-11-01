@@ -16,7 +16,6 @@ export default function paginate(data, currentPage, itemsPerPage) {
 
   // Get the data for the current page
   const currentPageData = data.slice(startIndex, endIndex)
-    console.log(currentPageData)
 
   // Return the data for the current page
   return currentPageData
