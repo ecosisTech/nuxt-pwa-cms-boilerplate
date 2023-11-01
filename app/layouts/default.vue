@@ -425,8 +425,8 @@ onBeforeMount(async () => {
         <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
           <div class="overflow-scroll" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
             <slot/>
+            <Footer/>
           </div>
-          <Footer/>
         </div>
       </section>
     </div>
