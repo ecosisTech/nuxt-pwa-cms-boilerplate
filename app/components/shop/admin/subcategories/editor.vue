@@ -260,6 +260,7 @@ const removeSubcategory = async () => {
           <Multiselect
             v-model="edit.products"
             :options="category.products"
+            :searchable="true"
             :classes="useMultiselectClasses()"
             mode="tags"
           />
@@ -271,6 +272,7 @@ const removeSubcategory = async () => {
             <Multiselect
               v-model="edit.featured"
               :options="edit.products"
+              :searchable="true"
               :classes="useMultiselectClasses()"
               mode="tags"
             />
