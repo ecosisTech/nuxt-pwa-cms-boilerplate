@@ -45,7 +45,6 @@ export default NuxtAuthHandler({
 
               // Check if user exists
               const user = await databaseManager.getUserByMail(credentials.username)
-              console.log(user);
 
               if (user) {
                 // Check Password
