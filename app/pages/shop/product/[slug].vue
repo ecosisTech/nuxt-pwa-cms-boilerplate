@@ -140,7 +140,7 @@ definePageMeta({
           <div class="flex-1 " v-if="product.description">
             <h3 class="font-bold">Beschreibung: </h3>
             <!-- <p v-html="formatText(product.description)"></p> -->
-            <div v-html="$mdit.render(product.description)"></div>
+            <div class="prose" v-html="$mdit.render(product.description)"></div>
           </div>
           <div class="flex-1 pt-4" v-if="product.facts">
             <h3 class="font-bold">Fakten: </h3>

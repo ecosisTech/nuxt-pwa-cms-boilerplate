@@ -385,7 +385,8 @@ const removeProduct = async () => {
             <label class="label">
               <p class="label-text">Beschreibung</p>
             </label>
-            <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea>
+            <Texteditor v-model="edit.description"/>
+            <!-- <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea> -->
           </div>
         </div>
 
