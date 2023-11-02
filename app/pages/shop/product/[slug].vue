@@ -110,7 +110,7 @@ definePageMeta({
       </div>
 
       <!-- Product Description -->
-      <div class="w-full md:w-2/4 lg:m-8 flex flex-col items-start justify-center max-h-screen">
+      <div class="w-full md:w-2/4 lg:m-8 flex flex-col items-start justify-center">
         <div>
           <h2 class="text-5xl">{{ product.name }}</h2>
           <div class=" flex">
