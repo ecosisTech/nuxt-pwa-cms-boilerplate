@@ -17,6 +17,8 @@ export default defineEventHandler(async (event) => {
 
     // Generate a unique user ID
     data.id = uuid()
+    data.created = new Date().toISOString()
+    data.updated = new Date().toISOString()
 
     // Add new User
     return await databaseManager.addUser(data)
