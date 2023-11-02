@@ -64,7 +64,9 @@ const uploadImages = async () => {
     const path = `shop/${date}/${slug.value}/`
     await uploadFiles(path, selectedFiles.value)
     for (let file of selectedFiles.value) {
-      edit.value.images.push(path + file.name)
+      console.log(file);
+
+      edit.value.images.push(path + slugify(file.name))
     }
     notificationStore.addNotification({
       type: 'success',

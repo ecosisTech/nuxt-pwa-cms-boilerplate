@@ -2,7 +2,7 @@ export const uploadFiles = async (path, files) => {
   try {
     const formData = new FormData()
     for (let file of files) {
-      formData.append('file', file)
+      formData.append('file', file, slugify(file.name))
     }
     return await useFetch('/api/files?path=' + path, {
       method: 'POST',
