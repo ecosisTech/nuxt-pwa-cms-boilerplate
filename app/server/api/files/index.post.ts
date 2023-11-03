@@ -8,6 +8,7 @@ import { writeFile, mkdir, access } from 'fs';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
 import { getServerSession } from '#auth'
+// TODO Sharp npm https://www.digitalocean.com/community/tutorials/how-to-process-images-in-node-js-with-sharp
 
 export default defineEventHandler(async (event) => {
   try {
