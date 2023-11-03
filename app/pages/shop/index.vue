@@ -42,6 +42,22 @@ const slideRight = () => {
     currentItem.value++
   }
 }
+const categoryIsOpen = ref(null)
+const openCategory = async (category) => {
+  if (categoryIsOpen.value.slug === category.slug) {
+    return categoryIsOpen.value = null
+  }
+  try {
+    let subcategories = []
+    for (let slug of category.subcategories) {
+      subcategories.push(await getSubcategory(category.slug, slug))
+    }
+    category.subcategories = subcategories
+    categoryIsOpen.value = category
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 definePageMeta({
   auth: false,
@@ -49,81 +65,76 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="">
-    <!-- Hero -->
-    <section class="">
-      <!-- Featured -->
-      <div class="w-full h-screen flex flex-col justify-end pt-16 bg-[url(/uploads/shop/banner.webp)] bg-cover bg-fixed bg-center bg-no-repeat">
-        <div class="flex flex-col justify-center items-center text-center w-full h-full">
-          <ShopWelcomescreen/>
-        </div>
-
-        <div class="custom-shape-divider-bottom-1697729642" id="shop">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-200"></path>
-          </svg>
-        </div>
+  <div class="pt-4 space-y-8 mt-32">
+    <!-- Hero Section -->
+    <section class="container mx-auto ">
+      <div class="text-center">
+        <h1 class="text-3xl font-semibold">Herzlich Willkommen 🤗</h1>
+        <p class="mt-4 text-lg text-gray-600">In unserem digitalen Headshop!</p>
       </div>
     </section>
 
     <!-- Search -->
-    <section class="flex flex-col items-center justify-around py-8 w-screen">
-      <div class="w-full md:w-1/3 flex flex-col items-center">
-        <input type="text" placeholder="Suche" class="input input-bordered input-lg w-full" v-model="searchQuery"/>
-        <!-- <ShopSearch class="w-full"/> -->
-        <ul class="menu xl:menu-horizontal w-screen bg-base-100 rounded-box mt-2 w-full md:w-[1080px]" v-if="searchQuery">
-          <li>
-            <a>Produkte</a>
-            <ul class="flex flex-wrap w-full md:w-[900px]">
-              <li class="w-1/2" v-for="product in searchResult"><NuxtLink :to="`/shop/product/${product.slug}`">
-                <img class="w-12 h-12 rounded" :src="`/uploads/${(product.images[0]) ? product.images[0] : 'shop/product-placeholder.png'}`"/>
-                {{ product.name }}
-              </NuxtLink></li>
-            </ul>
-          </li>
-          <!-- <li>
-            <a>Kategorien</a>
-            <ul>
-              <li v-for="category in categories"><NuxtLink :to="`/shop/${category.slug}`">
-                <img class="w-12 h-12" :src="'/uploads/' + category.image"/>
-                {{ category.name }}
-              </NuxtLink></li>
-              <li>
-                <a>Unterkategorien</a>
-                <ul>
-                  <li v-for="subcategory in category.subcategories"><NuxtLink :to="`/shop/${category.slug}/${subcategory.slug }`">{{ subcategory.slug }}</NuxtLink></li>
-                </ul>
-              </li>
-            </ul>
-          </li> -->
-        </ul>
-      </div>
-    </section>
-
-    <!-- Groups -->
-    <section class="flex flex-col items-center justify-around py-12 w-screen" v-if="categories.length > 0">
-      <div class="">
-        <h2 class="text-3xl pb-4">Kategorien</h2>
-      </div>
-      <div class="flex flex-wrap justify-center">
-        <div v-for="category in categories" :key="category.slug" class="w-[400px]">
-          <ShopProductsCategory :category="category"/>
+    <section class="w-full bg-base-300">
+      <div class="container mx-auto flex flex-col items-center justify-around py-8">
+        <p>Durchsuch dich durch unsere Produkte</p>
+        <NuxtLink class="btn btn-primary my-4" to="/shop/products">Zu allen Produkten</NuxtLink>
+        <div class="w-full flex flex-col items-center">
+          <input type="text" placeholder="Suche" class="input input-bordered input-lg w-full" v-model="searchQuery"/>
+          <!-- <ShopSearch class="w-full"/> -->
+          <ul class="menu xl:menu-horizontal w-screen bg-base-100 rounded-box mt-2 w-full md:w-[1080px]" v-if="searchQuery">
+            <li>
+              <a>Produkte</a>
+              <ul class="flex flex-wrap w-full md:w-[900px]">
+                <li class="w-1/2" v-for="product in searchResult"><NuxtLink :to="`/shop/product/${product.slug}`">
+                  <img class="w-12 h-12 rounded-md" :src="`/uploads/${(product.images[0]) ? product.images[0] : 'shop/product-placeholder.png'}`"/>
+                  <h2>
+                    {{ product.name }}
+                  </h2>
+                </NuxtLink></li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- Products -->
-    <!-- <section class="bg-base-300 mx-auto flex flex-col items-center justify-around pt-12 w-screen" v-if="allProducts.length > 0">
-      <div class="">
-        <h2 class="text-3xl pb-4">Alle Produkte</h2>
+    <!-- Categories -->
+    <section class="container mx-auto">
+      <div class="text-center">
+        <h2 class="text-2xl font-semibold">Kategorien</h2>
       </div>
-      <div class="flex flex-wrap justify-center">
-        <div v-for="product in allProducts" :key="product.slug">
-          <ShopProductsPreview :product="product" class="max-w-sm"/>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+        <!-- Loop through your categories and display them here -->
+        <!-- For example: -->
+        <button v-for="category in categories" :key="category.id" class="bg-base-100 m-2 shadow-md rounded-md" @click="openCategory(category)">
+          <img :src="(category.image) ? `/uploads/${category.image}` : '/uploads/shop/product-placeholder.png'" alt="Category Image" class="w-full h-64 object-cover rounded-md">
+          <div class="py-2 text-center">
+            <h3 class="mt-4 text-lg font-semibold">{{ category.name }}</h3>
+          </div>
+        </button>
+        <div class="" v-if="categoryIsOpen">
+          test
         </div>
       </div>
-    </section> -->
+    </section>
 
+    <!-- Featured -->
+    <section class="flex flex-col items-center justify-around bg-[#1f2937] py-8" v-if="featuredProducts.length > 0">
+      <div class="">
+        <h2 class="text-3xl pb-4 text-white">Top Produkte</h2>
+      </div>
+      <div class="carousel w-full flex justify-center" ref="carouselRef">
+        <div v-for="product in featuredProducts" :key="product.slug" class="carousel-item">
+          <ShopProductsFeatured :product="product"/>
+        </div>
+      </div>
+
+      <div class="flex justify-between pt-2">
+        <a href="#prev" class="btn btn-circle m-1" @click="slideLeft()">❮</a>
+        <a href="#next" class="btn btn-circle m-1" @click="slideRight()">❯</a>
+      </div>
+    </section>
   </div>
 </template>
 
