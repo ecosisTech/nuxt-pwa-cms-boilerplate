@@ -65,19 +65,26 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="pt-4 space-y-8 mt-32">
+  <div class="">
     <!-- Hero Section -->
-    <section class="container mx-auto ">
-      <div class="text-center">
-        <h1 class="text-3xl font-semibold">Herzlich Willkommen 🤗</h1>
-        <p class="mt-4 text-lg text-gray-600">In unserem digitalen Headshop!</p>
+    <section class="w-full bg-base-dark text-base-light pt-32 space-y-8">
+      <div class="container mx-auto">
+        <div class="text-center pt-8">
+          <h1 class="text-3xl font-semibold">Herzlich Willkommen 🤗</h1>
+          <p class="mt-4 text-lg">In unserem digitalen Headshop!</p>
+        </div>
+      </div>
+      <div class="custom-shape-divider-bottom-1697729642" id="shop">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-300"></path>
+        </svg>
       </div>
     </section>
 
     <!-- Search -->
     <section class="w-full bg-base-300">
       <div class="container mx-auto flex flex-col items-center justify-around py-8">
-        <p>Durchsuch dich durch unsere Produkte</p>
+        <h3 class="font-bold text-xl">Durchsuche unsere Produkte</h3>
         <NuxtLink class="btn btn-primary my-4" to="/shop/products">Zu allen Produkten</NuxtLink>
         <div class="w-full flex flex-col items-center">
           <input type="text" placeholder="Suche" class="input input-bordered input-lg w-full" v-model="searchQuery"/>
@@ -100,22 +107,21 @@ definePageMeta({
     </section>
 
     <!-- Categories -->
-    <section class="container mx-auto">
+    <section class="container mx-auto py-8">
       <div class="text-center">
         <h2 class="text-2xl font-semibold">Kategorien</h2>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4">
+      <div class="flex flex-wrap justify-center mt-4">
         <!-- Loop through your categories and display them here -->
         <!-- For example: -->
-        <button v-for="category in categories" :key="category.id" class="bg-base-100 m-2 shadow-md rounded-md" @click="openCategory(category)">
-          <img :src="(category.image) ? `/uploads/${category.image}` : '/uploads/shop/product-placeholder.png'" alt="Category Image" class="w-full h-64 object-cover rounded-md">
-          <div class="py-2 text-center">
-            <h3 class="mt-4 text-lg font-semibold">{{ category.name }}</h3>
+        <NuxtLink v-for="category in categories" :key="category.id" class="w-1/2" :to="`/shop/${category.slug}`">
+          <div class="flex flex-col bg-base-100 shadow-md rounded-md m-2">
+            <img :src="(category.image) ? `/uploads/${category.image}` : '/uploads/shop/product-placeholder.png'" alt="Category Image" class="w-full h-64 object-cover rounded-md">
+            <div class="py-2 text-center">
+              <h3 class="mt-4 text-lg font-semibold">{{ category.name }}</h3>
+            </div>
           </div>
-        </button>
-        <div class="" v-if="categoryIsOpen">
-          test
-        </div>
+        </NuxtLink>
       </div>
     </section>
 

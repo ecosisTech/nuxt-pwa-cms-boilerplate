@@ -42,11 +42,13 @@ onMounted(async () => {
     selectedImage.value = product.images[0]
 
     const filteredProducts = []
-    for (let slug of product.similarProducts) {
-      const res = await getProduct(slug)
-      filteredProducts.push(res)
+    if (product.similarProducts) {
+      for (let slug of product.similarProducts) {
+        const res = await getProduct(slug)
+        filteredProducts.push(res)
+      }
+      similarProducts.value = filteredProducts
     }
-    similarProducts.value = filteredProducts
   }
 })
 definePageMeta({
@@ -89,7 +91,7 @@ definePageMeta({
             <div class="">
               <img
                 class="rounded-3xl border border-base-200 h-full w-full"
-                :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/products/product-placeholder.png'"
+                :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/product-placeholder.png'"
               >
             </div>
           </div>

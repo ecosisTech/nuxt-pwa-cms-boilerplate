@@ -2,12 +2,15 @@
 import { useCategoriesStore } from '../../../stores/categories'
 import { useProductsStore } from '../../../stores/products'
 
+const router = useRouter()
+
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
+
 const brands = computed(() => {
   const allBrands = []
   for (const product of productsStore.products) {
-    if (!allBrands.find(p => p.brand === product.brand)) {
+    if (!allBrands.find(p => p === product.brand)) {
       allBrands.push(product.brand)
     }
   }
@@ -23,35 +26,37 @@ const highestPrice = computed(() => {
   return max;
 });
 const showFeatured = ref(false);
+const ascending = ref(true)
 
 const filteredProducts = computed(() => {
   return productsStore.products.filter((product) => {
-    const categoryMatch =
-      !selectedCategory.value || product.category === selectedCategory.value;
-
     const priceMatch = product.sellingPrice <= priceRange.value;
-
     const brandMatch = !selectedBrand.value || product.brand === selectedBrand.value;
 
-    const featuredMatch = (product.featured) ? true : false;
-
-    return categoryMatch && priceMatch && featuredMatch && brandMatch;
+    if (!selectedCategory.value) {
+      // If no category is selected, return all products
+      return priceMatch && brandMatch;
+    } else {
+      // If a category is selected, check if the product's slug is in the selected category's products
+      const category = categoriesStore.categories.find((category) => category.slug === selectedCategory.value);
+      return category && category.products.includes(product.slug) && priceMatch && brandMatch;
+    }
   });
 });
 
 const searchQuery = ref('')
 const searchResult = computed(() => {
-  return filterArrayByKeyword(filteredProducts.value, searchQuery.value)
+  return filterArrayByKeyword(sortArrayByProperty(filteredProducts.value, 'sellingPrice', ascending.value), searchQuery.value)
 })
 
 </script>
 
 <template>
-  <div class="container mx-auto p-4 space-y-8 flex flex-wrap mt-24">
+  <div class="container mx-auto m-4 flex flex-wrap mt-24 shadow-md">
     <!-- Filters -->
-    <section class="w-full md:w-1/4">
+    <section class="w-full md:w-1/4 bg-base-100 p-4 rounded-t-md md:rounded-l-md md:rounded-r-none">
       <div class="flex">
-        <div class="flex flex-col bg-base-100 p-4 shadow-md rounded-md">
+        <div class="flex flex-col">
           <h2 class="text-xl font-semibold">Filters</h2>
           <!-- Add your filter options here -->
           <div class="form-control w-full max-w-xs mt-4">
@@ -77,6 +82,12 @@ const searchResult = computed(() => {
             <input type="range" min="0" :max="highestPrice" v-model="priceRange" class="range" />
           </div>
           <div class="mt-4">
+            <select v-model="ascending" class="select select-bordered w-full">
+              <option :value="true">Auftseigend (von günstig zu teuer)</option>
+              <option :value="false">Absteigend (von teuer zu günstig)</option>
+            </select>
+          </div>
+          <div class="mt-4">
             <label class="block font-medium">Angepinnte Produkte</label>
             <input type="checkbox" v-model="showFeatured" class="toggle" />
           </div>
@@ -85,9 +96,12 @@ const searchResult = computed(() => {
     </section>
 
     <!-- Product List in Table Format -->
-    <section class="w-full md:w-3/4">
-      <div class="overflow-x-auto">
-        <table class="table">
+    <section class="w-full md:w-3/4 bg-base-100 rounded-b-md md:rounded-r-md md:rounded-l-none overflow-scroll">
+      <div class="overflow-x-auto h-full">
+        <div class="w-full h-full flex justify-center items-center p-8" v-if="!searchResult[0]">
+          Keine Produkte gefunden
+        </div>
+        <table class="table" v-else>
           <!-- Table Head -->
           <thead>
             <tr>
@@ -104,7 +118,7 @@ const searchResult = computed(() => {
           </thead>
           <!-- Table Body - Loop through products -->
           <tbody>
-            <tr v-for="product in searchResult" :key="product.slug" class="bg-base-300 hover:bg-base-100">
+            <tr v-for="product in searchResult" :key="product.slug" class="bg-base-300 hover:bg-base-200" @click="router.push(`/shop/product/${product.slug}`)">
               <td>
                 <label>
                   <!-- <input type="checkbox" class="checkbox" /> -->
@@ -114,7 +128,7 @@ const searchResult = computed(() => {
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
                     <div class="mask rounded-md w-32 h-32">
-                      <img :src="(product.images[0]) ? `/uploads/${product.images[0]}` : 'shop/product-placeholder.png'" alt="Product Image" />
+                      <img :src="(product.images[0]) ? `/uploads/${product.images[0]}` : '/uploads/shop/product-placeholder.png'" />
                     </div>
                   </div>
                   <div>
@@ -126,7 +140,7 @@ const searchResult = computed(() => {
               <td class="font-bold text-secondary">
                   {{ product.brand }}
               </td>
-              <td class="w-16 font-bold">{{ product.sellingPrice }} €</td>
+              <td class="w-24 font-bold">{{ formatRealNumber(product.sellingPrice) }} €</td>
               <td>
                 <button class="btn btn-primary btn-md">Zum Produkt</button>
               </td>

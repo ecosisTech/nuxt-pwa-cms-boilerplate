@@ -164,7 +164,7 @@ onBeforeMount(async () => {
       </div>
     </div>
 
-    <div class="" v-else>
+    <div class="w-full" v-else>
       <!-- Navbar -->
       <div class="flex justify-center w-full my-4 fixed z-40">
         <div class="navbar bg-base-100 z-50 md:w-1/3 rounded rounded-md shadow mx-4">
