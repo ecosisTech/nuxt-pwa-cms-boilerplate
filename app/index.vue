@@ -5,10 +5,16 @@ useHead({
 </script>
 
 <template>
-  <div>
+  <div class="prose lg:prose-xl">
     <VitePwaManifest />
     <NuxtLayout>
       <NuxtPage/>
     </NuxtLayout>
   </div>
 </template>
+
+<style>
+  h1 {
+    @apply text-2xl font-bold;
+  }
+</style>

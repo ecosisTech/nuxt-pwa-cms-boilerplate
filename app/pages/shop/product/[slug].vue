@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useNotificationStore } from '../../../stores/notifications'
 import { useUserStore } from '../../../stores/user'
 import { useProductsStore } from '../../../stores/products'
 import { useCartStore } from '../../../stores/cart'
 
 // const { $mdit } = useNuxtApp()
 const { status } = useAuth()
+const notificationStore = useNotificationStore()
 
 const productsStore = useProductsStore()
 const userStore = useUserStore()
@@ -14,18 +16,29 @@ const router = useRouter()
 
 const product = await getProduct(route.params.slug)
 
-async function addToCart(product) {
-  await cartStore.addToCart({
-    id: product.id,
-    name: product.name,
-    price: product.sellingPrice,
-    currency: 'EUR',
-    // stripePriceId: product.stripePriceId,
-  })
+const quantity = ref(1)
+const addToCart = async (product) => {
+  if (product.quantity >= quantity.value) {
+    cartStore.addToCart({
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.sellingPrice,
+      quantity: quantity.value
+    })
+    notificationStore.addNotification({
+      type: 'success',
+      msg: 'Produkt in den Warenkorb hinzugefügt'
+    })
+  } else {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: 'Produkt seit wenigen Minuten nicht mehr verfügbar'
+    })
+  }
 }
 
 const selectedImage = ref({})
-
 const selectImage = (image) => {
   selectedImage.value = image
 }
@@ -51,10 +64,10 @@ onMounted(async () => {
     }
   }
 })
+
 definePageMeta({
   auth: false,
 })
-
 </script>
 <template>
   <div class="">
@@ -98,12 +111,20 @@ definePageMeta({
 
           <!-- Buy Button -->
           <div class="my-8 flex flex-col items-center justify-center md:items-end md:justify-end w-full">
-            <span class="text-gray-500 italic text-left">MvSt incl: {{ product.tax }}</span>
+            <div class="">
+              <div class="form-control w-full max-w-xs">
+                <label class="label">
+                  <span class="label-text">Menge: </span>
+                </label>
+                <input type="number" min="1" :max="product.quantity" class="input input-bordered w-24 max-w-xs" v-model="quantity"/>
+              </div>
+            </div>
+            <span class="text-gray-500 italic text-left">MwSt inkl: {{ product.tax * 100 }} %</span>
             <button
               class="px-6 py-4 btn-success rounded-xl"
               @click="addToCart(product)"
             >
-            In den Warenkorb {{ product.sellingPrice.toFixed() }}€
+            In den Warenkorb {{ formatRealNumber(product.sellingPrice * quantity) }}€
           </button>
 
           <!-- Edit -->
