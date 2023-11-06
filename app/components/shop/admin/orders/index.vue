@@ -202,7 +202,7 @@ const sortWith = (prop) => {
             <div class="flex justify-between">
               <div class="flex">
                 <h2 class="text-md font-bold">Coupon</h2>
-                <p class="px-8 italic"><b>'agagsa'</b></p>
+                <p class="px-8 italic"><b>'{{ orderDetails.coupon.code }}'</b></p>
               </div>
               <div class="flex justify-around">
                 <div class="flex justify-between w-64">
