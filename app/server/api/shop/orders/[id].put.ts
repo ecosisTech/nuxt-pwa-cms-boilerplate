@@ -4,20 +4,12 @@ import { Order } from '../../../lib/interfaces/order.interface' // Replace with 
 export default defineEventHandler(async (event) => {
   try {
     const ordersDatabase = event.context.ordersDatabase;
-    const userRole = event.context.userRole; // Assuming you've set the user's role in a previous middleware
 
-    if (userRole !== 'admin') {
-      throw createError({
-        statusCode: 403, // Forbidden
-        statusMessage: 'Permission denied',
-      });
-    }
-
-    const orderId = getRouterParam(event, 'id');
-    const { orderData: Order } = useBody();
+    const id = getRouterParam(event, 'id');
+    const { data } = await readBody();
 
     // Check if the product with the given ID exists
-    const orderExists = await ordersDatabase.exists(orderId);
+    const orderExists = await ordersDatabase.exists(id);
     if (!orderExists) {
       throw createError({
         statusCode: 404, // Not Found
@@ -26,9 +18,8 @@ export default defineEventHandler(async (event) => {
     }
 
     // Update the product in the database
-    await ordersDatabase.put(orderId, orderData);
-
-    return { message: 'Order updated successfully' };
+    await ordersDatabase.put(id, data);
+    return await ordersDatabase.get(id)
   } catch (error) {
     throw createError({
       statusCode: 400,

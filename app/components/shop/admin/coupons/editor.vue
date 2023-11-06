@@ -28,6 +28,8 @@ const selectedFiles = ref([])
 const uploadProgressInfos = ref([])
 const newFilesInfos = ref([])
 
+const emit = defineEmits(['updated'])
+
 const addNewCoupon = async () => {
   try {
     if (edit.value.code && edit.value.discount) {
@@ -40,8 +42,12 @@ const addNewCoupon = async () => {
         type: 'success',
         msg: 'Saved!'
       })
+      emit('updated')
     } else {
-      alert('Bitte minimum das Feld "Slug" & "Name" füllen')
+      notificationStore.addNotification({
+        type: 'error',
+        msg: 'Bitte alle Felder ausfülen!'
+      })
     }
   } catch (error) {
     notificationStore.addNotification({
@@ -70,56 +76,46 @@ const removeCoupon = async () => {
 </script>
 <template>
   <div class="container mx-auto">
-    <div class="flex flex-wrap bg-base-100 rounded rounded-xl shadow">
+    <div class="flex flex-wrap">
 
       <!-- Product infos -->
-      <div class="w-full md:w-1/3 p-4">
+      <div class="w-full p-4">
         <h2 class="font-bold">Coupon Daten</h2>
-        <!-- Product ID -->
-        <!-- <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Product ID</p>
-            </label>
-            <input type="text" placeholder="Automatisch generiert" class="input input-bordered w-full max-w-md"  v-model="edit.id" disabled/>
-          </div>
-        </div> -->
-
-        <!-- Product Name -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
+        <!-- Coupon Code -->
+        <div class="w-full">
+          <div class="form-control w-full">
             <label class="label">
               <p class="label-text">
                 Code*
               </p>
             </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.code"/>
+            <input type="text" placeholder="Type here" class="input input-bordered w-full"  v-model="edit.code"/>
           </div>
         </div>
 
-        <!-- Quantity -->
+        <!-- Coupon Discount -->
         <div class="">
-          <div class="form-control w-full max-w-md">
+          <div class="form-control w-full">
             <label class="label">
               <p class="label-text">Discount (in %)</p>
             </label>
-            <input type="number" placeholder="20" min="1" max="100" class="input input-bordered w-full max-w-md"  v-model="edit.discount"/>
+            <input type="number" placeholder="20" min="1" max="100" class="input input-bordered w-full"  v-model="edit.discount"/>
           </div>
         </div>
       </div>
     </div>
     <div class="w-full p-4 rounded-t rounded-xl">
-      <button class="btn btn-success mr-2" @click="addNewCoupon()">Save</button>
-      <button class="btn btn-error mr-2" onclick="remove_coupon.showModal()">Remove</button>
+      <button class="btn btn-success mr-2" @click="addNewCoupon()">Speichern</button>
+      <button class="btn btn-error mr-2" onclick="remove_coupon.showModal()" v-if="coupon">Deaktivieren</button>
       <dialog id="remove_coupon" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
-          <h3 class="font-bold text-lg">Attention!</h3>
-          <p class="py-4">Removing this coupon deletes it permanentally!</p>
+          <h3 class="font-bold text-lg">Achtung!</h3>
+          <p class="py-4">Bist du sicher, dass du den Coupon deaktivieren willst?</p>
           <div class="modal-action">
             <form method="dialog">
               <!-- if there is a button in form, it will close the modal -->
-              <button class="btn btn-error" @click="removeCoupon()">Remove</button>
-              <button class="btn">Cancel</button>
+              <button class="btn btn-error" @click="disableCoupon()">Deaktivieren</button>
+              <button class="btn">Abrechen</button>
             </form>
           </div>
         </div>

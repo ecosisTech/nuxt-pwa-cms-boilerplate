@@ -2,7 +2,9 @@ export const addOrder = async (data) => {
   try {
     return await useFetch('/api/shop/orders/', {
       method: 'POST',
-      body: data
+      body: {
+        data
+      }
     })
   } catch (error) {
     throw new Error(error)
@@ -13,7 +15,9 @@ export const updateOrder = async (id, data) => {
   try {
     return await useFetch('/api/shop/orders/' + id, {
       method: 'PUT',
-      body: data
+      body: {
+        data
+      }
     })
   } catch (error) {
     throw new Error(error)
@@ -22,9 +26,10 @@ export const updateOrder = async (id, data) => {
 
 export const getOrder = async (id) => {
   try {
-    return await useFetch('/api/shop/orders/' + id, {
+    const { data } = await useFetch('/api/shop/orders/' + id, {
       method: 'GET'
     })
+    return data.value
   } catch (error) {
     throw new Error(error)
   }
@@ -32,9 +37,10 @@ export const getOrder = async (id) => {
 
 export const getAllOrders = async () => {
   try {
-    return await useFetch('/api/shop/orders/', {
+    const { data } = await useFetch('/api/shop/orders/', {
       method: 'GET'
     })
+    return data.value
   } catch (error) {
     throw new Error(error)
   }

@@ -1,28 +1,37 @@
 import { v4 as uuid } from 'uuid';
-import { Order } from '../../../lib/interfaces/order.interface'; // Replace with the actual path to your interface file
+import { getServerSession } from '#auth'
 
 export default defineEventHandler(async (event) => {
   try {
+    const session = await getServerSession(event)
     const ordersDatabase = event.context.ordersDatabase;
-    const userRole = event.context.userRole; // Assuming you've set the user's role in a previous middleware
-
-    if (userRole !== 'admin') {
-      throw createError({
-        statusCode: 403, // Forbidden
-        statusMessage: 'Permission denied',
-      });
-    }
+    const clientsDatabase = event.context.clientsDatabase;
 
     // Get the order data from the request body
-    const { orderData: Order } = useBody();
+    const { data } = await readBody();
+    let client;
+    if (session && session.user.email) {
+      client = await clientsDatabase.find(c => c.email === session.user.email)
+    } else {
+      client = {
+        email: null,
+        address: null,
+        firstname: null,
+        lastname: null
+      }
+    }
 
-    // Generate a unique ID for the order (you can use your own method)
-    const orderId = uuid(); // Implement a method to generate unique IDs
+    // Set Order Data
+    data.id = uuid()
+    data.created = new Date().toISOString()
+    data.expires = new Date(data.created.getTime() + 60 * 60 * 1000)
+    data.paid = false
+    data.shipped = false
+    data.client = client
 
     // Add the order to the database
-    await ordersDatabase.put(orderId, orderData);
-
-    return { message: 'Order created successfully' };
+    await ordersDatabase.put(data.id, data)
+    return await ordersDatabase.get(data.id)
   } catch (error) {
     throw createError({
       statusCode: 400,

@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
   event.context.categoriesDatabase = await databaseManager.accessDatabase('categories')
   event.context.subcategoriesDatabase = await databaseManager.accessDatabase('subcategories')
   event.context.clientsDatabase = await databaseManager.accessDatabase('clients')
+  event.context.couponsDatabase = await databaseManager.accessDatabase('coupons')
   event.context.subscribersDatabase = await databaseManager.accessDatabase('subscribers')
   // Continue with the request
   return;

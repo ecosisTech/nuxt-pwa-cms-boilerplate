@@ -5,16 +5,18 @@ import { useNotificationStore } from '../../../../stores/notifications'
 
 const router = useRouter()
 
+const coupons = await getAllCoupons()
+
 const productsStore = useProductsStore()
 const categoriesStore = useCategoriesStore()
 const notificationStore = useNotificationStore()
 
-const propertyToSortWith = ref('name')
+const propertyToSortWith = ref('created')
 const ascending = ref(true)
 
 const filterKeyword = ref('')
-const coupons = computed(() => {
-  return [] // filterArrayByKeyword(sortArrayByProperty(productsStore.products, propertyToSortWith.value, ascending.value), filterKeyword.value)
+const filteredCoupons = computed(() => {
+  return filterArrayByKeyword(sortArrayByProperty(coupons, propertyToSortWith.value, ascending.value), filterKeyword.value)
 })
 
 const sortWith = (prop) => {
@@ -29,21 +31,28 @@ const nextPage = () => {
   // }
 }
 
-const JSON_Data = ref('')
-const importNewProducts = async () => {
+const setCoupon = async (code) => {
   try {
-    await importProducts(JSON.parse(JSON_Data.value))
-    await productsStore.fetchProducts()
-    await categoriesStore.fetchCategories()
+    await updateCoupon(code)
     notificationStore.addNotification({
       type: 'success',
-      msg: 'Products imported'
+      msg: 'Saved!'
     })
+    coupons.value = await getAllCoupons()
   } catch (error) {
     notificationStore.addNotification({
       type: 'error',
-      msg: error.message
+      msg: error
     })
+  }
+}
+
+const fetchCoupons = async () => {
+  try {
+    coupons.value = await getAllCoupons()
+  } catch (error) {
+    console.log(error);
+
   }
 }
 
@@ -55,13 +64,10 @@ const selected = ref([])
     <!-- Add Product Modal -->
     <div class="w-full flex justify-center mb-8">
       <div class="">
-        <button class="btn" onclick="add_coupon.showModal()" disabled>+ Hinzufügen</button>
+        <button class="btn" onclick="add_coupon.showModal()">+ Hinzufügen</button>
         <dialog id="add_coupon" class="modal">
           <div class="modal-box">
-            <ShopAdminCouponsEditor :user="undefined"/>
-          </div>
-
-          <div class="flex flex-col pr-4">
+            <ShopAdminCouponsEditor :coupon="undefined" @updated="fetchCoupons"/>
           </div>
           <form method="dialog" class="modal-backdrop">
             <button>close</button>
@@ -90,22 +96,19 @@ const selected = ref([])
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in coupons" class="hover:bg-base-200">
+        <tr v-for="coupon in filteredCoupons" class="hover:bg-base-200">
           <th>
             <!-- <label>
               <input type="checkbox" class="checkbox" />
             </label> -->
           </th>
-          <th>{{ item['code'] }}</th>
-          <th>{{ item['discount'] }}</th>
-          <th>{{ item['created'] }}</th>
-          <th>{{ item['updated'] }}</th>
+          <th>{{ coupon['code'] }}</th>
+          <th>{{ coupon['discount'] }}%</th>
+          <th>{{ coupon['created'] }}</th>
+          <th>{{ coupon['updated'] }}</th>
           <th>
-            <button class="btn btn-circle btn-sm mr-2" @click="router.push(`/admin/shop/products/edit/${item.slug}`)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            </button>
-            <button class="btn btn-circle btn-sm" @click="router.push(`/shop/product/${item.slug}`)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <button class="btn btn-sm" :class="`${(coupon.active) ? 'btn-warning' : 'btn-primary'}`" @click="setCoupon(coupon.code)">
+              {{ (coupon.active) ? 'Deaktivieren' : 'Aktivieren' }}
             </button>
           </th>
         </tr>
@@ -118,7 +121,6 @@ const selected = ref([])
           <th>Rabatt</th>
           <th>Erstellt</th>
           <th>Aktualisiert</th>
-          <th>Quantity</th>
           <th></th>
         </tr>
       </tfoot>
