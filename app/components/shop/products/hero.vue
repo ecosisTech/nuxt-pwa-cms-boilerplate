@@ -45,7 +45,7 @@ onBeforeUnmount(async () => {//(product.images[0]) ? `/uploads/${product.images[
 });
 </script>
 <template>
-  <NuxLink class="hero min-h-screen" :style="'background-image: url(/uploads/' + currentProduct.images[0] + ');'" :to="`/shop/product/${currentProduct.lug}`" v-if="currentProduct">
+  <NuxLink class="hero min-h-screen" :style="'background-image: url(/uploads/' + currentProduct.images[0] + ');'" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct">
     <div class="hero-overlay bg-opacity-60"></div>
     <div class="hero-content text-center text-neutral-content">
       <div class="max-w-md">
