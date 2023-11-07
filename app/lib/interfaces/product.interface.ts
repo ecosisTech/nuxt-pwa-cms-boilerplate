@@ -8,6 +8,7 @@ export interface Product {
   images?: any[];
   quantity?: number;
   description?: string;
+  comments?: string;
   propertyName?: string; // Property name
   propertyValue?: string; // Property value
   variant?: string; // Product color

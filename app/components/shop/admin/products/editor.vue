@@ -37,6 +37,7 @@ const edit = ref(props.product || {
   images: [],
   quantity: 0,
   description: '',
+  comments: '',
   facts: '',
   propertyName: '',
   propertyValue: '',
@@ -373,6 +374,16 @@ const removeProduct = async () => {
               </label>
               <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.account"/>
             </div>
+          </div>
+        </div>
+        <div class="">
+          <h3 class="font-bold">Produkt Daten</h3>
+          <div class="form-control w-full max-w-md">
+            <label class="label">
+              <p class="label-text">Beschreibung</p>
+            </label>
+            <Texteditor v-model="edit.comments"/>
+            <!-- <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea> -->
           </div>
         </div>
       </div>

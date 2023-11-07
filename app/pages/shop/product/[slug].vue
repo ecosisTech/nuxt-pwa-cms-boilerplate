@@ -201,6 +201,12 @@ definePageMeta({
             <!-- <p v-html="formatText(product.facts)"></p> -->
           </div>
         </div>
+        <div class="divider">
+        </div>
+        <div class="" v-if="product.comments">
+          <h2 class="text-xl font-bold">Unser Kommentar</h2>
+          <div class="prose" v-html="$mdit.render(product.comments)"></div>
+        </div>
       </div>
     </div>
     <!-- Featured -->
