@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { useOrdersStore } from '../../../../stores/orders'
+import { useNotificationStore } from '../../../../stores/notifications'
+
+
+const orderStore = useOrdersStore()
+const notificationStore = useNotificationStore()
+
 const router = useRouter()
 
-const orders = await getAllOrders()
+const orders = orderStore.orders
 
 const selected = ref([])
 
@@ -15,8 +22,21 @@ const propertyToSortWith = ref('name')
 const ascending = ref(true)
 
 const filteredOrders = computed(() => {
-  return sortArrayByProperty(orders, propertyToSortWith.value, ascending.value)
+  return sortArrayByProperty(orderStore.orders, propertyToSortWith.value, ascending.value)
 })
+
+const deliveredOrder = async (order) => {
+  try {
+    order.shipped = true
+    await updateOrder(order)
+    await orderStore.fetchOrders()
+  } catch (error) {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: error
+    })
+  }
+}
 
 const sortWith = (prop) => {
   ascending.value = !ascending.value
@@ -73,11 +93,14 @@ const sortWith = (prop) => {
               <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </th>
             <th>
-              <svg v-if="order.delivered" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg v-if="order.shipped" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"/></svg>
               <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </th>
             <th class="flex flex-wrap justify-center items-center">
-              <button class="btn btn-circle ml-2" @click="viewOrder(order)" onclick="orderView.showModal()">
+              <button class="btn btn-circle ml-2" :class="`${(!order.shipped) ? 'btn-success' : 'btn-ghost'}`" @click="deliveredOrder(order)" onclick="orderview.showModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-check"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+              </button>
+              <button class="btn btn-circle ml-2" @click="viewOrder(order)" onclick="orderview.showModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </th>
@@ -101,7 +124,7 @@ const sortWith = (prop) => {
         </tfoot>
       </table>
       <!-- You can open the modal using ID.showModal() method -->
-      <dialog id="orderView" class="modal" v-if="orderDetails">
+      <dialog id="orderview" class="modal" v-if="orderDetails">
         <div class="modal-box w-11/12 max-w-5xl">
           <div class="flex flex-wrap justify-between">
             <div class="bg-base-200 rounded-md p-4 m-2 w-full">
