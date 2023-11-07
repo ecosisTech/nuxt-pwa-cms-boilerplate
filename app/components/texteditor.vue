@@ -1,7 +1,7 @@
 <template>
   <div class="bg-base-200 rounded">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
-    <div class="toolbar flex bg-gray-300" v-if="editor">
+    <div class="toolbar flex bg-base-300 rounded-md" v-if="editor">
       <div class="dropdown dropdown-hover dropdown-top md:dropdown-left">
         <label tabindex="0" class="m-1 btn">
           H
@@ -29,7 +29,7 @@
       </button>
     </div>
 
-    <editor-content class="bg-base-100 rounded border p-2 h-auto" :editor="editor" />
+    <editor-content class="bg-base-200 rounded-md p-2 h-auto" :editor="editor" />
 
     <div v-if="editor" class="footer">
       <span class="characters-count" :class="maxLimit ? limitWarning : ''">
