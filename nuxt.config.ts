@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     ],
   },
   auth: {
+    // origin: '*',
     globalAppMiddleware: true,
     enableSessionRefreshPeriodically: 5000,
     enableSessionRefreshOnWindowFocus: true,
