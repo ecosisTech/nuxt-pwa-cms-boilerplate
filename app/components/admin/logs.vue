@@ -48,7 +48,7 @@ const nextPage = () => {
               <input type="checkbox" class="checkbox" />
             </label> -->
           </th>
-          <th class="font-thin"> {{ log.timestamp }}</th>
+          <th class=""> {{ formatReadableDate(log.timestamp) }}</th>
           <th class="badge gap-2 my-1" :class="`badge-${log.type}`"> {{ log.type }}</th>
           <th> {{ log.code }}</th>
           <th> {{ log.context }}</th>

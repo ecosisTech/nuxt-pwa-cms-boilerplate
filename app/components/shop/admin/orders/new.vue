@@ -21,18 +21,22 @@ const orderStore = useOrdersStore()
     <div
       class="mt-5 flex w-full items-start gap-6 overflow-x-auto rounded-lg border bg-base-100 px-5 py-5 scrollbar-thin scrollbar-thumb-input scrollbar-thumb-rounded-md mb-8"
     >
-      <div class="w-full flex justify-center items-center" v-if="!orderStore.orders.length">
+      <div class="w-full flex justify-center items-center" v-if="!orderStore.orders[0]">
         <h2>Keine Bestellungen</h2>
       </div>
-      <template v-for="order in orderStore.order">
-        <NuxtLink class="flex shrink-0 flex-col items-center gap-2" to="/admin/shop/oders">
+      <div v-for="order in orderStore.orders" v-else>
+        <NuxtLink class="flex flex-col items-center justify-center gap-2 bg-base-300 rounded-md p-2 h-32" to="/admin/shop/orders">
+          <div class="flex justify-center items-center">
+            <img src="/uploads/shop/product-placeholder.png" class="h-16 w-16 rounded-full">
+          </div>
           <div class="text-center">
-            <p class="text-sm font-semibold">{{ order.totalGross }} {{ order.totalNet }}</p>
-            <p class="text-xs text-muted-foreground text-gray-500">{{ order.created }}</p>
-            <p class="text-xs text-muted-foreground">{{ order.products.length }}</p>
+            <p class="text-xs text-muted-foreground"><b>Produkte: </b>{{ order.products.length }}</p>
+            <p class="text-xs text-muted-foreground text-gray-500">{{ formatReadableDate(order.created) }}</p>
+            <p class="text-sm">Umsatz (mit Rabatt): <b>{{ formatRealNumber(order.totalNet) }}€</b></p>
+            <p class="text-sm">Umsatz (ohne Rabatt): <b>{{ formatRealNumber(order.totalGross) }}€</b></p>
           </div>
         </NuxtLink>
-      </template>
+      </div>
     </div>
   </section>
 </template>

@@ -104,8 +104,8 @@ const selected = ref([])
           </th>
           <th>{{ coupon['code'] }}</th>
           <th>{{ coupon['discount'] }}%</th>
-          <th>{{ coupon['created'] }}</th>
-          <th>{{ coupon['updated'] }}</th>
+          <th>{{ formatReadableDate(coupon['created']) }}</th>
+          <th>{{ formatReadableDate(coupon['updated']) }}</th>
           <th>
             <button class="btn btn-sm" :class="`${(coupon.active) ? 'btn-warning' : 'btn-primary'}`" @click="setCoupon(coupon.code)">
               {{ (coupon.active) ? 'Deaktivieren' : 'Aktivieren' }}

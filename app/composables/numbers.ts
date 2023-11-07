@@ -10,3 +10,15 @@ export const formatRealNumber = (number: number) => {
 
   return currency;
 };
+
+export function formatReadableDate(dateString) {
+  if (dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+    const time = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    return `${day}. ${month} ${year} - ${time}`;
+  }
+}
