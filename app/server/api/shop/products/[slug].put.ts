@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   try {
     const session = await getServerSession(event)
     const productsDatabase = event.context.productsDatabase
-    const userRole = event.context.userRole // Assuming you've set the user's role in a previous middleware
+    // const userRole = event.context.userRole // Assuming you've set the user's role in a previous middleware
 
     // if (userRole !== 'admin') {
     //   throw createError({

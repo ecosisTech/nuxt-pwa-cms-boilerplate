@@ -1,33 +1,42 @@
 <script setup lang="ts">
+import { useOrdersStore } from '../../../stores/orders'
+import { useProductsStore } from '../../../stores/products'
+
+const orderStore = useOrdersStore()
+const productsStore = useProductsStore()
+await productsStore.fetchProducts()
+await orderStore.fetchOrders()
+
 const router = useRouter()
 
+const shopOverviewData = calculatePerformanceData(orderStore.orders, productsStore.products)
+
 const margin = computed(() => {
-  return (shopOverviewData.value.monthlyProfit / shopOverviewData.value.monthlyRevenue) * 100
+  return (shopOverviewData.monthlyProfit / shopOverviewData.monthlyRevenue) * 100
 })
+
+const months = [
+  'Januar',
+  'Februar',
+  'März',
+  'April',
+  'Mai',
+  'Juni',
+  'Juli',
+  'August',
+  'September',
+  'Oktober',
+  'November',
+  'Dezember'
+];
+
+const currentDate = new Date();
 
 const selectedTab = ref('orders')
 
 const selectTab = (tab) => {
   return selectedTab.value = tab
 }
-
-const currentDate = new Date();
-
-const shopOverviewData = ref({
-  monthlyRevenue: 0,
-  monthlyProfit: 0,
-  monthlyPerformance: 0,
-  currentMonth: currentDate.getMonth(),
-  yearlyRevenue: 0,
-  yearlyProfit: 0,
-  yearlyPerformance: 0, // No data for last year, assuming 0
-  currentYear: currentDate.getFullYear(),
-  totalAmountClients: 0,
-  totalAmountRegisteredUser: 0,
-  ammountOrderd: 0,
-  shippedOrders: 0,
-  totalAmountProducts: 0,
-})
 </script>
 
 <template>
@@ -46,7 +55,7 @@ const shopOverviewData = ref({
               <div class="w-1/2">
                 <div class="rounded-lg border border-error card bg-base-100 p-4 m-2">
                   <div class="flex items-center justify-between">
-                    <p class="text-sm font-medium">Umsatz {{ shopOverviewData.currentMonth.toString() }}</p>
+                    <p class="text-sm font-medium">Umsatz <b>{{ shopOverviewData.currentMonth.toString() }}</b></p>
                     <span class="shrink-0">
                       <Icon name="heroicons:banknotes" class="h-4 w-4 text-muted-foreground" />
                     </span>
@@ -61,7 +70,7 @@ const shopOverviewData = ref({
               <div class="w-1/2">
                 <div class="rounded-lg border border-success card bg-base-100 p-4 m-2">
                   <div class="flex items-center justify-between">
-                    <p class="text-sm font-medium">Profit {{ shopOverviewData.currentMonth }}</p>
+                    <p class="text-sm font-medium">Profit <b>{{ shopOverviewData.currentMonth }}</b></p>
                     <span class="shrink-0">
                       <Icon name="heroicons:credit-card" class="h-4 w-4 text-muted-foreground" />
                     </span>
@@ -143,7 +152,7 @@ const shopOverviewData = ref({
         <section class="border border-base-300 bg-base-100 rounded rounded-xl my-4 w-full md:w-2/3 p-8">
           <div class="">
             <h1 class="text-xl font-medium">Sales</h1>
-            <!-- <p>Umsatz 2023: <b>{{ formatRealNumber(revenueYear) }}€</b></p> -->
+            <p>Umsatz {{ shopOverviewData.currentYear }}: <b>{{ formatRealNumber(Number(shopOverviewData.revenueYear)) }}€</b></p>
           </div>
           <div class="">
             <ShopAdminSales/>

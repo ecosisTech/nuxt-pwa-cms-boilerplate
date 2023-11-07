@@ -51,6 +51,7 @@ import Underline from '@tiptap/extension-underline';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import CharacterCount from '@tiptap/extension-character-count';
+// TODO https://tiptap.dev/api/extensions/color
 
 export default {
   components: {

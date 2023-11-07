@@ -11,9 +11,11 @@ export const addOrder = async (data) => {
   }
 }
 
-export const updateOrder = async (id, data) => {
+export const updateOrder = async (data) => {
   try {
-    return await useFetch('/api/shop/orders/' + id, {
+    console.log(data);
+
+    return await useFetch('/api/shop/orders/' + data.id, {
       method: 'PUT',
       body: {
         data

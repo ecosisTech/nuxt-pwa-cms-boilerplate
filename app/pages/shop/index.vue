@@ -67,8 +67,9 @@ definePageMeta({
 <template>
   <div class="">
     <!-- Hero Section -->
-    <section class="w-full bg-base-dark text-base-light pt-32 space-y-8">
-      <div class="container mx-auto">
+    <section class="w-full bg-base-dark text-base-light space-y-8">
+      <ShopProductsHero :products="featuredProducts" v-if="featuredProducts"/>
+      <!-- <div class="container mx-auto">
         <div class="text-center pt-8">
           <h1 class="text-3xl font-semibold">Herzlich Willkommen 🤗</h1>
           <p class="mt-4 text-lg">In unserem digitalen Headshop!</p>
@@ -78,11 +79,17 @@ definePageMeta({
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
           <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-300"></path>
         </svg>
-      </div>
+      </div> -->
     </section>
 
     <!-- Search -->
     <section class="w-full bg-base-300">
+      <div class="container mx-auto">
+        <div class="text-center pt-8">
+          <h1 class="text-3xl font-semibold">Herzlich Willkommen 🤗</h1>
+          <p class="mt-4 text-lg">In unserem digitalen Headshop!</p>
+        </div>
+      </div>
       <div class="container mx-auto flex flex-col items-center justify-around py-8">
         <h3 class="font-bold text-xl">Durchsuche unsere Produkte</h3>
         <NuxtLink class="btn btn-primary my-4" to="/shop/products">Zu allen Produkten</NuxtLink>
@@ -95,7 +102,12 @@ definePageMeta({
               <ul class="flex flex-wrap w-full md:w-[900px]">
                 <li class="w-1/2" v-for="product in searchResult"><NuxtLink :to="`/shop/product/${product.slug}`">
                   <img class="w-12 h-12 rounded-md" :src="`/uploads/${(product.images[0]) ? product.images[0] : 'shop/product-placeholder.png'}`"/>
-                  <h2>
+                  <h2><!-- <button
+        class="px-6 py-4 btn-ghost border-success rounded-xl mt-2"
+        @click="buyInstantly(product)"
+      >
+        Sofort Kaufen {{ formatRealNumber(currentProductsellingPrice * quantity) }}€
+      </button> -->
                     {{ product.name }}
                   </h2>
                 </NuxtLink></li>
@@ -145,19 +157,4 @@ definePageMeta({
 </template>
 
 <style scoped>
-.custom-shape-divider-bottom-1697729642 {
-    position: relative;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-}
-
-.custom-shape-divider-bottom-1697729642 svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 69px;
-}
 </style>

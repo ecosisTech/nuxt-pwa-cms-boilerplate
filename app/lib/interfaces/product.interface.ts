@@ -21,5 +21,4 @@ export interface Product {
   EAN?: string; // European Article Number (EAN) or barcode
   featured?: boolean; // Is the product featured or not
   similarProducts?: string[] // Product IDs of similar products
-  // Add any other necessary properties here
 }
