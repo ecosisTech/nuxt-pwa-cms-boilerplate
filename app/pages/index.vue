@@ -26,7 +26,7 @@ definePageMeta({
       <div class="container mx-auto">
         <div class="flex">
           <div class="w-1/2">
-            <img src="/images/about-image.jpg" alt="About Image" class="w-full">
+            <!-- <img src="" alt="About Image" class="w-full"> -->
           </div>
           <div class="w-1/2 pl-10">
             <h2 class="text-3xl font-bold">About</h2>
@@ -48,22 +48,22 @@ definePageMeta({
         <h2 class="text-3xl font-bold text-center mb-10">Features</h2>
         <div class="grid grid-cols-4 gap-8">
           <div class="text-center">
-            <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">User Authentication</h3>
             <p class="mt-2">Securely manage user access to your CMS.</p>
           </div>
           <div class="text-center">
-            <img src="/images/feature-2-icon.svg" alt="Feature 2 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-2-icon.svg" alt="Feature 2 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">User Data Management</h3>
             <p class="mt-2">Easily create, read, update, and delete user data.</p>
           </div>
           <div class="text-center">
-            <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">File Management</h3>
             <p class="mt-2">Efficiently organize and store your files.</p>
           </div>
           <div class="text-center">
-            <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">Data Management</h3>
             <p class="mt-2">Efficiently organize and store your Data.</p>
           </div>
@@ -77,22 +77,22 @@ definePageMeta({
         <h2 class="text-3xl font-bold text-center mb-10">Extensions</h2>
         <div class="grid grid-cols-4 gap-8">
           <div class="text-center">
-            <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">Shop</h3>
             <p class="mt-2">Let it become your fully customizable onlineshop</p>
           </div>
           <div class="text-center">
-            <img src="/images/feature-2-icon.svg" alt="Feature 2 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-2-icon.svg" alt="Feature 2 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">Blog</h3>
             <p class="mt-2">Manage your Blog with ease</p>
           </div>
           <div class="text-center">
-            <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">Content</h3>
             <p class="mt-2">Simply edit your landingpage content</p>
           </div>
           <div class="text-center">
-            <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto">
+            <!-- <img src="/images/feature-3-icon.svg" alt="Feature 3 Icon" class="w-20 mx-auto"> -->
             <h3 class="text-xl font-bold mt-4">Social-Media</h3>
             <p class="mt-2">Host your community</p>
           </div>
@@ -106,7 +106,7 @@ definePageMeta({
         <div class="md:w-1/2 text-center">
           <h3 class="text-xl font-bold mt-4">Demo</h3>
           <p class="mt-2">Checkout out the demo!</p>
-          <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto">
+          <!-- <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto"> -->
         </div>
         <div class="md:w-1/2 md:pl-8 mt-8 md:mt-0">
           <iframe src="https://codesandbox.io/embed/cta-example-9hx7dh?fontsize=14&hidenavigation=1&theme=dark"
