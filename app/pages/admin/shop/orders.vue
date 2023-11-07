@@ -2,6 +2,7 @@
 import { useOrdersStore } from '../../../stores/orders'
 
 const orderStore = useOrdersStore()
+await orderStore.fetchOrders()
 </script>
 
 <template>
