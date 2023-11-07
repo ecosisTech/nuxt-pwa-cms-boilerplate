@@ -48,6 +48,30 @@ const formatText = (text) => {
   return text.replace(/\n/g, "<br />")
 }
 
+const buyInstantly = async (product) => {
+  try {
+    if (product.quantity >= quantity.value) {
+      cartStore.addToCart({
+        id: product.id,
+        name: product.name,
+        slug: product.slug,
+        price: product.sellingPrice,
+        quantity: quantity.value
+      })
+      notificationStore.addNotification({
+        type: 'success',
+        msg: 'Produkt in den Warenkorb hinzugefügt'
+      })
+      router.push('/shop/checkout')
+    }
+  } catch (error) {
+    notificationStore.addNotification({
+      type: 'error',
+      msg: 'Produkt seit wenigen Minuten nicht mehr verfügbar'
+    })
+  }
+}
+
 const similarProducts = ref([])
 
 onMounted(async () => {
@@ -124,8 +148,14 @@ definePageMeta({
               class="px-6 py-4 btn-success rounded-xl"
               @click="addToCart(product)"
             >
-            In den Warenkorb {{ formatRealNumber(product.sellingPrice * quantity) }}€
-          </button>
+              In den Warenkorb {{ formatRealNumber(product.sellingPrice * quantity) }}€
+            </button>
+            <button
+              class="px-6 py-4 btn-ghost border-success rounded-xl mt-2"
+              @click="buyInstantly(product)"
+            >
+              Sofort Kaufen {{ formatRealNumber(product.sellingPrice * quantity) }}€
+            </button>
 
           <!-- Edit -->
           <button class="btn" v-if="status === 'authenticated'" @click="router.push(`/admin/shop/products/edit/${route.params.slug}`)">Edit</button>
