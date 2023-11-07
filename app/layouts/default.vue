@@ -41,9 +41,12 @@ const toggleSidebar = () => {
   //   activeSidebar.value = false
   // })
 }
-watch(route, value => {
-  activeSidebar.value = false
-}, {deep: true, immediate: true})
+
+router.afterEach(() => {
+  if (screen.width < 768) {
+    activeSidebar.value = false
+  }
+})
 
 // Password Protection
 const pw = 'crowned'
