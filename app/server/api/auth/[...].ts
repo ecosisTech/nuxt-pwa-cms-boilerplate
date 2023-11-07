@@ -51,6 +51,9 @@ export default NuxtAuthHandler({
                 if (user.password === credentials.password) {
                   return user
                 }
+                // if (verifyPassword(credentials.password, user.password.hash, user.password.salt)) {
+                //   return user
+                // }
               } else if (credentials?.username === admin.username && credentials?.password === admin.password) {
                 return admin
               } else {

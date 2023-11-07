@@ -28,9 +28,19 @@ export default eventHandler(async (event) => {
         statusMessage: 'User does not exist!',
       })
     }
+
     const user = await databaseManager.getUser(id)
     if (!data.password) {
       data.password = user.password
+    } else {
+      // Encrypt User Password
+      const salt = generateSalt()
+      const hash = hashPassword(data.password, salt)
+      const password = {
+        salt,
+        hash
+      }
+      data.password = password
     }
 
     // Add user

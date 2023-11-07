@@ -20,6 +20,13 @@ export default defineEventHandler(async (event) => {
     data.created = new Date().toISOString()
     data.updated = new Date().toISOString()
 
+    // Encrypt User Password
+    const password = {
+      salt: generateSalt(),
+      hash: hashPassword(data.password, data.salt)
+    }
+    data.password = password
+
     // Add new User
     return await databaseManager.addUser(data)
   } catch (error) {
