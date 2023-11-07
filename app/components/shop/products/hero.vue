@@ -45,7 +45,7 @@ onBeforeUnmount(async () => {//(product.images[0]) ? `/uploads/${product.images[
 });
 </script>
 <template>
-  <NuxLink class="hero min-h-screen" :style="'background-image: url(/uploads/' + currentProduct.images[0] + ');'" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct">
+  <NuxtLink class="hero min-h-screen" :style="'background-image: url(/uploads/' + currentProduct.images[0] + ');'" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct">
     <div class="hero-overlay bg-opacity-60"></div>
     <div class="hero-content text-center text-neutral-content">
       <div class="max-w-md">
@@ -62,7 +62,7 @@ onBeforeUnmount(async () => {//(product.images[0]) ? `/uploads/${product.images[
         <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" class="fill-base-300"></path>
       </svg>
     </div> -->
-  </NuxLink>
+  </NuxtLink>
 </template>
 
 <style scoped>
