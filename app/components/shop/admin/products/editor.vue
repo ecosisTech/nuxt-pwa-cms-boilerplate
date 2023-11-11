@@ -244,155 +244,151 @@ const removeProduct = async () => {
         </div>
       </div>
 
-      <!-- Product infos -->
-      <div class="w-full md:w-1/3 p-4">
-        <h2 class="font-bold">Meta Daten</h2>
-        <!-- Product ID -->
-        <!-- <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Product ID</p>
-            </label>
-            <input type="text" placeholder="Automatisch generiert" class="input input-bordered w-full max-w-md"  v-model="edit.id" disabled/>
-          </div>
-        </div> -->
+      <div class="w-full md:w-2/3 flex flex-wrap">
+        <!-- Product infos -->
+        <div class="w-full md:w-1/2 p-4">
+          <h2 class="font-bold">Meta Daten</h2>
 
-        <!-- Product Name -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Produkt Name*
-                <span class="text-gray-500 italic text-sm">Slug: {{ slug }}</span>
-              </p>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
-          </div>
-        </div>
-
-        <!-- Quantity -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Menge</p>
-            </label>
-            <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.quantity"/>
-          </div>
-        </div>
-
-        <!-- Varaints -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Farbe</p>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.variants[0]"/>
-          </div>
-        </div>
-
-        <!-- Brand -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Marke</p>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.brand"/>
-          </div>
-        </div>
-
-        <!-- Group Name -->
-        <!-- <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Warengruppe</p>
-            </label>
-            <select class="select select-bordered w-full max-w-md" v-model="edit['group-name']">
-              <option selected>{{ edit['group-name'] }}</option>
-              <option v-for="group in productsStore.groups">{{ group.name }}</option>
-            </select>
-          </div>
-        </div> -->
-
-        <!-- Subgroup Name -->
-        <!-- <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Unterkategorie</p>
-            </label>
-            <select class="select select-bordered w-full max-w-md" v-model="edit['subgroup-name']">
-              <option selected>{{ edit['subgroup-name'] }}</option>
-              <option v-for="subgroup in productsStore.subgroups">{{ subgroup }}</option>
-            </select>
-          </div>
-        </div> -->
-
-        <!-- Prices -->
-        <div class="flex flex-wrap">
+          <!-- Product Name -->
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <p class="label-text">Preis (Verkauf) (in EUR)</p>
+                <p class="label-text">Produkt Name*
+                  <span class="text-gray-500 italic text-sm">Slug: {{ slug }}</span>
+                </p>
               </label>
-              <input type="number" placeholder="2€" class="input input-bordered w-full max-w-md"  v-model="edit.sellingPrice"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.name"/>
             </div>
           </div>
+
+          <!-- Quantity -->
           <div class="">
             <div class="form-control w-full max-w-md">
               <label class="label">
-                <p class="label-text">Preis (gekauft) (in EUR)</p>
+                <p class="label-text">Menge</p>
               </label>
-              <input type="number" placeholder="1€" class="input input-bordered w-full max-w-md"  v-model="edit.boughtPrice"/>
+              <input type="number" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.quantity"/>
             </div>
           </div>
-        </div>
 
-        <!-- Product EAN -->
-        <div class="">
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">EAN</p>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.EAN"/>
-          </div>
-        </div>
-
-        <div class="flex flex-warp">
-          <!-- Account Tax-->
+          <!-- Varaints -->
           <div class="">
-            <div class="form-control w-full max-w-xs">
+            <div class="form-control w-full max-w-md">
               <label class="label">
-                <p class="label-text">Tax</p>
+                <p class="label-text">Farbe</p>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.tax"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.variants[0]"/>
             </div>
           </div>
 
-          <!-- Account ID -->
+          <!-- Brand -->
           <div class="">
-            <div class="form-control w-full max-w-xs">
+            <div class="form-control w-full max-w-md">
               <label class="label">
-                <p class="label-text">Account</p>
+                <p class="label-text">Marke</p>
               </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.account"/>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.brand"/>
+            </div>
+          </div>
+
+          <!-- Prices -->
+          <div class="flex flex-wrap">
+            <div class="">
+              <div class="form-control w-full max-w-md">
+                <label class="label">
+                  <p class="label-text">Preis (Verkauf) (in EUR)</p>
+                </label>
+                <input type="number" placeholder="2€" class="input input-bordered w-full max-w-md"  v-model="edit.sellingPrice"/>
+              </div>
+            </div>
+            <div class="">
+              <div class="form-control w-full max-w-md">
+                <label class="label">
+                  <p class="label-text">Preis (gekauft) (in EUR)</p>
+                </label>
+                <input type="number" placeholder="1€" class="input input-bordered w-full max-w-md"  v-model="edit.boughtPrice"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product EAN -->
+          <div class="">
+            <div class="form-control w-full max-w-md">
+              <label class="label">
+                <p class="label-text">EAN</p>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.EAN"/>
+            </div>
+          </div>
+
+          <div class="flex flex-warp">
+            <!-- Account Tax-->
+            <div class="">
+              <div class="form-control w-full max-w-xs">
+                <label class="label">
+                  <p class="label-text">Tax</p>
+                </label>
+                <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.tax"/>
+              </div>
+            </div>
+
+            <!-- Account ID -->
+            <div class="">
+              <div class="form-control w-full max-w-xs">
+                <label class="label">
+                  <p class="label-text">Account</p>
+                </label>
+                <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs"  v-model="edit.account"/>
+              </div>
             </div>
           </div>
         </div>
-        <div class="">
-          <h3 class="font-bold">Produkt Daten</h3>
-          <div class="form-control w-full max-w-md">
+
+        <div class="w-full md:w-1/2 p-4 flex flex-col">
+          <div class="">
             <label class="label">
-              <p class="label-text">Beschreibung</p>
+              <p class="label-text">Ähnliche Produkte</p>
             </label>
-            <Texteditor v-model="edit.comments"/>
-            <!-- <textarea class="textarea textarea-bordered w-full h-64" placeholder="Produkt Beschreibung" v-model="edit.description"></textarea> -->
+            <Multiselect
+            v-model="edit.similarProducts"
+            :options="products"
+            :searchable="true"
+            :classes="useMultiselectClasses()"
+            mode="tags"
+            />
+          </div>
+
+          <!-- Property Meta -->
+          <div class="pt-4">
+            <h3 class="font-bold">Eigenschaften</h3>
+            <div class="form-control w-full max-w-md">
+              <label class="label">
+                <p class="label-text">Eigenschafts Name</p>
+              </label>
+              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyName"/>
+            </div>
+            <div class="">
+              <div class="form-control w-full max-w-md">
+                <label class="label">
+                  <p class="label-text">Eigenschafts Wert</p>
+                </label>
+                <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyValue"/>
+              </div>
+            </div>
+            <div class="">
+              <div class="form-control w-full max-w-md">
+                <label class="label">
+                  <p class="label-text">Weitere Eigenschaften</p>
+                </label>
+                <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.properties"/>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="w-full md:w-1/3 p-4 flex flex-col p-4">
         <!-- Product Details -->
-        <div class="">
+        <div class="w-full p-4">
           <h3 class="font-bold">Produkt Daten</h3>
-          <div class="form-control w-full max-w-md">
+          <div class="form-control w-full">
             <label class="label">
               <p class="label-text">Beschreibung</p>
             </label>
@@ -401,43 +397,13 @@ const removeProduct = async () => {
           </div>
         </div>
 
-        <div class="">
-          <label class="label">
-            <p class="label-text">Ähnliche Produkte</p>
-          </label>
-          <Multiselect
-            v-model="edit.similarProducts"
-            :options="products"
-            :searchable="true"
-            :classes="useMultiselectClasses()"
-            mode="tags"
-          />
+        <div class="divider">
         </div>
 
-        <!-- Property Meta -->
-        <div class="pt-4">
-          <h3 class="font-bold">Eigenschaften</h3>
-          <div class="form-control w-full max-w-md">
-            <label class="label">
-              <p class="label-text">Eigenschafts Name</p>
-            </label>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyName"/>
-          </div>
-          <div class="">
-            <div class="form-control w-full max-w-md">
-              <label class="label">
-                <p class="label-text">Eigenschafts Wert</p>
-              </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.propertyValue"/>
-            </div>
-          </div>
-          <div class="">
-            <div class="form-control w-full max-w-md">
-              <label class="label">
-                <p class="label-text">Weitere Eigenschaften</p>
-              </label>
-              <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-md"  v-model="edit.properties"/>
-            </div>
+        <div class="w-full p-4">
+          <h3 class="font-bold">Kommentar</h3>
+          <div class="form-control w-full">
+            <Texteditor v-model="edit.comments"/>
           </div>
         </div>
       </div>

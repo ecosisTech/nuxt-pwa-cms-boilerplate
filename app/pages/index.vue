@@ -5,24 +5,31 @@ onBeforeMount(() => {
   router.push('/shop')
 })
 definePageMeta({
-  auth: false,
+  layout: 'none',
 })
+// Orbitron
+// Gruppo
 </script>
-
 <template>
-  <div :style="{ 'font-family': 'Blinker' }">
+  <div :style="{ 'font-family': 'Blinker' }" class="w-full h-full text-primary-100 bg-[url(/uploads/nuinbg.jpeg)] bg-repeat">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Blinker">
     <!-- Hero -->
-    <section class="bg-gradient-to-r via-purple-500 from-green-500 to-blue-500 text-white py-20">
-      <div class="container mx-auto">
-        <h1 class="text-4xl font-bold">nujin</h1>
-        <p class="text-lg my-4">The Universal Fullstack Datamanagement System</p>
-        <a href="#" class="bg-white text-black px-6 py-3 mt-8 rounded-full">Get Started</a>
+    <section class="text-white py-20 h-[320px] text-center shadow">
+      <div class="container mx-auto flex flex-wrap items-end justify-center h-full">
+        <div class="w-full">
+          <div class="w-full py-2">
+            <h1 class="text-6xl">nujin</h1>
+            <p class="text-lg font-bold">Build with ease.</p>
+          </div>
+          <div class="w-full py-2">
+            <a href="#" class="bg-white text-black px-6 py-3 mt-8 rounded-full">Get Started</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- About -->
-    <section class="py-20">
+    <section class="bg-base-200 py-20">
       <div class="container mx-auto">
         <div class="flex">
           <div class="w-1/2">
@@ -30,7 +37,7 @@ definePageMeta({
           </div>
           <div class="w-1/2 pl-10">
             <h2 class="text-3xl font-bold">About</h2>
-            <p class="text-lg mt-4">It's a CMS like out-of-the-boy ready-to-use fullstack boilerplate built with</p>
+            <p class="text-lg mt-4">It's a CMS like out-of-the-boy and ready-to-use fullstack data management system boilerplate built with</p>
             <ul class="list-disc list-inside mt-4">
               <li>Nuxt 3 | Vue 3</li>
               <li>Tailwindcss</li>
@@ -43,7 +50,7 @@ definePageMeta({
     </section>
 
     <!-- Features -->
-    <section class="bg-base-content text-neutral py-20">
+    <section class="bg-base-100 text-neutral py-20">
       <div class="container mx-auto">
         <h2 class="text-3xl font-bold text-center mb-10">Features</h2>
         <div class="grid grid-cols-4 gap-8">
@@ -101,8 +108,8 @@ definePageMeta({
     </section>
 
     <!-- Demo -->
-    <section class="container mx-auto py-12 px-4">
-      <div class="flex flex-col md:flex-row">
+    <section class="bg-base-200 py-12 px-4">
+      <div class="container mx-auto flex flex-col md:flex-row">
         <div class="md:w-1/2 text-center">
           <h3 class="text-xl font-bold mt-4">Demo</h3>
           <p class="mt-2">Checkout out the demo!</p>

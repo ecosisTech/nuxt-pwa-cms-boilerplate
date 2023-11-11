@@ -45,11 +45,11 @@ onBeforeUnmount(async () => {//(product.images[0]) ? `/uploads/${product.images[
 });
 </script>
 <template>
-  <NuxtLink class="hero min-h-screen" :style="'background-image: url(/uploads/' + currentProduct.images[0] + ');'" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct">
-    <div class="hero-overlay bg-opacity-60"></div>
+  <NuxtLink class="hero" :style="`background-image: url(${(currentProduct.images[0]) ? `/uploads/${currentProduct.images[0]}` : 'shop/product-placeholder.png'}`" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct">
+    <div class="hero-overlay"></div>
     <div class="hero-content text-center text-neutral-content">
       <div class="max-w-md">
-        <h1 class="mb-5 text-5xl font-bold">{{ currentProduct.name }}</h1>
+        <h1 class="mb-5 text-3xl font-bold">{{ currentProduct.name }}</h1>
         <p class="mb-5 text-primary font-bold">{{ currentProduct.brand || 'Unknown Brand' }}</p>
         <!-- <p class="mb-5">{{ currentProduct.description }}</p> -->
         <p class="mb-5 text-xl font-bold">{{ formatRealNumber(currentProduct.sellingPrice) }} €</p>
@@ -77,7 +77,7 @@ onBeforeUnmount(async () => {//(product.images[0]) ? `/uploads/${product.images[
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .hero-content {

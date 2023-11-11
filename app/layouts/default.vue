@@ -169,8 +169,8 @@ onBeforeMount(async () => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex justify-center w-full my-4 fixed z-40">
-        <div class="navbar bg-base-100 z-50 md:w-1/3 rounded rounded-md shadow mx-4">
+      <div class="flex justify-center w-full mb-4 fixed z-40">
+        <div class="navbar bg-base-100/50 backdrop-blur-xl z-50 w-full shadow border-b border-base-100">
 
           <!-- Navbar Start -->
           <div class="navbar-start">
@@ -189,10 +189,10 @@ onBeforeMount(async () => {
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
               </label>
 
-              <ul class="dropdown-content relative flex flex-wrap bg-base-100 menu xl:menu-horizontal w-[720px] rounded mt-16">
-                <li class="bg-base-100 m-1 rounded rounded-md flex-64" v-for="category in categoriesStore.categories">
+              <ul class="dropdown-content relative flex flex-wrap bg-base-100/70 backdrop-blur-xl menu xl:menu-horizontal w-[720px] rounded border border-base-100 mt-16">
+                <li class="bg-base-100/50 backdrop-blur-xl m-1 rounded flex-64" v-for="category in categoriesStore.categories">
                   <NuxtLink :to="`/shop/${category.slug}`">
-                    <img class="w-12 h-12 rounded rouned-md" :src="'/uploads/' + category.image"/>
+                    <img class="w-12 h-12 rounded" :src="'/uploads/' + category.image"/>
                     {{ category.name }}
                   </NuxtLink>
                   <ul v-for="subcategory in category.subcategories">
@@ -203,24 +203,21 @@ onBeforeMount(async () => {
             </div>
 
             <!-- Search Button -->
-            <!-- <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
+            <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </button> -->
+            </button>
           </div>
 
           <!-- Navbar Center -->
-          <div class="navbar-center">
-            <!-- <input type="text" placeholder="Suche..." class="input input-ghost w-full w-full rounded rounded-full" disabled v-if="searchbar"/> -->
-            <NuxtLink class="btn btn-ghost normal-case text-xl font-thin" to="/shop" v-if="!searchbar">
+          <div class="navbar-center md:w-2/3 flex justify-center">
+            <searchbar v-if="searchbar"/>
+            <NuxtLink class=" btn btn-ghost normal-case text-xl font-thin flex justify-center" to="/shop" v-if="!searchbar">
               <img class="h-12" :src="`/${(themeStore.colorMode.preference === 'dark') ? 'logo.png' : 'logo_dark.png' }`" alt="The Crowned Lion">
             </NuxtLink>
           </div>
 
           <!-- Navbar End -->
           <div class="navbar-end">
-            <!-- <div class="">
-              <input type="checkbox" class="toggle" @click="themeStore.toggleMode()" />
-            </div> -->
             <div class="btn btn-circle btn-ghost">
               <label class="swap swap-rotate">
 
@@ -246,10 +243,10 @@ onBeforeMount(async () => {
                     <span class="badge badge-primary badge-sm indicator-item">{{ cartStore.items.length }}</span>
                   </div>
                 </label>
-                <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
+                <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100/80 backdrop-blur-xl shadow">
                   <div class="card-body">
                     <span class="font-bold text-lg">{{ cartStore.items.length }} Produkte</span>
-                    <span class="text-info">Total: {{ cartStore.calcTotal() }}€</span>
+                    <span class="text-accent">Total: {{ cartStore.calcTotal() }}€</span>
                     <div class="card-actions">
                       <button class="btn btn-primary btn-block" @click="router.push('/shop/cart')">Warenkorb</button>
                     </div>
@@ -285,7 +282,7 @@ onBeforeMount(async () => {
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
         >
-          <button class="w-full p-4 block md:hidden" @click="toggleSidebar()">
+          <button class="w-full p-4 block" @click="toggleSidebar()">
             <div class="flex justify-end bg-base-200 w-full px-2 py-4 rounded rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
             </div>
@@ -438,7 +435,9 @@ onBeforeMount(async () => {
         <!-- Content -->
         <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
           <div class="overflow-scroll flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
-            <slot/>
+            <transition name="slide">
+              <slot/>
+            </transition>
             <Footer/>
           </div>
         </div>
@@ -448,4 +447,29 @@ onBeforeMount(async () => {
 </template>
 
 <style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.75s ease-out;
+}
+
+.slide-enter-to {
+  position: absolute;
+  right: 0;
+}
+
+.slide-enter-from {
+  position: absolute;
+  right: -100%;
+}
+
+.slide-leave-to {
+  position: absolute;
+  left: -100%;
+}
+
+.slide-leave-from {
+  position: absolute;
+  left: 0;
+}
+
 </style>

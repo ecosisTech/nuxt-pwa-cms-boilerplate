@@ -31,6 +31,7 @@
     "@tiptap/starter-kit": "^2.1.12",
     "@tiptap/vue-3": "^2.1.12",
     "@vueform/multiselect": "^2.6.6",
+    "@vueuse/core": "^10.5.0",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.0",
     "handlebars": "^4.7.8",
@@ -46,6 +47,7 @@
     "markdown-it-sup": "^1.0.0",
     "next-auth": "4.18.8",
     "nodemailer": "^6.9.7",
+    "tailwindcss-hero-patterns": "^0.1.2",
     "vue-chartjs": "^5.2.0"
   }
 }
