@@ -15,9 +15,9 @@ const searchResult = computed(() => {
 })
 </script>
 <template>
-  <section class="w-full bg-base-300">
+  <section class="w-full">
     <div class="w-full flex flex-col items-center">
-      <input type="text" placeholder="Suche" class="input input-bordered input-lg w-full" v-model="searchQuery"/>
+      <input type="text" placeholder="Suche" class="input input-bordered input-lg w-full bg-base-200" v-model="searchQuery"/>
       <!-- <ShopSearch class="w-full"/> -->
       <ul class="menu xl:menu-horizontal w-screen bg-base-100 rounded-box mt-2 w-full md:w-[1080px]" v-if="searchQuery">
         <li>

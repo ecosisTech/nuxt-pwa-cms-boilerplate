@@ -19,7 +19,7 @@ onBeforeMount(async () => {
 })
 </script>
 <template>
-  <div class="flex flex-wrap justify-center bg-base-100 mt-8 w-full">
-    <Subcategory :class="subcategory.width" v-for="subcategory in subcategories" :subcategory="subcategory"/>
+  <div class="flex flex-wrap justify-center w-full">
+    <Subcategory class="flex-1" v-for="subcategory in subcategories" :subcategory="subcategory"/>
   </div>
 </template>

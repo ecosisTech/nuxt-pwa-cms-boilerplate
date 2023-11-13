@@ -99,6 +99,16 @@ const getLogo = () => {
   }
 }
 
+const isDividerHidden = ref(false);
+// Function to handle scroll event
+const handleScroll = () => {
+  const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+  // Set the visibility of the divider based on the scroll position
+  isDividerHidden.value = scrollPosition > 100;
+};
+
+
 // Global Notifications
 const getNotifcationType = (notificationType) => {
   if (notificationType === 'standard') {
@@ -114,6 +124,12 @@ const getNotifcationType = (notificationType) => {
     return 'alert-error';
   };
 }
+
+const nuxtApp = useNuxtApp()
+
+nuxtApp.hook("page:finish", () => {
+   window.scrollTo(0, 0)
+})
 onBeforeMount(async () => {
   await categoriesStore.fetchCategories()
   await productsStore.fetchProducts()
@@ -125,6 +141,16 @@ onBeforeMount(async () => {
   // await clientsStore.fetchClients()
   // await productsStore.fetchGroups()
 })
+
+onMounted(() => {
+  // Add scroll event listener when the component is mounted
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  // Remove scroll event listener when the component is unmounted
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
@@ -169,8 +195,8 @@ onBeforeMount(async () => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex justify-center w-full mb-4 fixed z-40">
-        <div class="navbar bg-base-100/50 backdrop-blur-xl z-50 w-full shadow border-b border-base-100">
+      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 bg-base-100 z-50 w-full">
+        <div class="navbar w-full">
 
           <!-- Navbar Start -->
           <div class="navbar-start">
@@ -190,7 +216,7 @@ onBeforeMount(async () => {
               </label>
 
               <ul class="dropdown-content relative flex flex-wrap bg-base-100/70 backdrop-blur-xl menu xl:menu-horizontal w-[720px] rounded border border-base-100 mt-16">
-                <li class="bg-base-100/50 backdrop-blur-xl m-1 rounded flex-64" v-for="category in categoriesStore.categories">
+                <li class="bg-base-100/50 backdrop-blur-xl m-1 rounded flex-1" v-for="category in categoriesStore.categories">
                   <NuxtLink :to="`/shop/${category.slug}`">
                     <img class="w-12 h-12 rounded" :src="'/uploads/' + category.image"/>
                     {{ category.name }}
@@ -273,6 +299,18 @@ onBeforeMount(async () => {
             </div>
           </div>
         </div>
+
+        <!-- Navbar Categories -->
+        <div
+          class="w-full flex flex-col justify-center items-center my-2 font-bold uppercase hidden md:block"
+          :class="{ 'hidden': isDividerHidden, 'block': !isDividerHidden }"
+        >
+          <div class="divider container mx-auto -my-1 w-64"></div>
+          <div class="w-full pt-1 flex justify-center">
+            <NuxtLink class="px-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in categoriesStore.categories">{{ category.name }}</NuxtLink>
+          </div>
+        </div>
+
       </div>
       <section class="flex bg-base-300 min-h-screen">
         <!-- Admin Menu -->
