@@ -32,16 +32,30 @@ watchEffect(() => {
     isExpanded: expandedCategories.value.includes(category),
   }));
 });
+
+const el = ref<HTMLElement | null>(null)
+const scroll = useScroll(el)
+const { top, y } = toRefs(scroll)
+const displayY = computed({
+  get() {
+    return y.value.toFixed(1)
+  },
+  set(val) {
+    y.value = Number.parseFloat(val)
+  },
+})
+
+const isVisible = ref(true)
 </script>
 <template>
-  <div :style="{ 'font-family': 'Inter Tight' }" class="bg-cover bg-fixed">
-  <!-- <div :style="{ 'font-family': 'Inter Tight' }" style="background-image: url('/uploads/shop/banner2.jpg');" class="bg-cover bg-fixed"> -->
+  <!-- <div :style="{ 'font-family': 'Inter Tight' }" class="bg-cover bg-fixed"> -->
+  <div :style="{ 'font-family': 'Inter Tight' }" style="background-image: url('/uploads/shop/banner2.jpg');" class="bg-cover bg-fixed">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter Tight">
 
     <!-- Hero Section -->
     <section class="relative overflow-hidden text-white">
       <!-- Hero Background -->
-      <div class="absolute inset-0 bg-cover bg-left" style="background-image: url('data:image/svg+xml,%3Csvg id=%22visual%22 viewBox=%220 0 900 600%22 class=%22w-full h-screen absolute z-0%22 xmlns=%22http://www.w3.org/2000/svg%22 xmlns:xlink=%22http://www.w3.org/1999/xlink%22 version=%221.1%22%3E%3Crect x=%220%22 y=%220%22 width=%22900%22 height=%22600%22 fill=%22%23000000%22%3E%3C/rect%3E%3Cpath d=%22M818 0L770.7 25C723.3 50 628.7 100 554 150C479.3 200 424.7 250 399 300C373.3 350 376.7 400 360.3 450C344 500 308 550 290 575L272 600L0 600L0 575C0 550 0 500 0 450C0 400 0 350 0 300C0 250 0 200 0 150C0 100 0 50 0 25L0 0Z%22 fill=%22%23080706%22%3E%3C/path%3E%3Cpath d=%22M276 0L261.5 25C247 50 218 100 211 150C204 200 219 250 271.3 300C323.7 350 413.3 400 447.2 450C481 500 459 550 448 575L437 600L0 600L0 575C0 550 0 500 0 450C0 400 0 350 0 300C0 250 0 200 0 150C0 100 0 50 0 25L0 0Z%22 fill=%22%23131211%22%3E%3C/path%3E%3Cpath d=%22M188 0L166.8 25C145.7 50 103.3 100 103.8 150C104.3 200 147.7 250 180.2 300C212.7 350 234.3 400 264.2 450C294 500 332 550 351 575L370 600L0 600L0 575C0 550 0 500 0 450C0 400 0 350 0 300C0 250 0 200 0 150C0 100 0 50 0 25L0 0Z%22 fill=%22%231a1919%22%3E%3C/path%3E%3C/svg%3E');">
+      <div class="absolute inset-0 bg-cover bg-top" style="background-image: url('/uploads/shop/hero-bg.svg');">
       </div>
 
       <div class="container mx-auto relative z-10">
@@ -55,14 +69,19 @@ watchEffect(() => {
             <p class="text-xl md:text-2xl lg:text-3xl mb-6">
               Die besten Produkte rund um <br> CDB, Raucherartikel und mehr.
             </p>
-            <NuxtLink to="/shop/products" class="btn slider btn-primary btn-ghost bg-base-200/70 backdrop-blur-xl outline outline-gray-500 outline-1 outline-thin text-lg md:text-xl lg:text-2xl px-6 md:px-8 lg:px-10">Zu den Produkten</NuxtLink>
+            <NuxtLink
+              to="/shop/products"
+              class="btn slider btn-primary btn-ghost bg-base-200 text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+              Alle Produkte ansehen
+            </NuxtLink>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Welcome Section -->
-    <section class="bg-base-100 pt-12 pb-8 border-t border-b border-base-100 h-auto -mt-8" id="categories">
+    <section class="bg-base-100 pt-12 pb-8 border-t border-b border-base-100 h-auto" id="categories">
       <div class="container mx-auto my-8">
         <div class="text-center">
           <h2 class="text-3xl font-semibold">Willkommen</h2>
@@ -98,7 +117,12 @@ watchEffect(() => {
       </div>
 
       <div class="flex justify-center py-8">
-        <NuxtLink to="/shop/products" class="btn slider btn-primary btn-ghost bg-base-200 outline outline-gray-500 outline-1 outline-thin text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">Alle Produkte ansehen</NuxtLink>
+        <NuxtLink
+          to="/shop/products"
+          class="btn slider btn-primary btn-ghost bg-base-200 text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+          Alle Produkte ansehen
+        </NuxtLink>
       </div>
     </section>
 
@@ -118,62 +142,68 @@ watchEffect(() => {
         </div>
       </div>
       <div class="w-full">
-        <div
-          class="w-full bg-base-300"
-          v-for="expandedCategory in expandedCategories"
-          :key="expandedCategory.id"
-        >
-          <!-- <div class="w-full" v-if="expandedCategory.image">
-            <img src="w-full" :src="`/uploads/${expandedCategory.image}`">
-          </div> -->
-          <div class="w-full pt-16">
-            <h3 class="text-2xl font-bold text-center pb-4">{{ expandedCategory.name }}</h3>
-            <p>{{ expandedCategory.description }}</p>
-            <div class="flex justify-center items-center pb-4">
-              <span class="italic flex items-center">
-                <div class="badge badge-secondary badge-outline m-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-                  {{ expandedCategory.products.length }} Produkte
-                </div>
+        <div class="" v-show="expandedCategories[0]">
+          <div
+            class="w-full bg-base-300"
+            v-for="expandedCategory in expandedCategories"
+            :key="expandedCategory.id"
+          >
+            <!-- <div class="w-full" v-if="expandedCategory.image">
+              <img src="w-full" :src="`/uploads/${expandedCategory.image}`">
+            </div> -->
+            <div class="w-full pt-16">
+              <div class="flex flex-col justify-center text-center">
+                <h3 class="text-2xl font-bold text-center pb-4">{{ expandedCategory.name }}</h3>
+                <p>{{ expandedCategory.description }}</p>
 
-                <div class="badge badge-secondary badge-outline m-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/><path d="m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59"/></svg>
-                  {{ expandedCategory.subcategories.length }} Unterkategorien
+                <div class="mb-4">
+                  <NuxtLink
+                    :to="'/shop/products?category=' + expandedCategory.slug"
+                    class="btn slider btn-primary btn-ghost bg-base-200 hover:bg-base-100 m-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+                    Zu den Produkten
+                  </NuxtLink>
+                  <NuxtLink
+                    :to="'/shop/' + expandedCategory.slug"
+                    class="btn slider btn-primary btn-ghost bg-base-200 hover:bg-base-100 m-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12s2.545-5 7-5c4.454 0 7 5 7 5s-2.546 5-7 5c-4.455 0-7-5-7-5z"/><path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/><path d="M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2"/><path d="M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/></svg>
+                    Zur Kategorie
+                  </NuxtLink>
                 </div>
-              </span>
+              </div>
             </div>
+            <ShopSubcategoriesGrid :category="expandedCategory"/>
           </div>
-          <ShopSubcategoriesGrid :category="expandedCategory"/>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
     <section class="w-full flex flex-wrap bg-base-200">
-      <div class="w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/7667911/pexels-photo-7667911.jpeg?auto=compress&cs=tinysrgb&w=500)">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/7667911/pexels-photo-7667911.jpeg?auto=compress&cs=tinysrgb&w=500)">
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
       <div class="w-full bg-cover bg-center md:flex-1 h-[500px] flex flex-col justify-center items-center">
         <div class="text-center">
           <h1 class="text-2xl font-bold pb-4">Verpasse nichts!</h1>
-          <p>Bleib aktuell und bekomme die neuesten Produkten <br>direkt in dein Postfach!</p>
+          <p>Bleib aktuell und bekomme die neuesten Produkte <br>direkt in dein Postfach!</p>
         </div>
         <div class="flex items-center mb-2 mt-8">
           <div class="flex items-center bg-base-100 rounded">
-            <input class="input w-[400px] mr-1" placeholder="E-Mail" v-model="email" @keydown.enter.prevent="subscribing()">
+            <input class="input md:w-[400px] mr-1" placeholder="E-Mail" v-model="email" @keydown.enter.prevent="subscribing()">
             <button class="btn btn-ghost" @click="subscribing()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-plus"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="M19 16v6"/><path d="M16 19h6"/></svg>
             </button>
           </div>
         </div>
       </div>
-      <div class="w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14521084/pexels-photo-14521084.jpeg?auto=compress&cs=tinysrgb&w=500)">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14521084/pexels-photo-14521084.jpeg?auto=compress&cs=tinysrgb&w=500)">
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
     </section>
 
     <!-- Featured Products Section with Card Slider/Carousel -->
-    <section class="p-12 bg-base-300">
+    <section class="p-12 bg-base-300" v-if="featuredProducts">
       <div class="container mx-auto">
         <div class="text-center">
           <h2 class="text-3xl font-semibold">Top Produkte</h2>
@@ -182,21 +212,7 @@ watchEffect(() => {
         <div class="relative mt-8">
           <div class="flex flex-wrap w-full gap-6 justify-center items-center overflow-hidden">
             <!-- Featured Product Card 1 -->
-            <NuxtLink
-              class="bg-base-300 p-4 shadow-md rounded-lg slider relative hover:border-white tracking-wider leading-none overflow-hidden bg-cover bg-center h-[450px] w-64"
-              v-for="product in featuredProducts"
-              :style="`background-image: url('${(product.images[0]) ? `/uploads/${product.images[0]}` : 'shop/product-placeholder.png'}`"
-              :to="`/shop/product/${product.slug}`"
-            >
-              <div class="flex flex-col justify-end items-start absolute inset-0 bg-base-100/90 backdrop-blur-xl p-8 rounded">
-                <!-- <p class="text-base text-neutral mt-2">{{ product.description }}</p> -->
-                <h1 class="text-2xl font-bold">{{ product.name }}</h1>
-                <span class="font-bold">{{ formatRealNumber(product.sellingPrice) }}€</span>
-                <a href="#" class="btn btn-primary mt-4">Shop Now</a>
-              </div>
-              <div class="absolute inset-0 flex justify-start items-start font-bold p-8">
-              </div>
-            </NuxtLink>
+            <ShopProductsPreview :product="product" v-for="product in featuredProducts"/>
           </div>
           <!-- Slider Controls -->
           <!-- <div class="absolute right-0 top-1/2 transform -translate-y-1/2 flex space-x-2">
@@ -211,7 +227,6 @@ watchEffect(() => {
   </div>
 </template>
 <style>
-
 .slider div:first-child{
   transform: translateX(-100%);
   transition: transform .3s ease-in

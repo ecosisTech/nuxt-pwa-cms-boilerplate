@@ -2,7 +2,7 @@
 const router = useRouter()
 
 onBeforeMount(() => {
-  router.push('/shop')
+  // router.push('/shop')
 })
 definePageMeta({
   layout: 'none',
@@ -11,13 +11,13 @@ definePageMeta({
 // Gruppo
 </script>
 <template>
-  <div :style="{ 'font-family': 'Blinker' }" class="w-full h-full text-primary-100 bg-[url(/uploads/nuinbg.jpeg)] bg-repeat">
+  <div :style="{ 'font-family': 'Blinker' }" class="w-full h-full text-primary-100 bg-[url(/uploads/nujin_hero.webp)] bg-no-repeat bg-contain">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Blinker">
     <!-- Hero -->
-    <section class="text-white py-20 h-[320px] text-center shadow">
+    <section class="text-white py-8 h-[720px] text-center shadow">
       <div class="container mx-auto flex flex-wrap items-end justify-center h-full">
         <div class="w-full">
-          <div class="w-full py-2">
+          <div class="w-full py-6">
             <h1 class="text-6xl">nujin</h1>
             <p class="text-lg font-bold">Build with ease.</p>
           </div>
@@ -32,18 +32,19 @@ definePageMeta({
     <section class="bg-base-200 py-20">
       <div class="container mx-auto">
         <div class="flex">
-          <div class="w-1/2">
+          <div class="w-1/3">
             <!-- <img src="" alt="About Image" class="w-full"> -->
           </div>
-          <div class="w-1/2 pl-10">
+          <div class="w-2/3 pl-10">
             <h2 class="text-3xl font-bold">About</h2>
-            <p class="text-lg mt-4">It's a CMS like out-of-the-boy and ready-to-use fullstack data management system boilerplate built with</p>
-            <ul class="list-disc list-inside mt-4">
-              <li>Nuxt 3 | Vue 3</li>
-              <li>Tailwindcss</li>
-              <li>DaisyUI</li>
-              <li>LevelDB</li>
-            </ul>
+            <p class="text-lg mt-4">It's a CMS like out-of-the-box and ready-to-use fullstack data management system boilerplate built with</p>
+            <div class="flex justify-around p-8">
+              <img src="https://www.svgrepo.com/show/354131/nuxt-icon.svg" class="w-24 h-24">
+              <img src="https://www.svgrepo.com/show/374118/tailwind.svg" class="w-24 h-24">
+              <img src="https://www.svgrepo.com/show/353995/leveldb.svg" class="w-24 h-24">
+              <img src="https://www.svgrepo.com/show/303600/typescript-logo.svg" class="w-24 h-24">
+            </div>
+
           </div>
         </div>
       </div>
@@ -108,16 +109,15 @@ definePageMeta({
     </section>
 
     <!-- Demo -->
-    <section class="bg-base-200 py-12 px-4">
-      <div class="container mx-auto flex flex-col md:flex-row">
-        <div class="md:w-1/2 text-center">
-          <h3 class="text-xl font-bold mt-4">Demo</h3>
-          <p class="mt-2">Checkout out the demo!</p>
-          <!-- <img src="/images/feature-1-icon.svg" alt="Feature 1 Icon" class="w-20 mx-auto"> -->
+    <section class="bg-base-200">
+      <div class="flex flex-col">
+        <div class="w-full text-center pt-16 pb-8">
+          <h3 class="text-3xl font-bold text-center mb-2">Demo</h3>
+          <p class="mt-2">Build your prototype here within your browser!</p>
         </div>
-        <div class="md:w-1/2 md:pl-8 mt-8 md:mt-0">
+        <div class="w-full">
           <iframe src="https://codesandbox.io/embed/cta-example-9hx7dh?fontsize=14&hidenavigation=1&theme=dark"
-            style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+            style="width:100%; height:500px; overflow:hidden;"
             title="cta-example"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
@@ -150,7 +150,7 @@ definePageMeta({
     <section class="bg-indigo-800 py-12 text-white">
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-8">Hire Our Developers</h2>
-        <p class="text-center text-white mb-8">And get your own customized version within the same month with 10x less costs!</p>
+        <p class="text-center text-white mb-8">Get your own customized version for your business needs within the same month and 10x less costs!</p>
         <div class="flex justify-center">
           <a href="https://example.com/boilerplate-download" class="mt-8 inline-flex items-center px-6 py-3 border border-blue-400 text-base font-medium rounded-full text-white bg-blue-600 hover:bg-indigo-700">
             Contact Us

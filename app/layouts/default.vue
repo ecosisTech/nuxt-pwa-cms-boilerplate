@@ -12,6 +12,18 @@ const router = useRouter()
 
 const { status, signOut } = useAuth()
 
+const el = ref<HTMLElement | null>(null)
+const scroll = useScroll(el)
+const { top, y } = toRefs(scroll)
+const displayY = computed({
+  get() {
+    return y.value.toFixed(1)
+  },
+  set(val) {
+    y.value = Number.parseFloat(val)
+  },
+})
+
 const themeStore = useThemeStore()
 const userStore = useUserStore()
 const clientsStore = useClientsStore()
@@ -24,6 +36,15 @@ const notificationStore = useNotificationStore()
 const cookie = useCookie('cookie')
 const acceptCookies = () => {
   cookie.value = true
+}
+
+// Menu Subbar
+const activeSubmenu = ref(false)
+const activateSubmenu = () => {
+  activeSubmenu.value = !activeSubmenu.value
+  // clickOutside(sidebar, () => { // TODO
+  //   activeSidebar.value = false
+  // })
 }
 
 // Menu search Bar
@@ -99,16 +120,6 @@ const getLogo = () => {
   }
 }
 
-const isDividerHidden = ref(false);
-// Function to handle scroll event
-const handleScroll = () => {
-  const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-
-  // Set the visibility of the divider based on the scroll position
-  isDividerHidden.value = scrollPosition > 100;
-};
-
-
 // Global Notifications
 const getNotifcationType = (notificationType) => {
   if (notificationType === 'standard') {
@@ -131,6 +142,7 @@ nuxtApp.hook("page:finish", () => {
    window.scrollTo(0, 0)
 })
 onBeforeMount(async () => {
+  // window.addEventListener("scroll", onScroll)
   await categoriesStore.fetchCategories()
   await productsStore.fetchProducts()
   await clientsStore.fetchClients()
@@ -142,19 +154,14 @@ onBeforeMount(async () => {
   // await productsStore.fetchGroups()
 })
 
-onMounted(() => {
-  // Add scroll event listener when the component is mounted
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  // Remove scroll event listener when the component is unmounted
-  window.removeEventListener('scroll', handleScroll);
-});
+// onMounted(() => {
+//   // Add scroll event listener when the component is mounted
+//   window.addEventListener('scroll', handleScroll);
+// });
 </script>
 
 <template>
-  <div>
+  <div ref="el">
 
     <!-- Cookies -->
     <div class="bottom-10 z-50 fixed w-full flex justify-center" v-if="!cookie">
@@ -195,7 +202,7 @@ onUnmounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 bg-base-100 z-50 w-full">
+      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 bg-base-100/50 backdrop-blur-xl z-50 w-full" :class="{ 'bg-none': route.path === '/shop' }">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->
@@ -210,12 +217,12 @@ onUnmounted(() => {
             </button>
 
             <!-- Dropdown Mega Menu -->
-            <div class="dropdown">
-              <label tabindex="0" class="btn btn-ghost btn-circle">
+            <div class="">
+              <label tabindex="0" class="btn btn-ghost btn-circle" @click="activateSubmenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
               </label>
 
-              <ul class="dropdown-content relative flex flex-wrap bg-base-100/70 backdrop-blur-xl menu xl:menu-horizontal w-[720px] rounded border border-base-100 mt-16">
+              <!-- <ul class="dropdown-content relative flex flex-wrap bg-base-100/70 backdrop-blur-xl menu xl:menu-horizontal w-[720px] rounded border border-base-100 mt-16">
                 <li class="bg-base-100/50 backdrop-blur-xl m-1 rounded flex-1" v-for="category in categoriesStore.categories">
                   <NuxtLink :to="`/shop/${category.slug}`">
                     <img class="w-12 h-12 rounded" :src="'/uploads/' + category.image"/>
@@ -225,7 +232,7 @@ onUnmounted(() => {
                     <li><NuxtLink :to="`/shop/${category.slug}/${subcategory}`">{{ subcategory }}</NuxtLink></li>
                   </ul>
                 </li>
-              </ul>
+              </ul> -->
             </div>
 
             <!-- Search Button -->
@@ -302,12 +309,12 @@ onUnmounted(() => {
 
         <!-- Navbar Categories -->
         <div
-          class="w-full flex flex-col justify-center items-center my-2 font-bold uppercase hidden md:block"
-          :class="{ 'hidden': isDividerHidden, 'block': !isDividerHidden }"
+          class="w-full flex flex-col justify-center items-center my-2 font-bold uppercase"
+          v-show="activeSubmenu"
         >
           <div class="divider container mx-auto -my-1 w-64"></div>
           <div class="w-full pt-1 flex justify-center">
-            <NuxtLink class="px-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in categoriesStore.categories">{{ category.name }}</NuxtLink>
+            <NuxtLink class="dropdown px-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in categoriesStore.categories">{{ category.name }}</NuxtLink>
           </div>
         </div>
 
@@ -485,29 +492,13 @@ onUnmounted(() => {
 </template>
 
 <style>
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.75s ease-out;
+<style>
+.slider div:first-child{
+  transform: translateX(-100%);
+  transition: transform .3s ease-in
 }
-
-.slide-enter-to {
-  position: absolute;
-  right: 0;
-}
-
-.slide-enter-from {
-  position: absolute;
-  right: -100%;
-}
-
-.slide-leave-to {
-  position: absolute;
-  left: -100%;
-}
-
-.slide-leave-from {
-  position: absolute;
-  left: 0;
+.slider:hover div{
+  transform: translateY(0)
 }
 
 </style>

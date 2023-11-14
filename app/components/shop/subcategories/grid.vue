@@ -20,6 +20,6 @@ onBeforeMount(async () => {
 </script>
 <template>
   <div class="flex flex-wrap justify-center w-full">
-    <Subcategory class="flex-1" v-for="subcategory in subcategories" :subcategory="subcategory"/>
+    <Subcategory class="w-1/2 md:flex-1 hover:w-[300px] hover:flex-none" v-for="subcategory in subcategories" :subcategory="subcategory"/>
   </div>
 </template>

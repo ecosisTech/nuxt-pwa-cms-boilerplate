@@ -25,3 +25,5 @@ const props = defineProps({
     </NuxtLink>
   </div>
 </template>
+
+<!-- https://codepen.io/toddwebdev/pen/yExKoj -->

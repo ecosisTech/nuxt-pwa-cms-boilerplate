@@ -2,6 +2,7 @@
 import { useCategoriesStore } from '../../../stores/categories'
 import { useProductsStore } from '../../../stores/products'
 
+const route = useRoute()
 const router = useRouter()
 
 const categoriesStore = useCategoriesStore()
@@ -49,13 +50,18 @@ const searchResult = computed(() => {
   return filterArrayByKeyword(sortArrayByProperty(filteredProducts.value, 'sellingPrice', ascending.value), searchQuery.value)
 })
 
+onMounted(() => {
+  if (route.query.category) {
+    selectedCategory.value = route.query.category
+  }
+})
 </script>
 
 <template>
-  <div class="container mx-auto m-4 flex flex-wrap mt-24 shadow-md">
+  <div class="flex flex-wrap mt-16 shadow-md h-full">
     <!-- Filters -->
-    <section class="w-full md:w-1/4 bg-base-100 p-4 rounded-t-md md:rounded-l-md md:rounded-r-none">
-      <div class="flex">
+    <section class="w-full md:w-1/4 bg-base-100 h-full">
+      <div class="flex p-4">
         <div class="flex flex-col">
           <h2 class="text-xl font-semibold">Filters</h2>
           <!-- Add your filter options here -->
@@ -87,21 +93,21 @@ const searchResult = computed(() => {
               <option :value="false">Absteigend (von teuer zu günstig)</option>
             </select>
           </div>
-          <div class="mt-4">
+          <!-- <div class="mt-4">
             <label class="block font-medium">Angepinnte Produkte</label>
             <input type="checkbox" v-model="showFeatured" class="toggle" />
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
 
     <!-- Product List in Table Format -->
-    <section class="w-full md:w-3/4 bg-base-100 rounded-b-md md:rounded-r-md md:rounded-l-none overflow-scroll">
-      <div class="overflow-x-auto h-full">
+    <section class="w-full md:w-3/4 bg-base-200 rounded-b-md md:rounded-r-md md:rounded-l-none">
+      <div class="overflow-scroll">
         <div class="w-full h-full flex justify-center items-center p-8" v-if="!searchResult[0]">
           Keine Produkte gefunden
         </div>
-        <table class="table" v-else>
+        <table class="table table-pin-rows table-pin-cols" v-else>
           <!-- Table Head -->
           <thead>
             <tr>
@@ -117,7 +123,7 @@ const searchResult = computed(() => {
             </tr>
           </thead>
           <!-- Table Body - Loop through products -->
-          <tbody>
+          <tbody class="overflow-scroll h-full">
             <tr v-for="product in searchResult" :key="product.slug" class="bg-base-300 hover:bg-base-200" @click="router.push(`/shop/product/${product.slug}`)">
               <td>
                 <label>
@@ -133,7 +139,7 @@ const searchResult = computed(() => {
                   </div>
                   <div>
                     <div class="font-bold text-xl">{{ product.name }}</div>
-                    <div class="text-sm opacity-80">{{ getShortDescription(product.description, 45) }}</div>
+                    <div class="prose text-sm opacity-80" v-html="$mdit.render(getShortDescription(product.description, 45))"></div>
                   </div>
                 </div>
               </td>

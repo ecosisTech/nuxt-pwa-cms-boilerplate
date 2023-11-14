@@ -17,9 +17,12 @@ const searchResult = computed(() => {
 <template>
   <section class="w-full">
     <div class="w-full flex flex-col items-center">
-      <input type="text" placeholder="Suche" class="input input-bordered input-lg w-full bg-base-200" v-model="searchQuery"/>
+      <div class="flex items-center bg-base-200 rounded px-2 w-full md:w-[700px]">
+        <input type="text" placeholder="Suche" class="w-full input bg-base-200" v-model="searchQuery"/>
+        <svg xmlns="http://www.w3.org/2000/svg"  class="mr-4" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
       <!-- <ShopSearch class="w-full"/> -->
-      <ul class="menu xl:menu-horizontal w-screen bg-base-100 rounded-box mt-2 w-full md:w-[1080px]" v-if="searchQuery">
+      <ul class="menu xl:menu-horizontal w-screen bg-base-100 rounded-box mt-2 w-full md:w-[700px]" v-if="searchQuery">
         <li>
           <a>Produkte</a>
           <ul class="flex flex-wrap w-full md:w-[900px]">

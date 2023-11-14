@@ -1,4 +1,4 @@
-<script setuo lang="ts">
+<script setup lang="ts">
 useHead({
   title: 'The Crowned Lion'
 })
@@ -14,7 +14,4 @@ useHead({
 </template>
 
 <style>
-  h1 {
-    @apply text-2xl font-bold;
-  }
 </style>
