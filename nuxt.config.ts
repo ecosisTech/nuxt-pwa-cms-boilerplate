@@ -4,14 +4,16 @@ export default defineNuxtConfig({
   srcDir: './app',
   ssr: false,
   modules: [
+    '@vueuse/nuxt',
     '@vite-pwa/nuxt',
     '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
-    'nuxt-lucide-icons'
+    'nuxt-lucide-icons',
   ],
   plugins: [
+    { src: '~/plugins/aos.ts', mode: 'client' },
     { src: '~/plugins/markdown.ts', mode: 'client' },
     { src: '~/plugins/multiselect.ts', mode: 'client' },
   ],
