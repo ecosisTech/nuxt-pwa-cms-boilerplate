@@ -2,7 +2,7 @@
 const router = useRouter()
 
 onBeforeMount(() => {
-  // router.push('/shop')
+  router.push('/shop')
 })
 definePageMeta({
   layout: 'none',

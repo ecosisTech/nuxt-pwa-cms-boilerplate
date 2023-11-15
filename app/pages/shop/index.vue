@@ -49,33 +49,30 @@ const isVisible = ref(true)
 </script>
 <template>
   <!-- <div :style="{ 'font-family': 'Inter Tight' }" class="bg-cover bg-fixed"> -->
-  <div :style="{ 'font-family': 'Inter Tight' }" style="background-image: url('/uploads/shop/banner2.jpg');" class="bg-cover bg-fixed">
+  <div :style="{ 'font-family': 'Inter Tight' }" style="background: radial-gradient(circle, #080706, #000000)" class="bg-cover bg-fixed">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter Tight">
 
     <!-- Hero Section -->
-    <section class="relative overflow-hidden text-white">
+    <section class="overflow-hidden text-white flex flex-col md:flex-wrap justify-center items-center md:flex-row-reverse bg-no-repeat bg-center bg-cover h-screen" style="background-image: url('/uploads/hero.svg')">
       <!-- Hero Background -->
-      <div class="absolute inset-0 bg-cover bg-top" style="background-image: url('/uploads/shop/hero-bg.svg');">
+      <div class="w-full md:w-1/2 flex justify-center items-center">
+        <img src="/uploads/hero.png" class="scale-25">
       </div>
 
-      <div class="container mx-auto relative z-10">
+      <div class="w-full md:w-1/2 z-10 flex justify-center items-center">
         <!-- Hero Content -->
-        <div class="flex items-end justify-center md:justify-start h-screen">
-          <!-- Left Panel: Text -->
-          <div class="text-neutral text-center md:text-left pb-28">
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight">
-              Discover <br> Your Way
-            </h1>
-            <p class="text-xl md:text-2xl lg:text-3xl mb-6">
-              Die besten Produkte rund um <br> CDB, Raucherartikel und mehr.
-            </p>
-            <NuxtLink
-              to="/shop/products"
-              class="btn slider btn-primary btn-ghost bg-base-200 text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
-              Alle Produkte ansehen
-            </NuxtLink>
-          </div>
+        <div class="text-neutral text-center md:text-left">
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight">
+            Discover <br> Your Way
+          </h1>
+          <p class="text-xl md:text-2xl lg:text-3xl mb-6">
+            Die besten Produkte rund um <br> CDB, Raucherartikel und mehr.
+          </p>
+          <NuxtLink
+            :to="{ path: '/shop', hash: '#search' }"
+            class="btn btn-accent text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">
+            Los geht's
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -108,7 +105,7 @@ const isVisible = ref(true)
         </div>
       </div>
 
-      <div class="divider container mx-auto py-8">
+      <div class="divider container mx-auto py-8" id="search">
         <h3 class="text-2xl font-bold">Suche</h3>
       </div>
 

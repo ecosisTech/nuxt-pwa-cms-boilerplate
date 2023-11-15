@@ -14,6 +14,7 @@ export default defineNuxtConfig({
   ],
   plugins: [
     { src: '~/plugins/aos.ts', mode: 'client' },
+    { src: '~/plugins/scrollBehavior.ts', mode: 'client' },
     { src: '~/plugins/markdown.ts', mode: 'client' },
     { src: '~/plugins/multiselect.ts', mode: 'client' },
   ],

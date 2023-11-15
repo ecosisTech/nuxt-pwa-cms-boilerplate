@@ -26,13 +26,10 @@ const toggleDetails = () => {
     @click="toggleDetails"
   >
     <div class="flex flex-col justify-start items-start absolute inset-0 bg-base-200/60 backdrop-blur-xl">
-      <div class="w-full flex flex-wrap justify-end items-end md:w-auto text-left p-4">
+      <div class="w-full flex flex-col justify-start items-start text-left p-4">
 
-        <h1 class="text-2xl font-bold text-white text-center p-4 w-full">
-          {{ category.name }}
-        </h1>
-        <div class="flex w-full justify-around h-full">
-          <div class="flex w-full justify-between">
+        <div class="flex flex-col w-full justify-center items-center h-full pt-2">
+          <div class="flex w-full justify-center m-2 tooltip" data-tip="Produkte">
             <div class="indicator">
               <span class="indicator-item badge badge-info">{{ category.products.length }}</span>
               <div class="btn rounded-full">
@@ -40,7 +37,7 @@ const toggleDetails = () => {
               </div>
             </div>
           </div>
-          <div class="flex w-full justify-between">
+          <div class="flex w-full justify-center m-2 tooltip" data-tip="Top Produkte">
             <div class="indicator">
               <span class="indicator-item badge badge-accent">{{ category.featured.length }}</span>
               <div class="btn rounded-full">
@@ -48,7 +45,7 @@ const toggleDetails = () => {
               </div>
             </div>
           </div>
-          <div class="flex w-full justify-between">
+          <div class="flex w-full justify-center m-2 tooltip" data-tip="Unterkategorien">
             <div class="indicator">
               <span class="indicator-item badge badge-secondary">{{ category.subcategories.length }}</span>
               <div class="btn rounded-full">
@@ -58,12 +55,17 @@ const toggleDetails = () => {
           </div>
         </div>
 
+        <h1 class="text-2xl font-bold text-white text-center p-4 w-full">
+          {{ category.name }}
+        </h1>
+
+        <div class="flex justify-center items-center w-full">
+          <a href="" class="btn btn-primary mt-4">Explore</a>
+        </div>
+
       </div>
     </div>
     <div class="block md:hidden absolute inset-0 flex justify-start items-end font-bold">
-      <h1 class="text-2xl font-bold text-white text-left p-4">
-        {{ category.name }}
-      </h1>
     </div>
   </button>
 </template>
