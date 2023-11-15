@@ -111,7 +111,7 @@ definePageMeta({
               <h3 class="text-4xl font-bold text-secondary">{{ product.brand }}</h3>
             </div>
             <div class="flex flex-wrap justify-end p-2">
-              <div class="flex flex-col">
+              <div class="flex flex-wrap justify-end">
                 <div class="bg-base-300 rounded m-2 p-2">
                   Produktfarbe
                   <div class="badge badge-neutral">{{ product.variants[0] }}</div>
@@ -124,11 +124,11 @@ definePageMeta({
                   </select>
                 </div> -->
               </div>
-              <div class="bg-base-300 rounded m-2 p-2">
+              <div class="flex flex-wrap justify-end bg-base-300 rounded m-2 p-2">
                 {{ product.propertyName }}
                 <div class="badge badge-neutral">{{ product.propertyValue }}</div>
               </div>
-              <div class="bg-base-300 rounded m-2 p-2 flex inline">
+              <div class=" flex flex-wrap justify-end md:justify-start bg-base-300 rounded m-2 p-2 flex inline">
                 Tags
                 <button class="badge badge-neutral m-1 w-auto">200g</button>
                 <button class="badge badge-neutral m-1 w-auto">Grün</button>
@@ -137,7 +137,7 @@ definePageMeta({
                 <button class="badge badge-neutral m-1 w-auto">Tabakk</button>
               </div>
             </div>
-            <div class="w-full flex justify-end py-4">
+            <div class="w-full flex flex-wrap justify-end py-4">
               <div class="rating gap-1">
                 <input type="radio" name="rating-3" class="mask mask-star bg-info" />
                 <input type="radio" name="rating-3" class="mask mask-star bg-info" />
@@ -149,7 +149,7 @@ definePageMeta({
             <div class="flex justify-end">
               <p><span>{{ product.quantity || 0 }} zurzeit auf Lager</span></p>
             </div>
-            <div class="flex flex-wrap justify-end" v-if="tags">
+            <div class="flex flex-wrap justify-end h-auto" v-if="tags">
               Keywords:
               <div class="badge badge-neutral m-2" v-for="tag in tags">
                 {{ tag }}
@@ -161,9 +161,9 @@ definePageMeta({
           </div>
 
       </div>
-        <div class="w-full md:w-3/5 h-full flex flex-col justify-center items-center">
+        <div class="w-full md:w-3/5 max-h-[700px] flex flex-col justify-center items-center">
           <div class="">
-            <div class="">
+            <div class="mt-36">
               <img
                 class="h-full w-full"
                 :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/product-placeholder.png'"
