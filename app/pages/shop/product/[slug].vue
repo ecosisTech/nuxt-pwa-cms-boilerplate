@@ -100,7 +100,7 @@ definePageMeta({
     <div class="flex flex-col justify-center items-start min-h-screen pt-4 bg-base-200">
 
       <!-- Product -->
-      <div class="flex flex-wrap h-full pt-12">
+      <div class="flex flex-wrap justify-center h-full pt-12">
         <!-- Edit -->
         <!-- Product Description -->
         <div class="w-full md:w-2/5 flex flex-col items-end justify-center pt-12">
@@ -156,16 +156,16 @@ definePageMeta({
               </div>
             </div>
             <div class="flex justify-end">
-              <button class="btn mt-2 btn-accent" v-if="status === 'authenticated'" @click="router.push(`/admin/shop/products/edit/${route.params.slug}`)">Edit</button>
+              <button class="btn my-2 btn-accent" v-if="status === 'authenticated'" @click="router.push(`/admin/shop/products/edit/${route.params.slug}`)">Edit</button>
             </div>
           </div>
 
       </div>
-        <div class="w-full md:w-3/5 max-h-[700px] flex flex-col justify-center items-center">
+        <div class="w-full md:w-auto max-h-[700px] flex flex-col justify-center items-center">
           <div class="">
-            <div class="mt-36">
+            <div class="">
               <img
-                class="h-full w-full"
+                class="object-contain max-h-[600px] w-auto"
                 :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/product-placeholder.png'"
               >
             </div>
