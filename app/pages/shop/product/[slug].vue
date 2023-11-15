@@ -161,11 +161,11 @@ definePageMeta({
           </div>
 
       </div>
-        <div class="w-full md:w-auto max-h-[700px] flex flex-col justify-center items-center">
+        <div class="w-full md:w-auto max-h-[700px] max-w-[700px] flex flex-col justify-center items-center">
           <div class="">
             <div class="">
               <img
-                class="object-contain max-h-[600px] w-auto"
+                class="object-contain max-h-[600px] w-full w-auto"
                 :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/product-placeholder.png'"
               >
             </div>

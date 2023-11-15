@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container overflow-scroll" ref="el">
     <svg
       ref="eye"
       :style="`transform: rotate(${rotationDegrees}deg) translateZ(0)`"
@@ -14,6 +14,7 @@
     >
       <div>Hover me</div>
     </div>
+    {{ eyeLocation }}
   </div>
 </template>
 
@@ -31,6 +32,9 @@ const { width, height } = useWindowSize();
 const eye = ref(null);
 const eyeLocation = ref(undefined);
 const rotationDegrees = ref(0);
+
+const el = ref(null);
+const { x, y, isScrolling, arrivedState, directions } = useScroll(el)
 
 onMounted(() => {
   eyeLocation.value = eye?.value?.getBoundingClientRect();

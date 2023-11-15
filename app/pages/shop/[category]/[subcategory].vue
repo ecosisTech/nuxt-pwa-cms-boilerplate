@@ -52,29 +52,35 @@ definePageMeta({
     </section>
 
     <!-- Featured Products Section with Card Slider/Carousel -->
-    <section class="p-12 bg-base-200/80 backdrop-blur-xl h-full" v-if="featuredProducts[0]">
+    <section class="p-12 bg-base-200" v-if="featuredProducts">
       <div class="container mx-auto">
         <div class="text-center">
           <h2 class="text-3xl font-semibold">Top Produkte</h2>
         </div>
         <div class="relative mt-8">
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 overflow-hidden">
+          <div class="flex flex-wrap justify-center overflow-hidden">
             <!-- Featured Product Card 1 -->
-            <NuxtLink
-              class="bg-base-300 p-4 shadow-md rounded-lg slider relative hover:border-white tracking-wider leading-none overflow-hidden bg-cover bg-center h-[450px]"
-              v-for="product in featuredProducts"
-              :style="`background-image: url('${(product.images[0]) ? `/uploads/${product.images[0]}` : 'shop/product-placeholder.png'}`"
-              :to="`/shop/product/${product.slug}`"
-            >
-              <div class="flex flex-col justify-end items-start absolute inset-0 bg-base-100/90 backdrop-blur-xl p-8 rounded">
-                <!-- <p class="text-base text-neutral mt-2">{{ product.description }}</p> -->
-                <h1 class="text-2xl font-bold">{{ product.name }}</h1>
-                <span class="font-bold">{{ formatRealNumber(product.sellingPrice) }}€</span>
-                <a href="#" class="btn btn-primary mt-4">Shop Now</a>
-              </div>
-              <div class="absolute inset-0 flex justify-start items-start font-bold p-8">
-              </div>
-            </NuxtLink>
+            <ShopProductsPreview :product="product" v-for="product in allProducts"/>
+          </div>
+          <!-- Slider Controls -->
+          <!-- <div class="absolute right-0 top-1/2 transform -translate-y-1/2 flex space-x-2">
+            <button class="text-3xl text-accent focus:outline-none">&larr;</button>
+            <button class="text-3xl text-accent focus:outline-none">&rarr;</button>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section with Card Slider/Carousel -->
+    <section class="p-12 bg-base-300" v-if="allProducts">
+      <div class="container mx-auto">
+        <div class="text-center">
+          <h2 class="text-3xl font-semibold">Top Produkte</h2>
+        </div>
+        <div class="relative mt-8">
+          <div class="flex flex-wrap justify-center overflow-hidden">
+            <!-- Featured Product Card 1 -->
+            <ShopProductsPreview :product="product" v-for="product in allProducts"/>
           </div>
           <!-- Slider Controls -->
           <!-- <div class="absolute right-0 top-1/2 transform -translate-y-1/2 flex space-x-2">

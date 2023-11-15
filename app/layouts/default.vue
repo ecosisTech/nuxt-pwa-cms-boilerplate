@@ -138,9 +138,6 @@ const getNotifcationType = (notificationType) => {
 
 const nuxtApp = useNuxtApp()
 
-nuxtApp.hook("page:finish", () => {
-   window.scrollTo(0, 0)
-})
 onBeforeMount(async () => {
   // window.addEventListener("scroll", onScroll)
   await categoriesStore.fetchCategories()
@@ -154,10 +151,13 @@ onBeforeMount(async () => {
   // await productsStore.fetchGroups()
 })
 
-// onMounted(() => {
-//   // Add scroll event listener when the component is mounted
-//   window.addEventListener('scroll', handleScroll);
-// });
+onMounted(() => {
+  nuxtApp.hook("page:finish", () => {
+    console.log("page:finish");
+
+    window.scrollTo(0, 0)
+  })
+});
 </script>
 
 <template>
@@ -480,9 +480,7 @@ onBeforeMount(async () => {
         <!-- Content -->
         <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
           <div class="overflow-scroll flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
-            <transition name="slide">
-              <slot/>
-            </transition>
+            <slot/>
             <Footer/>
           </div>
         </div>
