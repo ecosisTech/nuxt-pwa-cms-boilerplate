@@ -1,8 +1,11 @@
 <script setup lang="ts">
 const router = useRouter()
 
+console.log(window);
+
+
 onBeforeMount(() => {
-  router.push('/shop')
+  // router.push('/shop')
 })
 definePageMeta({
   layout: 'none',
@@ -11,13 +14,14 @@ definePageMeta({
 // Gruppo
 </script>
 <template>
-  <div :style="{ 'font-family': 'Blinker' }" class="w-full h-full text-primary-100 bg-[url(/uploads/nujin_hero.webp)] bg-no-repeat bg-contain">
+  <div :style="{ 'font-family': 'Blinker' }" class="w-full h-full text-primary-100">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Blinker">
     <!-- Hero -->
-    <section class="text-white py-8 h-[720px] text-center shadow">
+    <section class="text-white py-8 h-screen text-center shadow bg-[url(/uploads/nujin_hero.webp)] bg-no-repeat bg-cover bg-center">
       <div class="container mx-auto flex flex-wrap items-end justify-center h-full">
         <div class="w-full">
           <div class="w-full py-6">
+            <!-- <img src="/nujin_logo.png" alt=""> -->
             <h1 class="text-6xl">nujin</h1>
             <p class="text-lg font-bold">Build with ease.</p>
           </div>
@@ -44,7 +48,6 @@ definePageMeta({
               <img src="https://www.svgrepo.com/show/353995/leveldb.svg" class="w-24 h-24">
               <img src="https://www.svgrepo.com/show/303600/typescript-logo.svg" class="w-24 h-24">
             </div>
-
           </div>
         </div>
       </div>
@@ -108,6 +111,46 @@ definePageMeta({
       </div>
     </section>
 
+    <div class="flex flex-wrap w-full">
+      <!-- CTA -->
+      <section class="w-full md:w-1/2 h-64">
+        <div class="bg-gray-900">
+          <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+              <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                Supercharge Your Development Process
+              </h2>
+              <p class="mt-4 text-lg text-gray-300">
+                Download and install our free boilerplate to save time and effort on your next project.
+              </p>
+              <a href="https://example.com/boilerplate-download" class="mt-8 inline-flex items-center px-6 py-3 border border-green-400 text-base font-medium rounded-full text-white bg-green-600 hover:bg-indigo-700">
+                Download Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA 2 -->
+      <section class="w-full md:w-1/2 h-64">
+        <div class="bg-indigo-800">
+          <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+              <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                Hire Our Developers
+              </h2>
+              <p class="mt-4 text-lg text-gray-300">
+                We customize versions for your business needs within the same month and 10x less costs!
+              </p>
+              <a href="https://example.com/boilerplate-download" class="mt-8 inline-flex items-center px-6 py-3 border border-green-400 text-base font-medium rounded-full text-white bg-green-600 hover:bg-indigo-700">
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <!-- Demo -->
     <section class="bg-base-200">
       <div class="flex flex-col">
@@ -115,46 +158,14 @@ definePageMeta({
           <h3 class="text-3xl font-bold text-center mb-2">Demo</h3>
           <p class="mt-2">Build your prototype here within your browser!</p>
         </div>
-        <div class="w-full">
-          <iframe src="https://codesandbox.io/embed/cta-example-9hx7dh?fontsize=14&hidenavigation=1&theme=dark"
-            style="width:100%; height:500px; overflow:hidden;"
-            title="cta-example"
+        <div class="w-full h-screen">
+          <iframe src="https://codesandbox.io/p/github/ecosisTech/nuxt-pwa-cms-boilerplate/main?import=true&embed=1&file=%2Fapp%2Fpages%2Flogin.vue&theme=dark"
+            style="width:100%; height:100%; overflow:hidden;"
+            title="Nuxt Ultimate CMS Boilerplate"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
             sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts">
           </iframe>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section>
-      <div class="bg-gray-900">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div class="text-center">
-            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-              Supercharge Your Development Process
-            </h2>
-            <p class="mt-4 text-lg text-gray-300">
-              Download and install our free boilerplate to save time and effort on your next project.
-            </p>
-            <a href="https://example.com/boilerplate-download" class="mt-8 inline-flex items-center px-6 py-3 border border-green-400 text-base font-medium rounded-full text-white bg-green-600 hover:bg-indigo-700">
-              Download Now
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA 2 -->
-    <section class="bg-indigo-800 py-12 text-white">
-      <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-8">Hire Our Developers</h2>
-        <p class="text-center text-white mb-8">Get your own customized version for your business needs within the same month and 10x less costs!</p>
-        <div class="flex justify-center">
-          <a href="https://example.com/boilerplate-download" class="mt-8 inline-flex items-center px-6 py-3 border border-blue-400 text-base font-medium rounded-full text-white bg-blue-600 hover:bg-indigo-700">
-            Contact Us
-          </a>
         </div>
       </div>
     </section>
