@@ -202,7 +202,7 @@ onMounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 bg-base-100/50 backdrop-blur-xl z-50 w-full" :class="{ 'bg-none': route.path === '/shop' }">
+      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full" :class="{ 'bg-none': route.path === '/shop' }">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->
