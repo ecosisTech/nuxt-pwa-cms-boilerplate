@@ -2,10 +2,13 @@
 
 // const notificationStore = useNotificationStore();
 
+const { status, data, signOut, signIn } = useAuth()
+
 export const useUserStore = definePiniaStore('user', () => {
-  const isAuthenticated = ref(true)
+  const initialized = ref(false)
+  const isAuthenticated = ref(false)
   const isAdmin = ref(true)
-  const user = ref('')
+  const user = ref([])
 
   // const userMail = localStorage.getItem('user_mail')
   //
@@ -14,67 +17,14 @@ export const useUserStore = definePiniaStore('user', () => {
   //   isAuthenticated.value = true
   // }
 
-  async function register(email: string, password: string) {
+  const fetchUser = async () => {
     try {
-      await useFetch('/api/signup', {
-        method: 'POST',
-        body: {
-          email,
-          password
-        }
-      })
-      // localStorage.setItem('user_mail', mail)
-      user.value = email
-      isAuthenticated.value = true
+      const { data } = await useFetch('/api/user')
+      initialized.value = true
+      return user.value = data.value
     } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error.message
-        // });
-      } else {
-        console.log(error)
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error
-        // });
-      }
+      throw new Error(error)
     }
-  }
-
-  async function login(email: string, password?: string) {
-    try {
-      await useFetch('/api/signin', {
-        method: 'POST',
-        body: {
-          email,
-          password
-        }
-      })
-      // localStorage.setItem('user_mail', mail)
-      user.value = email
-      isAuthenticated.value = true
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error)
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error.message
-        // })
-      } else {
-        console.log(error)
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error
-        // });
-      }
-    }
-  }
-
-  function logout(wallet) {
-    // localStorage.removeItem('user_mail')
-    isAuthenticated.value = false
   }
 
   async function updatePassword(newPassword: string, oldPassword: string) {
@@ -102,5 +52,5 @@ export const useUserStore = definePiniaStore('user', () => {
     }
   }
 
-  return { isAuthenticated, isAdmin, user, register, login, logout, updatePassword }
+  return { user, fetchUser, isAdmin }
 })
