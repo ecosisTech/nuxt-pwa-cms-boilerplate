@@ -12,16 +12,9 @@ const router = useRouter()
 
 const { status, signOut } = useAuth()
 
-const el = ref<HTMLElement | null>(null)
-const scroll = useScroll(el)
-const { top, y } = toRefs(scroll)
-const displayY = computed({
-  get() {
-    return y.value.toFixed(1)
-  },
-  set(val) {
-    y.value = Number.parseFloat(val)
-  },
+const { x, y } = useWindowScroll()
+const displayY = computed(() => {
+  return y.value
 })
 
 const themeStore = useThemeStore()
@@ -153,15 +146,14 @@ onBeforeMount(async () => {
 
 onMounted(() => {
   nuxtApp.hook("page:finish", () => {
-    console.log("page:finish");
-
     window.scrollTo(0, 0)
   })
 });
 </script>
 
 <template>
-  <div ref="el">
+  <div :style="{ 'font-family': 'Inter Tight' }">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter%20Tight">
 
     <!-- Cookies -->
     <div class="bottom-10 z-50 fixed w-full flex justify-center" v-if="!cookie">
@@ -202,7 +194,7 @@ onMounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full" :class="{ 'bg-none': route.path === '/shop' }">
+      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY }">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->
@@ -479,8 +471,8 @@ onMounted(() => {
 
         <!-- Content -->
         <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
-          <div class="overflow-scroll flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
-            <slot/>
+          <div  ref="el" class="flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
+            <slot />
             <Footer/>
           </div>
         </div>
@@ -491,12 +483,19 @@ onMounted(() => {
 
 <style>
 <style>
-.slider div:first-child{
-  transform: translateX(-100%);
-  transition: transform .3s ease-in
+html {
+  --s: 50px;
+  --c: #080706;
+  --_s: calc(2*var(--s)) calc(2*var(--s));
+  --_g: 35.36% 35.36% at;
+  --_c: #E5E6E6 66%,#1A1919 68% 70%,#E5E6E6 72%;
+  background:
+    radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s),
+    radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s),
+    radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s),
+    radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s),
+    repeating-conic-gradient(var(--c) 0 25%,#E5E6E6 0 50%) 0 0/var(--_s),
+    radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+  background-attachment: fixed;
 }
-.slider:hover div{
-  transform: translateY(0)
-}
-
 </style>
