@@ -194,7 +194,7 @@ onMounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY }">
+      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY }" data-aos="fade-down" data-aos-delay="300">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->

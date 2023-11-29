@@ -28,9 +28,10 @@ watchEffect(() => {
   <div class="flex flex-wrap justify-center md:justify-end w-full">
     <Category
       class="w-1/2 md:flex-1 hover:w-[300px] hover:flex-none"
-      v-for="category in categories"
+      v-for="(category, i) in categories"
       :category="category"
       @category-clicked="handleCategoryClick"
+      data-aos="fade-left" data-aos-delay="200"
     />
   </div>
 </template>
