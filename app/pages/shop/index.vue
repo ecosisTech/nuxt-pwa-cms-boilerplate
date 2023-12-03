@@ -52,7 +52,7 @@ const isVisible = ref(true)
             Entdecke den exklusiven Onlineshop für deine Raucherartikel. Wir heißen dich herzlich willkommen!
           </p>
           <div class="flex flex-wrap justify-center items-start pt-8 my-4">
-            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-right" data-aos-delay="200">
+            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-down" data-aos-delay="200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 stroke-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
               <h3 class="text-2xl font-bold pt-2">Sicher</h3>
               <p class="text-neutral mt-2">Genieße sicheres Einkaufen mit verschlüsselter Datenübertragung.</p>
@@ -62,7 +62,7 @@ const isVisible = ref(true)
               <h3 class="text-2xl font-bold pt-2">Unkompliziert</h3>
               <p class="text-neutral mt-2">Einfach und unkompliziert - finde, bestelle und erhalte deine Artikel schnell.</p>
             </div>
-            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-left" data-aos-delay="200">
+            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-down" data-aos-delay="200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 stroke-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               <h3 class="text-2xl font-bold pt-2">Community basiert</h3>
               <p class="text-neutral mt-2">Trete unserer blühenden Community bei und teile deine Leidenschaft.</p>
@@ -119,7 +119,7 @@ const isVisible = ref(true)
 
                 <div class="mb-4">
                   <NuxtLink
-                    :to="'/shop/products?category=' + expandedCategory.slug.replace(/\.(webp|png|jpg)/g, '_512px.webp')"
+                    :to="'/shop/products?category=' + expandedCategory.slug"
                     class="btn slider btn-primary btn-ghost bg-base-200 hover:bg-base-100 m-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
                     Zu den Produkten
@@ -141,7 +141,7 @@ const isVisible = ref(true)
 
     <!-- CTA -->
     <section class="w-full flex flex-wrap bg-base-200">
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/7667911/pexels-photo-7667911.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-right" data-aos-delay="200">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/7667911/pexels-photo-7667911.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-down" data-aos-delay="200">
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
       <div class="w-full bg-cover bg-center md:flex-1 h-[500px] flex flex-col justify-center items-center" data-aos-delay="100">
@@ -158,7 +158,7 @@ const isVisible = ref(true)
           </div>
         </div>
       </div>
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14521084/pexels-photo-14521084.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-left" data-aos-delay="200">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14521084/pexels-photo-14521084.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-down" data-aos-delay="200">
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
     </section>

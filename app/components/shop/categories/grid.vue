@@ -31,7 +31,7 @@ watchEffect(() => {
       v-for="(category, i) in categories"
       :category="category"
       @category-clicked="handleCategoryClick"
-      data-aos="fade-left" data-aos-delay="200"
+      data-aos="fade-up" data-aos-delay="200"
     />
   </div>
 </template>

@@ -194,7 +194,7 @@ onMounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY }" data-aos="fade-down" data-aos-delay="300">
+      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY,  'md:pl-[300px]': activeSidebar }">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->
@@ -228,9 +228,9 @@ onMounted(() => {
             </div>
 
             <!-- Search Button -->
-            <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
+            <!-- <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </button>
+            </button> -->
           </div>
 
           <!-- Navbar Center -->
@@ -314,7 +314,7 @@ onMounted(() => {
       <section class="flex bg-base-300 min-h-screen">
         <!-- Admin Menu -->
         <div
-          class="bg-base-300 fixed md:static min-h-screen justify-center items-center z-50"
+          class="bg-base-300 fixed min-h-screen justify-center items-center z-50 w-[300px]"
           :class="(activeSidebar) ? 'block' : 'hidden'"
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
@@ -470,10 +470,12 @@ onMounted(() => {
         </div>
 
         <!-- Content -->
-        <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
+        <div class="bg-base-200 min-h-screen flex w-full flex flex-col justify-between shadow shadow-l">
           <div  ref="el" class="flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
-            <slot />
-            <Footer/>
+            <div class="" :class="(activeSidebar) ? 'md:ml-[300px]' : 'mr-0'">
+              <slot/>
+              <Footer/>
+            </div>
           </div>
         </div>
       </section>

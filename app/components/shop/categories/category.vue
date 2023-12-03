@@ -21,7 +21,7 @@ const toggleDetails = () => {
 <template>
   <button
     class="h-[400px] slider px-10 py-5 relative hover:border-white tracking-wider leading-none overflow-hidden bg-cover bg-center"
-    :style="`background-image: url('${(category.image) ? `/uploads/${category.image}` : '/uploads/shop/product-placeholder.png'}')`"
+    :style="`background-image: url('${(category.image) ? `/uploads/${category.image.replace(/\.(webp|png|jpg)/g, '_512px.webp')}` : '/uploads/shop/product-placeholder.png'}')`"
     :key="category.id"
     @click="toggleDetails"
   >
