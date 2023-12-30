@@ -49,7 +49,8 @@ const edit = ref(props.product || {
   account: '',
   tax: 19,
   EAN: '',
-  similarProducts: []
+  similarProducts: [],
+  published: false
 })
 
 const selectedFiles = ref([])
@@ -417,6 +418,17 @@ const removeProduct = async () => {
             <label class="label cursor-pointer">
               <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['featured']"/>
               <p class="label-text pl-2">Featured</p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Published -->
+      <div class="">
+        <div class="form-control w-16">
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['published']"/>
+              <p class="label-text pl-2">Veröffentlicht</p>
             </label>
           </div>
         </div>

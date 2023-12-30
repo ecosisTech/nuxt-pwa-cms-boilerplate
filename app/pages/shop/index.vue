@@ -158,7 +158,8 @@ const isVisible = ref(true)
           </div>
         </div>
       </div>
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14521084/pexels-photo-14521084.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-down" data-aos-delay="200">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3259584/pexels-photo-3259584.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-down" data-aos-delay="200">
+      <!-- <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3259584/pexels-photo-3259584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)" data-aos="fade-down" data-aos-delay="200"> -->
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
     </section>

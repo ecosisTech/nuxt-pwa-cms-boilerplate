@@ -314,7 +314,7 @@ onMounted(() => {
       <section class="flex bg-base-300 min-h-screen">
         <!-- Admin Menu -->
         <div
-          class="bg-base-300 fixed min-h-screen justify-center items-center z-50 w-[300px]"
+          class="bg-base-300 fixed min-h-screen justify-center items-center z-50 w-[400px] overflow-y-auto"
           :class="(activeSidebar) ? 'block' : 'hidden'"
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
@@ -472,7 +472,7 @@ onMounted(() => {
         <!-- Content -->
         <div class="bg-base-200 min-h-screen flex w-full flex flex-col justify-between shadow shadow-l">
           <div  ref="el" class="flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
-            <div class="" :class="(activeSidebar) ? 'md:ml-[300px]' : 'mr-0'">
+            <div class="" :class="(activeSidebar) ? 'md:ml-[400px]' : 'mr-0'">
               <slot/>
               <Footer/>
             </div>

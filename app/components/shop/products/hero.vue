@@ -45,7 +45,7 @@ onBeforeUnmount(async () => {//(product.images[0]) ? `/uploads/${product.images[
 });
 </script>
 <template>
-  <NuxtLink class="hero" :style="`background-image: url(${(currentProduct.images[0]) ? `/uploads/${currentProduct.images[0]}` : 'shop/product-placeholder.png'}`" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct">
+  <NuxtLink class="hero" :style="`background-image: url(${(currentProduct.images[0]) ? `/uploads/${currentProduct.images[0]}` : 'shop/product-placeholder.png'}`" :to="`/shop/product/${currentProduct.slug}`" v-if="currentProduct && currentProduct.published">
     <div class="hero-overlay"></div>
     <div class="hero-content text-center text-neutral-content">
       <div class="max-w-md">

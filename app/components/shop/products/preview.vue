@@ -11,7 +11,7 @@ const { product } = defineProps({
     class="bg-base-300 p-4 shadow-md rounded-lg slider relative tracking-wider leading-none overflow-hidden bg-cover bg-center h-[450px] w-64 m-2"
     :style="`background-image: url('${(product.images[0]) ? `/uploads/${product.images[0]}` : '/uploads/shop/product-placeholder.png'}`"
     :to="`/shop/product/${product.slug}`"
-    v-if="product"
+    v-if="product && product.published"
   >
     <div class="flex flex-col justify-between items-start absolute inset-0 bg-base-100/90 backdrop-blur-xl p-8 rounded">
       <div class="flex w-full justify-between">

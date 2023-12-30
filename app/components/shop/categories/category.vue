@@ -24,6 +24,7 @@ const toggleDetails = () => {
     :style="`background-image: url('${(category.image) ? `/uploads/${category.image.replace(/\.(webp|png|jpg)/g, '_512px.webp')}` : '/uploads/shop/product-placeholder.png'}')`"
     :key="category.id"
     @click="toggleDetails"
+    v-if="category.published"
   >
     <div class="flex flex-col justify-start items-start absolute inset-0 bg-base-200/60 backdrop-blur-xl">
       <div class="w-full flex flex-col justify-start items-start text-left p-4">
