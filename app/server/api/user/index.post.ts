@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'User already exists!',
       })
     }
+    console.log('process');
 
     // Generate a unique user ID
     data.id = uuid()
@@ -21,15 +22,19 @@ export default defineEventHandler(async (event) => {
     data.updated = new Date().toISOString()
 
     // Encrypt User Password
-    const password = {
-      salt: generateSalt(),
-      hash: hashPassword(data.password, data.salt)
+    const salt = generateSalt()
+    const hash = hashPassword(data.password, salt)
+
+    data.password = {
+      salt,
+      hash
     }
-    data.password = password
 
     // Add new User
     return await databaseManager.addUser(data)
   } catch (error) {
+    console.log(error);
+
     throw createError({
       statusCode: 400,
       statusMessage: error.message,

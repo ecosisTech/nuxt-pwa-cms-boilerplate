@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useOrdersStore } from '../../../stores/orders'
 import { useProductsStore } from '../../../stores/products'
+import { useCategoriesStore } from '../../../stores/categories'
 
 const orderStore = useOrdersStore()
 const productsStore = useProductsStore()
+const categoriesStore = useCategoriesStore()
+
 await productsStore.fetchProducts()
 await orderStore.fetchOrders()
 
@@ -62,7 +65,7 @@ const selectTab = (tab) => {
                   </div>
 
                   <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(shopOverviewData.monthlyRevenue) }}€</p>
-                  <p class="text-xs text-muted-foreground"><span class="text-error font-bold">{{ formatRealNumber(shopOverviewData.monthlyPerformance) }}% </span></p>
+                  <p class="text-xs text-muted-foreground"><span class="text-error font-bold">{{ formatRealNumber(shopOverviewData.monthlyPerformance || 0) }}% </span></p>
                 </div>
               </div>
 
@@ -77,7 +80,7 @@ const selectTab = (tab) => {
                   </div>
 
                   <p class="mt-1.5 text-xl font-extrabold">{{ formatRealNumber(shopOverviewData.yearlyProfit) }}€</p>
-                  <p class="text-xs text-muted-foreground"><span class="text-success font-bold">{{ formatRealNumber(margin) }}%</span></p>
+                  <p class="text-xs text-muted-foreground"><span class="text-success font-bold">{{ formatRealNumber(margin || 0) }}%</span></p>
                 </div>
               </div>
             </div>
@@ -108,8 +111,8 @@ const selectTab = (tab) => {
                     </span>
                   </div>
 
-                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.ammountOrders }}</p>
-                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ shopOverviewData.shippedOrders }}</span> Verschickt</p>
+                  <p class="mt-1.5 text-xl font-extrabold">{{ orderStore.orders.length || 0 }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ shopOverviewData.shippedOrders || 0 }}</span> Verschickt</p>
                 </div>
               </div>
             </div>
@@ -125,8 +128,8 @@ const selectTab = (tab) => {
                     </span>
                   </div>
 
-                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.totalAmountProducts }}</p>
-                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ shopOverviewData.ammountOrders }}</span> Verkauft</p>
+                  <p class="mt-1.5 text-xl font-extrabold">{{ productsStore.products.length || 0 }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ orderStore.orders.length || 0 }}</span> Verkauft</p>
                 </div>
               </div>
 
@@ -140,8 +143,8 @@ const selectTab = (tab) => {
                     </span>
                   </div>
 
-                  <p class="mt-1.5 text-xl font-extrabold">{{ shopOverviewData.totalAmountProducts }}</p>
-                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">14</span> Registriert</p>
+                  <p class="mt-1.5 text-xl font-extrabold">{{ categoriesStore.categories.length || 0 }}</p>
+                  <p class="text-xs text-muted-foreground"><span class="text-secondary font-bold">{{ categoriesStore.categories.length || 0 }}</span> Veröffentlicht</p>
                 </div>
               </div>
             </div>
