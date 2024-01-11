@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useUserStore } from '../../stores/user';
 import { useCategoriesStore } from '../../stores/categories'
 import { useProductsStore } from '../../stores/products'
+
+const userStore = useUserStore()
+await userStore.fetchUser()
 
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()

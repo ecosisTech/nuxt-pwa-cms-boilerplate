@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const router = useRouter()
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   router.push('/shop')
 })
 // Orbitron
