@@ -297,8 +297,8 @@ onMounted(() => {
           v-show="activeSubmenu"
         >
           <div class="divider container mx-auto -my-1 w-64"></div>
-          <div class="w-full pt-1 flex justify-center">
-            <NuxtLink class="dropdown px-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in categoriesStore.categories">{{ category.name }}</NuxtLink>
+          <div class="w-full pt-1 flex flex-wrap justify-center">
+            <NuxtLink class="dropdown p-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in categoriesStore.categories">{{ category.name }}</NuxtLink>
           </div>
         </div>
 
