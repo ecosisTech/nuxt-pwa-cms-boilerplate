@@ -16,9 +16,11 @@ export const useUserStore = definePiniaStore('user', () => {
       const res = await useFetch('/api/user')
       initialized.value = true
       user.value = res.data.value
-      const userData = user.value.find(u => u.email === data.value.user.email)
-      if (userData.roles.find(r => r === 'admin')) {
-        isAdmin.value = true
+      if (data.value) {        
+        const userData = user.value.find(u => u.email === data.value.user.email)
+        if (userData.roles.find(r => r === 'admin')) {
+          isAdmin.value = true
+        }
       }
     } catch (error) {
       throw new Error(error)
