@@ -7,50 +7,23 @@ const { status, data, signOut, signIn } = useAuth()
 export const useUserStore = definePiniaStore('user', () => {
   const initialized = ref(false)
   const isAuthenticated = ref(false)
-  const isAdmin = ref(true)
+  const isAdmin = ref(false)
   const user = ref([])
-
-  // const userMail = localStorage.getItem('user_mail')
-  //
-  // if (userMail) {
-  //   user.value = userMail
-  //   isAuthenticated.value = true
-  // }
+  const account = ref({})
 
   const fetchUser = async () => {
     try {
-      const { data } = await useFetch('/api/user')
+      const res = await useFetch('/api/user')
       initialized.value = true
-      return user.value = data.value
+      user.value = res.data.value
+      const userData = user.value.find(u => u.email === data.value.user.email)
+      if (userData.roles.find(r => r === 'admin')) {
+        isAdmin.value = true
+      }
     } catch (error) {
       throw new Error(error)
     }
   }
 
-  async function updatePassword(newPassword: string, oldPassword: string) {
-    try {
-      await useFetch('/api/password', {
-        method: 'POST',
-        body: {
-          email
-        }
-      })
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error);
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error.message
-        // })
-      } else {
-        console.log(error);
-        // notificationStore.addNotification({
-        //   type: 'error',
-        //   msg: error
-        // })
-      }
-    }
-  }
-
-  return { user, fetchUser, isAdmin }
+  return { user, fetchUser, isAdmin, account }
 })
