@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   },
   tailwindcss: { exposeConfig: true },
   colorMode: {
-    preference: 'system', // default theme
+    preference: 'dark', // default theme
     dataValue: 'theme', // activate data-theme in <html> tag
     classSuffix: ''
   },
