@@ -25,6 +25,8 @@ const productsStore = useProductsStore()
 const categoriesStore = useCategoriesStore()
 const notificationStore = useNotificationStore()
 
+await userStore.fetchUser()
+
 // Cookies
 const cookie = useCookie('cookie')
 const acceptCookies = () => {

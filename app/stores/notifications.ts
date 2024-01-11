@@ -3,6 +3,16 @@ export const useNotificationStore = definePiniaStore('notifications', () => {
 
   function addNotification(notification) {
     notifications.value.push(notification);
+    setTimeout(() => {
+      removeNotification(notification);
+    }, 15000); // 15000 milliseconds = 15 seconds
+  };
+
+  function removeNotification(notification) {
+    const index = notifications.value.indexOf(notification);
+    if (index !== -1) {
+      notifications.value.splice(index, 1);
+    }
   };
 
   function closeNotification(notification) {
