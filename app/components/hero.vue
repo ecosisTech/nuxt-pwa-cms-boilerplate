@@ -1,5 +1,6 @@
 <template>
-  <section class="overflow-hidden text-white flex flex-col md:flex-wrap justify-center items-center md:flex-row-reverse bg-no-repeat bg-center bg-cover h-screen" style="background-image: url('/uploads/hero.svg')">
+  <section class="overflow-hidden text-white flex flex-col md:flex-wrap justify-center items-center md:flex-row-reverse bg-no-repeat bg-center bg-cover h-screen" style="">
+  <!-- <section class="overflow-hidden text-white flex flex-col md:flex-wrap justify-center items-center md:flex-row-reverse bg-no-repeat bg-center bg-cover h-screen" style="background-image: url('/uploads/hero.svg')"> -->
     <div class="w-full md:w-1/2 flex justify-center items-center" data-aos="fade-right" data-aos-delay="300">
       <img src="/uploads/hero.png" class="scale-25">
     </div>
