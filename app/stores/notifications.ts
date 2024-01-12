@@ -5,7 +5,7 @@ export const useNotificationStore = definePiniaStore('notifications', () => {
     notifications.value.push(notification);
     setTimeout(() => {
       removeNotification(notification);
-    }, 15000); // 15000 milliseconds = 15 seconds
+    }, 5000); // 5000 milliseconds = 5 seconds
   };
 
   function removeNotification(notification) {
