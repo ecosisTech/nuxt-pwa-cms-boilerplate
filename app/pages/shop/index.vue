@@ -145,7 +145,7 @@ const isVisible = ref(true)
 
     <!-- CTA -->
     <section class="w-full flex flex-wrap bg-base-200">
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/7667911/pexels-photo-7667911.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-down" data-aos-delay="200">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/8805352/pexels-photo-8805352.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load)" data-aos="fade-down" data-aos-delay="200">
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
       <div class="w-full bg-cover bg-center md:flex-1 h-[500px] flex flex-col justify-center items-center" data-aos-delay="100">
@@ -162,7 +162,7 @@ const isVisible = ref(true)
           </div>
         </div>
       </div>
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3259584/pexels-photo-3259584.jpeg?auto=compress&cs=tinysrgb&w=500)" data-aos="fade-down" data-aos-delay="200">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14453484/pexels-photo-14453484.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load)" data-aos="fade-down" data-aos-delay="200">
       <!-- <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3259584/pexels-photo-3259584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)" data-aos="fade-down" data-aos-delay="200"> -->
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
