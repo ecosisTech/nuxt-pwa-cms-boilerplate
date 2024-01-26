@@ -92,7 +92,7 @@ const isVisible = ref(true)
 
 
     <!-- Categories Section -->
-    <section class="slide-in bg-base-200 -mt-4 w-full" id="categories" data-aos="fade-up" data-aos-delay="200">
+    <!-- <section class="slide-in bg-base-200 -mt-4 w-full" id="categories" data-aos="fade-up" data-aos-delay="200">
       <div class="flex flex-wrap w-full">
         <div class="text-center md:text-right w-full md:w-1/4 mt-12 pr-8">
           <h2 class="text-6xl font-semibold">Kategorien</h2>
@@ -113,9 +113,9 @@ const isVisible = ref(true)
             v-for="expandedCategory in expandedCategories"
             :key="expandedCategory.id"
           >
-            <!-- <div class="w-full" v-if="expandedCategory.image">
+            <div class="w-full" v-if="expandedCategory.image">
               <img src="w-full" :src="`/uploads/${expandedCategory.image}`">
-            </div> -->
+            </div>
             <div class="w-full pt-16">
               <div class="flex flex-col justify-center text-center">
                 <h3 class="text-2xl font-bold text-center pb-4">{{ expandedCategory.name }}</h3>
@@ -141,7 +141,7 @@ const isVisible = ref(true)
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- CTA -->
     <section class="w-full flex flex-wrap bg-base-200">

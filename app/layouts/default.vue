@@ -216,9 +216,9 @@ onMounted(() => {
 
             <!-- Dropdown Mega Menu -->
             <div class="">
-              <label tabindex="0" class="btn btn-ghost btn-circle" @click="activateSubmenu()">
+              <!-- <label tabindex="0" class="btn btn-ghost btn-circle" @click="activateSubmenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-              </label>
+              </label> -->
 
               <!-- <ul class="dropdown-content relative flex flex-wrap bg-base-100/70 backdrop-blur-xl menu xl:menu-horizontal w-[720px] rounded border border-base-100 mt-16">
                 <li class="bg-base-100/50 backdrop-blur-xl m-1 rounded flex-1" v-for="category in categoriesStore.categories">
