@@ -189,7 +189,7 @@ const isVisible = ref(true)
       </div>
     </section>
 
-    <ShopProductsHero :products="featuredProducts" v-if="featuredProducts" class="w-full h-64"/>
+    <!-- <ShopProductsHero :products="featuredProducts" v-if="featuredProducts" class="w-full h-64"/> -->
   </div>
 </template>
 <style>
