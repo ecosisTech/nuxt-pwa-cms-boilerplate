@@ -200,7 +200,7 @@ onMounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY,  'md:pl-[300px]': activeSidebar }">
+      <div class="flex flex-col justify-center items-center fixed w-full mb-4 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY,  'md:pl-[300px]': activeSidebar }">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->
@@ -309,10 +309,10 @@ onMounted(() => {
         </div>
 
       </div>
-      <section class="flex bg-base-300 min-h-screen">
+      <section class="">
         <!-- Admin Menu -->
         <div
-          class="bg-base-300 fixed min-h-screen justify-center items-center z-50 w-[400px] overflow-y-auto"
+          class="fixed top-0 left-0 h-screen bg-base-300 overflow-y-auto z-50 justify-center items-center w-[400px]"
           :class="(activeSidebar) ? 'block' : 'hidden'"
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
