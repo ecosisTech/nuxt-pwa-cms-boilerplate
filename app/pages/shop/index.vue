@@ -204,6 +204,8 @@ const isVisible = ref(true)
     background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
     background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .slide-in {
