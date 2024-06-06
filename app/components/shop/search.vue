@@ -11,7 +11,8 @@ const allProducts = computed(() => {
 
 const searchQuery = ref('')
 const searchResult = computed(() => {
-  return filterArrayByKeyword(allProducts.value, searchQuery.value)
+  const filtered = filterArrayByKeyword(allProducts.value, searchQuery.value)
+  return filtered.filter(p => p.published === true)
 })
 </script>
 <template>

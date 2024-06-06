@@ -21,9 +21,10 @@ const toggleDetails = () => {
 <template>
   <button
     class="h-[400px] slider px-10 py-5 relative hover:border-white tracking-wider leading-none overflow-hidden bg-cover bg-center"
-    :style="`background-image: url('${(category.image) ? `/uploads/${category.image}` : '/uploads/shop/product-placeholder.png'}')`"
+    :style="`background-image: url('${(category.image) ? `/uploads/${category.image.replace(/\.(webp|png|jpg)/g, '_512px.webp')}` : '/uploads/shop/product-placeholder.png'}')`"
     :key="category.id"
     @click="toggleDetails"
+    v-if="category.published"
   >
     <div class="flex flex-col justify-start items-start absolute inset-0 bg-base-200/60 backdrop-blur-xl">
       <div class="w-full flex flex-col justify-start items-start text-left p-4">

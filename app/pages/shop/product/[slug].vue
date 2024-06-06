@@ -103,7 +103,7 @@ definePageMeta({
       <div class="flex flex-wrap justify-center h-full pt-12">
         <!-- Edit -->
         <!-- Product Description -->
-        <div class="w-full md:w-2/5 flex flex-col items-end justify-center pt-12">
+        <div class="w-full md:w-1/2 flex flex-col items-end justify-center pt-12" data-aos="fade-right" data-aos-delay="200">
           <div class="px-8 w-full">
             <h2 class="text-5xl text-right w-full">{{ product.name }}</h2>
             <div class="text-right w-full pt-2">
@@ -160,16 +160,16 @@ definePageMeta({
             </div>
           </div>
 
-      </div>
-        <div class="w-full md:w-auto max-h-[700px] max-w-[700px] flex flex-col justify-center items-center">
-          <div class="">
-            <div class="">
+        </div>
+        <div class="w-full md:w-1/2 max-h-[700px] flex flex justify-end items-center hero" data-aos="fade-left" data-aos-delay="200">
+          <div class="flex-col w-full">
+            <div class="h-full w-full flex justify-start">
               <img
-                class="object-contain max-h-[600px] w-full w-auto"
+                class="object-center max-h-[600px] w-auto"
                 :src="(selectedImage) ? `/uploads/${selectedImage}` : '/uploads/shop/product-placeholder.png'"
               >
             </div>
-            <div class="flex flex-wrap justify-start p-2 bg-base-300" v-if="product.images.length > 1">
+            <div class="w-full flex flex-wrap justify-start p-2 bg-base-300" v-if="product.images.length > 1">
               <img
                 class="rounded h-24 w-24 p-1 object-cover"
                 v-for="image in product.images"
@@ -181,7 +181,7 @@ definePageMeta({
         </div>
       </div>
 
-      <section class="flex flex-col justify-center bg-base-100 w-full">
+      <section class="flex flex-col justify-center bg-base-100 w-full" data-aos="fade-up" data-aos-delay="200">
         <!-- Buy Button -->
         <div class="w-full text-center mt-8">
           <span class="text-gray-500 italic">inkl. {{ product.tax * 100 }}% MwSt</span>
@@ -213,7 +213,7 @@ definePageMeta({
       </section>
 
       <!-- Description -->
-      <section class="w-full flex flex-wrap justify-center w-full bg-base-200">
+      <section class="w-full flex flex-wrap justify-center w-full bg-base-200" data-aos="fade-up" data-aos-delay="200">
         <!-- <div class="tabs tabs-bordered tabs-lg">
           <button class="tab font-bold text-xl" :class="{ 'tab-active bg-base-100 rounded-t': tab === 'description' }" @click="tab = 'description'">Beschreibung</button>
           <button class="tab font-bold text-xl" :class="{ 'tab-active bg-base-100 rounded-t': tab === 'comment' }" @click="tab = 'comment'">Kommentar</button>
@@ -240,7 +240,7 @@ definePageMeta({
         </div>
       </section>
 
-      <section class="w-full flex flex-wrap bg-base-100 py-16">
+      <section class="w-full flex flex-wrap bg-base-100 py-16" data-aos="fade-up" data-aos-delay="200">
         <div class="w-full bg-cover bg-center md:flex-1 flex flex-col justify-center items-center">
           <div class="text-center">
             <h1 class="text-2xl font-bold pb-4">Verpasse nichts!</h1>
@@ -258,13 +258,13 @@ definePageMeta({
       </section>
 
       <!-- Featured -->
-      <section class="p-12 bg-base-300 w-full" v-if="similarProducts[0]">
+      <section class="p-12 bg-base-300 w-full" v-if="similarProducts[0]" data-aos="fade-down" data-aos-delay="100">
         <div class="container mx-auto">
           <div class="text-center">
             <h2 class="text-3xl font-semibold">Ähnliche Produkte</h2>
           </div>
           <div class="relative mt-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 overflow-hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 overflow-hidden" data-aos="fade-up" data-aos-delay="200">
               <!-- Featured Product Card 1 -->
               <ShopProductsPreview :product="product" v-for="product in similarProducts"/>
             </div>

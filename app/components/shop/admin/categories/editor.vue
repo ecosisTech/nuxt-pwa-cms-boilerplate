@@ -50,6 +50,7 @@ const edit = ref(props.category || {
   subcategories: [],
   created: '',
   updated: '',
+  published: false
 })
 
 const selectedFiles = ref([])
@@ -311,7 +312,16 @@ const removeCategory = async () => {
           </select>
         </div> -->
       </div>
-
+      <div class="">
+        <div class="form-control w-16">
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['published']"/>
+              <p class="label-text pl-2">Öffentlich</p>
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="w-full p-4 rounded-t rounded-xl">
       <button class="btn btn-success mr-2" @click="addNewCategory()">Save</button>

@@ -14,7 +14,7 @@ if (subcategory.products) {
 <template>
   <NuxtLink
     class="h-[400px] slider px-10 py-5 relative hover:border-white tracking-wider leading-none overflow-hidden bg-cover bg-center"
-    :style="`background-image: url('${(subcategory.image) ? `/uploads/${subcategory.image}` : '/uploads/shop/product-placeholder.png'}')`"
+    :style="`background-image: url('${(subcategory.image) ? `/uploads/${subcategory.image.replace(/\.(webp|png|jpg)/g, '_512px.webp')}` : '/uploads/shop/product-placeholder.png'}')`"
     :key="subcategory.id"
     :to="`/shop/${route.params.category}/${subcategory.slug}`"
   >

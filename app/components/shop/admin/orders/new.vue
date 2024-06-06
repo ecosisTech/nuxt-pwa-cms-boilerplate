@@ -27,7 +27,7 @@ const orderStore = useOrdersStore()
       <div v-for="order in orderStore.orders" v-else>
         <NuxtLink class="flex flex-col items-center justify-center gap-2 bg-base-300 rounded-md p-2 h-auto" to="/admin/shop/orders">
           <div class="flex justify-center items-center">
-            <img src="/uploads/shop/product-placeholder.png" class="h-16 w-16 rounded-full">
+            <img src="/uploads/shop/products/product-placeholder.png" class="h-16 w-16 rounded-full">
           </div>
           <div class="text-center">
             <p class="text-xs text-muted-foreground"><b>Produkte: </b>{{ order.products.length }}</p>

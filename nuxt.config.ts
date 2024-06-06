@@ -5,12 +5,12 @@ export default defineNuxtConfig({
   ssr: false,
   modules: [
     '@vueuse/nuxt',
-    '@vite-pwa/nuxt',
+    '@kevinmarrec/nuxt-pwa',
     '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
-    'nuxt-lucide-icons',
+    'nuxt3-lazy-load'
   ],
   plugins: [
     { src: '~/plugins/aos.ts', mode: 'client' },
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   },
   tailwindcss: { exposeConfig: true },
   colorMode: {
-    preference: 'system', // default theme
+    preference: 'dark', // default theme
     dataValue: 'theme', // activate data-theme in <html> tag
     classSuffix: ''
   },

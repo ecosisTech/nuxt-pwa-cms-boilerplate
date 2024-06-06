@@ -49,7 +49,8 @@ const edit = ref(props.product || {
   account: '',
   tax: 19,
   EAN: '',
-  similarProducts: []
+  similarProducts: [],
+  published: false
 })
 
 const selectedFiles = ref([])
@@ -65,13 +66,12 @@ const uploadImages = async () => {
     const path = `shop/${date}/${slug.value}/`
     await uploadFiles(path, selectedFiles.value)
     for (let file of selectedFiles.value) {
-      console.log(file);
 
       edit.value.images.push(path + slugify(file.name))
     }
     notificationStore.addNotification({
       type: 'success',
-      msg: 'Saved!'
+      msg:  `"/uploads/${path}" successfully uploaded!`
     })
   } catch (error) {
     notificationStore.addNotification({
@@ -163,7 +163,7 @@ const removeProduct = async () => {
       <!-- Image -->
       <div class="w-full md:w-1/3">
         <div class="">
-          <img class="w-full max-h-64 object-cover" :src="`/uploads/${(edit.images[0]) ? edit.images[0] : 'product-placeholder.png'}`" onclick="img_upload.showModal()">
+          <img class="w-full max-h-64 object-cover" :src="`/uploads/${(edit.images[0]) ? edit.images[0] : '/uploads/shop/product-placeholder.png'}`" onclick="img_upload.showModal()">
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner tooltip" onclick="img_upload.showModal()" disabled v-if="!slug" data-tip="Benenne das Produkt erst">Neues Produkt Bild</button>
           <button class="btn w-full my-2 rounded-r-none md:rounded-r rounded-2xl rounded-l-none shadow shadow-inner" onclick="img_upload.showModal()" v-else>Neues Produkt Bild</button>
           <dialog id="img_upload" class="modal">
@@ -417,6 +417,17 @@ const removeProduct = async () => {
             <label class="label cursor-pointer">
               <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['featured']"/>
               <p class="label-text pl-2">Featured</p>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Published -->
+      <div class="">
+        <div class="form-control w-16">
+          <div class="form-control">
+            <label class="label cursor-pointer">
+              <input type="checkbox" checked="checked" class="checkbox"  v-model="edit['published']"/>
+              <p class="label-text pl-2">Veröffentlicht</p>
             </label>
           </div>
         </div>

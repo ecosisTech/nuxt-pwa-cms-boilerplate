@@ -5,6 +5,7 @@ import { useNotificationStore } from '../stores/notifications';
 
 const route = useRoute()
 const router = useRouter()
+
 const userStore = useUserStore()
 const themeStore = useThemeStore()
 const notificationStore = useNotificationStore()
@@ -27,6 +28,8 @@ const login = async () => {
       })
     }
   } catch (error) {
+    console.log(error);
+
     notificationStore.addNotification({
       type: 'error',
       msg: error
@@ -94,7 +97,7 @@ const register = async () => {
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/admin/shop',
+    navigateAuthenticatedTo: '/shop',
   },
 })
 

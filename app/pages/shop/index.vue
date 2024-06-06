@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useUserStore } from '../../stores/user';
 import { useCategoriesStore } from '../../stores/categories'
 import { useProductsStore } from '../../stores/products'
+
+const userStore = useUserStore()
+await userStore.fetchUser()
 
 const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
@@ -33,70 +37,36 @@ watchEffect(() => {
   }));
 });
 
-const el = ref<HTMLElement | null>(null)
-const scroll = useScroll(el)
-const { top, y } = toRefs(scroll)
-const displayY = computed({
-  get() {
-    return y.value.toFixed(1)
-  },
-  set(val) {
-    y.value = Number.parseFloat(val)
-  },
-})
-
 const isVisible = ref(true)
 </script>
 <template>
-  <!-- <div :style="{ 'font-family': 'Inter Tight' }" class="bg-cover bg-fixed"> -->
-  <div :style="{ 'font-family': 'Inter Tight' }" style="background: radial-gradient(circle, #080706, #000000)" class="bg-cover bg-fixed">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter Tight">
+  <div>
 
     <!-- Hero Section -->
-    <section class="overflow-hidden text-white flex flex-col md:flex-wrap justify-center items-center md:flex-row-reverse bg-no-repeat bg-center bg-cover h-screen" style="background-image: url('/uploads/hero.svg')">
-      <!-- Hero Background -->
-      <div class="w-full md:w-1/2 flex justify-center items-center">
-        <img src="/uploads/hero.png" class="scale-25">
-      </div>
-
-      <div class="w-full md:w-1/2 z-10 flex justify-center items-center">
-        <!-- Hero Content -->
-        <div class="text-neutral text-center md:text-left">
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight">
-            Discover <br> Your Way
-          </h1>
-          <p class="text-xl md:text-2xl lg:text-3xl mb-6">
-            Die besten Produkte rund um <br> CDB, Raucherartikel und mehr.
-          </p>
-          <NuxtLink
-            :to="{ path: '/shop', hash: '#search' }"
-            class="btn btn-accent text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">
-            Los geht's
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
+    <div class="hero">
+      <Hero/>
+    </div>
 
     <!-- Welcome Section -->
-    <section class="slide-in bg-base-100 pt-12 pb-8 border-t border-b border-base-100 h-auto" id="categories">
-      <div class="container mx-auto my-8">
+    <section class="bg-base-100 pt-12 pb-8 border-t border-b border-base-100 h-auto" id="categories" data-aos="fade-up" data-aos-delay="100">
+      <div class="slide-in container mx-auto my-8">
         <div class="text-center">
           <h2 class="text-3xl font-semibold">Willkommen</h2>
           <p class="mt-4 text-base text-neutral">
             Entdecke den exklusiven Onlineshop für deine Raucherartikel. Wir heißen dich herzlich willkommen!
           </p>
           <div class="flex flex-wrap justify-center items-start pt-8 my-4">
-            <div class="w-64 flex flex-col justify-center items-center py-2">
+            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-down" data-aos-delay="200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 stroke-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
               <h3 class="text-2xl font-bold pt-2">Sicher</h3>
               <p class="text-neutral mt-2">Genieße sicheres Einkaufen mit verschlüsselter Datenübertragung.</p>
             </div>
-            <div class="w-64 flex flex-col justify-center items-center py-2">
+            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-up" data-aos-delay="200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 stroke-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg>
               <h3 class="text-2xl font-bold pt-2">Unkompliziert</h3>
               <p class="text-neutral mt-2">Einfach und unkompliziert - finde, bestelle und erhalte deine Artikel schnell.</p>
             </div>
-            <div class="w-64 flex flex-col justify-center items-center py-2">
+            <div class="w-64 flex flex-col justify-center items-center py-2" data-aos="fade-down" data-aos-delay="200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 stroke-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               <h3 class="text-2xl font-bold pt-2">Community basiert</h3>
               <p class="text-neutral mt-2">Trete unserer blühenden Community bei und teile deine Leidenschaft.</p>
@@ -105,26 +75,24 @@ const isVisible = ref(true)
         </div>
       </div>
 
-      <div class="divider container mx-auto py-8" id="search">
-        <h3 class="text-2xl font-bold">Suche</h3>
-      </div>
-
-      <div class="slide-in container mx-auto">
+      <div class="slide-in divider container mx-auto py-8" id="search" data-aos="fade-up" data-aos-delay="200">
         <ShopSearch/>
       </div>
 
-      <div class="slide-in flex justify-center py-8">
+      <div class="slide-in flex justify-center py-8" data-aos="fade-down" data-aos-delay="200">
         <NuxtLink
           to="/shop/products"
-          class="btn slider btn-primary btn-ghost bg-base-200 text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10">
+          class="btn slider btn-primary btn-ghost bg-base-200 text-lg md:text-xl lg:text-xl px-6 md:px-8 lg:px-10"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
           Alle Produkte ansehen
-        </NuxtLink>
-      </div>
+          </NuxtLink>
+        </div>
     </section>
 
+
     <!-- Categories Section -->
-    <section class="slide-in bg-base-200 -mt-4 w-full" id="categories">
+    <!-- <section class="slide-in bg-base-200 -mt-4 w-full" id="categories" data-aos="fade-up" data-aos-delay="200">
       <div class="flex flex-wrap w-full">
         <div class="text-center md:text-right w-full md:w-1/4 mt-12 pr-8">
           <h2 class="text-6xl font-semibold">Kategorien</h2>
@@ -139,15 +107,15 @@ const isVisible = ref(true)
         </div>
       </div>
       <div class="w-full">
-        <div class="" v-show="expandedCategories[0]">
+        <div class="" v-show="expandedCategories[0]" data-aos="fade-down" data-aos-delay="200">
           <div
             class="w-full bg-base-300"
             v-for="expandedCategory in expandedCategories"
             :key="expandedCategory.id"
           >
-            <!-- <div class="w-full" v-if="expandedCategory.image">
+            <div class="w-full" v-if="expandedCategory.image">
               <img src="w-full" :src="`/uploads/${expandedCategory.image}`">
-            </div> -->
+            </div>
             <div class="w-full pt-16">
               <div class="flex flex-col justify-center text-center">
                 <h3 class="text-2xl font-bold text-center pb-4">{{ expandedCategory.name }}</h3>
@@ -173,19 +141,19 @@ const isVisible = ref(true)
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- CTA -->
     <section class="w-full flex flex-wrap bg-base-200">
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/7667911/pexels-photo-7667911.jpeg?auto=compress&cs=tinysrgb&w=500)">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/8805352/pexels-photo-8805352.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load)" data-aos="fade-down" data-aos-delay="200">
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
-      <div class="w-full bg-cover bg-center md:flex-1 h-[500px] flex flex-col justify-center items-center">
+      <div class="w-full bg-cover bg-center md:flex-1 h-[500px] flex flex-col justify-center items-center" data-aos-delay="100">
         <div class="text-center">
           <h1 class="text-2xl font-bold pb-4">Verpasse nichts!</h1>
           <p>Bleib aktuell und bekomme die neuesten Produkte <br>direkt in dein Postfach!</p>
         </div>
-        <div class="flex items-center mb-2 mt-8">
+        <div class="flex items-center mb-2 mt-8" data-aos="fade-up">
           <div class="flex items-center bg-base-100 rounded">
             <input class="input md:w-[400px] mr-1" placeholder="E-Mail" v-model="email" @keydown.enter.prevent="subscribing()">
             <button class="btn btn-ghost" @click="subscribing()">
@@ -194,7 +162,8 @@ const isVisible = ref(true)
           </div>
         </div>
       </div>
-      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14521084/pexels-photo-14521084.jpeg?auto=compress&cs=tinysrgb&w=500)">
+      <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/14453484/pexels-photo-14453484.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load)" data-aos="fade-down" data-aos-delay="200">
+      <!-- <div class="hidden md:block w-full md:flex-1 h-[500px] bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/3259584/pexels-photo-3259584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)" data-aos="fade-down" data-aos-delay="200"> -->
         <!-- <img src="https://images.pexels.com/photos/7667725/pexels-photo-7667725.jpeg" alt=""> -->
       </div>
     </section>
@@ -203,10 +172,10 @@ const isVisible = ref(true)
     <section class="p-12 bg-base-300" v-if="featuredProducts">
       <div class="container mx-auto">
         <div class="text-center">
-          <h2 class="text-3xl font-semibold">Top Produkte</h2>
-          <p>Die zurzeit beliebtesten Produkte!</p>
+          <h2 class="text-3xl font-semibold" data-aos="fade-up" data-aos-delay="200">Top Produkte</h2>
+          <p data-aos="fade-down" data-aos-delay="200">Die zurzeit beliebtesten Produkte!</p>
         </div>
-        <div class="relative mt-8">
+        <div class="relative mt-8" data-aos="fade-up" data-aos-delay="200">
           <div class="flex flex-wrap w-full gap-6 justify-center items-center overflow-hidden">
             <!-- Featured Product Card 1 -->
             <ShopProductsPreview :product="product" v-for="product in featuredProducts"/>
@@ -220,10 +189,23 @@ const isVisible = ref(true)
       </div>
     </section>
 
-    <ShopProductsHero :products="featuredProducts" v-if="featuredProducts" class="w-full h-64"/>
+    <!-- <ShopProductsHero :products="featuredProducts" v-if="featuredProducts" class="w-full h-64"/> -->
   </div>
 </template>
 <style>
+.hero {
+	background:
+    radial-gradient(black 3px, transparent 4px),
+    radial-gradient(black 3px, transparent 4px),
+    linear-gradient(#000000 4px, transparent 0),
+    linear-gradient(45deg, transparent 74px, transparent 75px, #1A1919 75px, #1A1919 76px, transparent 77px, transparent 109px),
+    linear-gradient(-45deg, transparent 75px, transparent 76px, #1A1919 76px, #1A1919 77px, transparent 78px, transparent 109px),
+    #000000;
+    background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
+    background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+    background-attachment: fixed;
+}
+
 .slide-in {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);

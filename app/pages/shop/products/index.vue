@@ -36,11 +36,11 @@ const filteredProducts = computed(() => {
 
     if (!selectedCategory.value) {
       // If no category is selected, return all products
-      return priceMatch && brandMatch;
+      return priceMatch && brandMatch && product.published;
     } else {
       // If a category is selected, check if the product's slug is in the selected category's products
       const category = categoriesStore.categories.find((category) => category.slug === selectedCategory.value);
-      return category && category.products.includes(product.slug) && priceMatch && brandMatch;
+      return category && category.products.includes(product.slug) && priceMatch && brandMatch && product.published;
     }
   });
 });

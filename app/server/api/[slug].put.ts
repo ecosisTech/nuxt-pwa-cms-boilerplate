@@ -1,27 +1,42 @@
+// Import the Product interface
 import { getServerSession } from '#auth'
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   try {
     const session = await getServerSession(event)
-    const manager = event.context.database
+    const databaseManager = event.context.databaseManager
+    const notesDatabase = event.context.notesDatabase
+    // const userRole = event.context.userRole // Assuming you've set the user's role in a previous middleware
 
+    // if (userRole !== 'admin') {
+    //   throw createError({
+    //     statusCode: 403, // Forbidden
+    //     statusMessage: 'Permission denied',
+    //   })
+    // }
     if (!session) {
-      return createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+      throw createError({
+        statusCode: 403, // Forbidden
+        statusMessage: 'Permission denied',
+      })
     }
+    // Get User
+    const user = await databaseManager.getUserByMail(session.user.email)
+    const { data } = await readBody(event)
 
-    const slug = getRouterParam(event, 'slug')
-    const {
-      database,
-      content
-     } = useBody()
+    data.updated = new Date().toISOString()
 
-    // Check if the user is authorized to edit the data
-    if (session.userRole !== 'admin') {
-      return createError({ statusCode: 403, statusMessage: 'Forbidden' })
-    }
-    await manager.put(id, content)
+    const note = await notesDatabase.get(user.id)
+
+    const pages = note.pages.filter(block => block.slug !== data.slug)
+    pages.push(data)
+    note.pages = pages
+
+    // Update the product in the database
+    await notesDatabase.put(user.id, note)
+    return true
   } catch (error) {
-    return createError({
+    throw createError({
       statusCode: 400,
       statusMessage: error.message,
     })

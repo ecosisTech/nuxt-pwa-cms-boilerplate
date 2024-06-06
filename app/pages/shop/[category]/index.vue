@@ -20,7 +20,7 @@ const allProducts = computed(() => {
   for (let product of category.value.products) {
     items.push(productsStore.products.find(p => p.slug === product))
   }
-  return items
+  return items.filter(i => i.published === true)
 })
 
 const featuredProducts = computed(() => {
@@ -28,7 +28,7 @@ const featuredProducts = computed(() => {
   for (let product of category.value.featured) {
     items.push(productsStore.products.find(p => p.slug === product))
   }
-  return items
+  return items.filter(i => i.published === true)
 })
 
 const subcategories = computed(async () => {

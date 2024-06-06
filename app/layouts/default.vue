@@ -12,16 +12,9 @@ const router = useRouter()
 
 const { status, signOut } = useAuth()
 
-const el = ref<HTMLElement | null>(null)
-const scroll = useScroll(el)
-const { top, y } = toRefs(scroll)
-const displayY = computed({
-  get() {
-    return y.value.toFixed(1)
-  },
-  set(val) {
-    y.value = Number.parseFloat(val)
-  },
+const { x, y } = useWindowScroll()
+const displayY = computed(() => {
+  return y.value
 })
 
 const themeStore = useThemeStore()
@@ -31,6 +24,8 @@ const cartStore = useCartStore()
 const productsStore = useProductsStore()
 const categoriesStore = useCategoriesStore()
 const notificationStore = useNotificationStore()
+
+await userStore.fetchUser()
 
 // Cookies
 const cookie = useCookie('cookie')
@@ -62,6 +57,10 @@ const toggleSidebar = () => {
   //   activeSidebar.value = false
   // })
 }
+
+const publishedCategories = computed(() => {
+  return categoriesStore.categories.filter(c => c.published === true)
+})
 
 router.afterEach(() => {
   if (screen.width < 768) {
@@ -153,15 +152,14 @@ onBeforeMount(async () => {
 
 onMounted(() => {
   nuxtApp.hook("page:finish", () => {
-    console.log("page:finish");
-
     window.scrollTo(0, 0)
   })
 });
 </script>
 
 <template>
-  <div ref="el">
+  <div :style="{ 'font-family': 'Inter Tight' }">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter%20Tight">
 
     <!-- Cookies -->
     <div class="bottom-10 z-50 fixed w-full flex justify-center" v-if="!cookie">
@@ -202,14 +200,14 @@ onMounted(() => {
 
     <div class="w-full" v-else>
       <!-- Navbar -->
-      <div class="flex flex-col justify-center items-center w-full mb-4 fixed z-40 z-50 w-full" :class="{ 'bg-none': route.path === '/shop' }">
+      <div class="flex flex-col justify-center items-center fixed w-full mb-4 z-50 w-full transition-all duration-500" :class="{ 'backdrop-blur-xl shadow': displayY,  'md:pl-[300px]': activeSidebar }">
         <div class="navbar w-full">
 
           <!-- Navbar Start -->
           <div class="navbar-start">
             <!-- Menu -->
             <!-- Mobile visible Sidebar Button -->
-            <button class="btn btn-circle btn-ghost" :class="(status === 'authenticated') ? 'block' : 'hidden'" @click="toggleSidebar()">
+            <button class="btn btn-circle btn-ghost" :class="(status === 'authenticated' && userStore.isAdmin) ? 'block' : 'hidden'" @click="toggleSidebar()">
               <label tabindex="0" class="btn btn-ghost btn-circle">
                 <svg v-if="!activeSidebar" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-right-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="15" x2="15" y1="3" y2="21"/><path d="m8 9 3 3-3 3"/></svg>
                 <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-close"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
@@ -218,9 +216,9 @@ onMounted(() => {
 
             <!-- Dropdown Mega Menu -->
             <div class="">
-              <label tabindex="0" class="btn btn-ghost btn-circle" @click="activateSubmenu()">
+              <!-- <label tabindex="0" class="btn btn-ghost btn-circle" @click="activateSubmenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-              </label>
+              </label> -->
 
               <!-- <ul class="dropdown-content relative flex flex-wrap bg-base-100/70 backdrop-blur-xl menu xl:menu-horizontal w-[720px] rounded border border-base-100 mt-16">
                 <li class="bg-base-100/50 backdrop-blur-xl m-1 rounded flex-1" v-for="category in categoriesStore.categories">
@@ -236,9 +234,9 @@ onMounted(() => {
             </div>
 
             <!-- Search Button -->
-            <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
+            <!-- <button class="btn btn-ghost btn-circle w-12" @click="activateSearchBar()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </button>
+            </button> -->
           </div>
 
           <!-- Navbar Center -->
@@ -251,22 +249,14 @@ onMounted(() => {
 
           <!-- Navbar End -->
           <div class="navbar-end">
-            <div class="btn btn-circle btn-ghost">
+            <!-- <div class="btn btn-circle btn-ghost">
               <label class="swap swap-rotate">
-
-                <!-- this hidden checkbox controls the state -->
                 <input type="checkbox" @click="themeStore.toggleMode()" />
-
-                <!-- system icon -->
-                <!-- <svg :class="`swap-${(themeStore.preference === 'system') ? 'on' : 'off'}`" class="fill-current w-6 h-6"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.3 17.7-1.4 1.4"/><path d="m19.1 4.9-1.4 1.4"/></svg> -->
-                <!-- sun icon -->
                 <svg :class="`swap-${(themeStore.preference === 'light') ? 'off' : 'on'}`" class="fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
-
-                <!-- moon icon -->
                 <svg :class="`swap-${(themeStore.preference === 'dark') ? 'on' : 'off'}`" class="fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
 
               </label>
-            </div>
+            </div> -->
             <div class="flex">
               <!-- Cart -->
               <div class="dropdown dropdown-end btn btn-ghost btn-circle">
@@ -313,16 +303,16 @@ onMounted(() => {
           v-show="activeSubmenu"
         >
           <div class="divider container mx-auto -my-1 w-64"></div>
-          <div class="w-full pt-1 flex justify-center">
-            <NuxtLink class="dropdown px-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in categoriesStore.categories">{{ category.name }}</NuxtLink>
+          <div class="w-full pt-1 flex flex-wrap justify-center">
+            <NuxtLink class="dropdown p-2 hover:text-accent hover:font-bold text-sm text-center" :to="`/shop/${category.slug}`" v-for="category in publishedCategories">{{ category.name }}</NuxtLink>
           </div>
         </div>
 
       </div>
-      <section class="flex bg-base-300 min-h-screen">
+      <section class="">
         <!-- Admin Menu -->
         <div
-          class="bg-base-300 fixed md:static min-h-screen justify-center items-center z-50"
+          class="fixed top-0 left-0 h-screen bg-base-300 overflow-y-auto z-50 justify-center items-center w-[400px]"
           :class="(activeSidebar) ? 'block' : 'hidden'"
           ref="sidebar"
           v-if="userStore.isAdmin && status === 'authenticated'"
@@ -478,10 +468,12 @@ onMounted(() => {
         </div>
 
         <!-- Content -->
-        <div class="bg-base-200 h-screen flex w-full flex flex-col justify-between shadow shadow-l">
-          <div class="overflow-scroll flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
-            <slot/>
-            <Footer/>
+        <div class="bg-base-200 min-h-screen flex w-full flex flex-col justify-between shadow shadow-l">
+          <div  ref="el" class="flex flex-col justify-between h-full" :class="(route.path.startsWith('/admin/') ? 'p-4' : 'p-0')">
+            <div class="" :class="(activeSidebar) ? 'md:ml-[400px]' : 'mr-0'">
+              <slot/>
+              <Footer/>
+            </div>
           </div>
         </div>
       </section>
@@ -491,12 +483,19 @@ onMounted(() => {
 
 <style>
 <style>
-.slider div:first-child{
-  transform: translateX(-100%);
-  transition: transform .3s ease-in
+html {
+  --s: 50px;
+  --c: #080706;
+  --_s: calc(2*var(--s)) calc(2*var(--s));
+  --_g: 35.36% 35.36% at;
+  --_c: #E5E6E6 66%,#1A1919 68% 70%,#E5E6E6 72%;
+  background:
+    radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s),
+    radial-gradient(var(--_g) 0 75%,var(--_c)) var(--s) var(--s)/var(--_s),
+    radial-gradient(var(--_g) 100% 25%,var(--_c)) 0 0/var(--_s),
+    radial-gradient(var(--_g) 0 75%,var(--_c)) 0 0/var(--_s),
+    repeating-conic-gradient(var(--c) 0 25%,#E5E6E6 0 50%) 0 0/var(--_s),
+    radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+  background-attachment: fixed;
 }
-.slider:hover div{
-  transform: translateY(0)
-}
-
 </style>
